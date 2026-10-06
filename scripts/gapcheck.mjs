@@ -90,6 +90,6 @@ function toSql({ runId, requirements }) {
       `INSERT INTO assessments (run_id, rid, policy_sids, policy_quote, rating, reason, proposed_text) VALUES (${[runId, r.rid, JSON.stringify(a.policy_sids), a.policy_quote ?? '', a.rating, a.reason, a.proposed_text ?? ''].map(q).join(', ')});`,
     )
   })
-  lines.push(`UPDATE runs SET status = 'assessed' WHERE id = ${q(runId)};`)
+  lines.push(`UPDATE runs SET status = 'assessed', engine = 'claude-code' WHERE id = ${q(runId)};`)
   return lines.join('\n') + '\n'
 }

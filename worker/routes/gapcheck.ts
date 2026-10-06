@@ -93,9 +93,9 @@ gapcheck.get('/runs/:id', async (c) => {
 
 // Stage 6 — the report view is computed here, including the traceability checks.
 async function loadRun(db: D1Database, runId: string, userId: string) {
-  const run = await db.prepare('SELECT id, status, created_at FROM runs WHERE id = ? AND user_id = ?')
+  const run = await db.prepare('SELECT id, status, engine, created_at FROM runs WHERE id = ? AND user_id = ?')
     .bind(runId, userId)
-    .first<{ id: string; status: string; created_at: string }>()
+    .first<{ id: string; status: string; engine: string | null; created_at: string }>()
   if (!run) return { run: null }
 
   const [docs, sections, reqs, assessments, tasks] = await db.batch([
@@ -161,7 +161,7 @@ function safeJsonArray(s: string): string[] {
 // ---------------------------------------------------------------------------
 // Stage 5 — Review: a signed-in user confirms or overrides each AI rating.
 
-async function ownsRun(db: D1Database, runId: string, userId: string) {
+export async function ownsRun(db: D1Database, runId: string, userId: string) {
   return !!(await db.prepare('SELECT 1 FROM runs WHERE id = ? AND user_id = ?').bind(runId, userId).first())
 }
 

@@ -2,8 +2,8 @@
 
 **Current build: Exercise 5, Option A, regulation gap check** (FIDLEG Art. 4–16 vs. internal policy W-07).
 - The app loads both PDFs (stage 1), splits them deterministically (`shared/segment.ts`) and stores them in D1.
-- **Claude Code is the AI engine** for stages 2–4. There is no Anthropic API key in the app. Use the `gapcheck` skill
-  (`.claude/skills/gapcheck/SKILL.md`) when asked to "run the gap check".
+- Stages 2–4 have two engines. **Claude Code** uses the `gapcheck` skill (`.claude/skills/gapcheck/SKILL.md`) when asked to "run the gap check".
+  **Workers AI** is the in-app fallback button (`worker/routes/workersAi.ts`, guardrails in `shared/aiSteps.ts`). There is no Anthropic API key in the app.
 - The Worker verifies every cited reference and quote against the stored text (✓ / ⚠) before the report shows it.
 - Never cite anything that is not in the stored sections.
 

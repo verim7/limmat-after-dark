@@ -35,7 +35,7 @@ export type Task = { rid: string; policy_id: string; title: string; owner: strin
 export type RegisterEntry = { id: string; title: string; owner: string; regulatory_basis: string }
 
 export type RunData = {
-  run: null | { id: string; status: 'awaiting_ai' | 'assessed'; created_at: string }
+  run: null | { id: string; status: 'awaiting_ai' | 'assessed'; engine: string | null; created_at: string }
   documents?: { kind: string; filename: string }[]
   sections?: { regulation: Section[]; policy: Section[] }
   requirements?: Requirement[]

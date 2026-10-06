@@ -15,6 +15,7 @@ export default function GapCheck() {
     () => api<RunData>('/runs/latest').then(setData, (e: Error) => setError(e.message)),
     [api],
   )
+  const ai = useWorkersAiRunner(useCallback(() => void refresh(), [refresh]))
   useEffect(() => void refresh(), [refresh])
 
   // Poll while Claude Code is working on the run.
@@ -42,11 +43,12 @@ export default function GapCheck() {
   return (
     <>
       <RunHeader data={data} onNew={() => setNewRun(true)} />
+      <AiProgress ai={ai} />
       {waiting ? (
-        <AwaitingAi data={data} />
+        <AwaitingAi data={data} ai={ai} />
       ) : (
         <>
-          <Report runId={data.run.id} requirements={data.requirements ?? []} onChange={refresh} />
+          <Report runId={data.run.id} requirements={data.requirements ?? []} onChange={refresh} ai={ai} />
           <TaskList runId={data.run.id} requirements={data.requirements ?? []} tasks={data.tasks ?? []} onChange={refresh} />
         </>
       )}
@@ -206,6 +208,7 @@ function RunHeader({ data, onNew }: { data: RunData; onNew: () => void }) {
       <div>
         <p className="eyebrow">Run {data.run!.id.slice(0, 8)}</p>
         <p className="muted small">
+          {data.run!.engine && <>AI step: <strong>{engineLabel(data.run!.engine)}</strong> · </>}
           {data.documents?.map((d) => d.filename).join(' vs. ')} · {data.sections?.regulation.length} regulation sections ·{' '}
           {data.sections?.policy.length} policy sections
         </p>
@@ -233,19 +236,91 @@ function Stat({ n, label, tone }: { n: number; label: string; tone?: Rating }) {
   )
 }
 
-// Stages 2–4 run in Claude Code (no API key in the app).
-function AwaitingAi({ data }: { data: RunData }) {
+// Stages 2–4: run in the app with Workers AI, or in Claude Code (no API key in the app).
+function AwaitingAi({ data, ai }: { data: RunData; ai: WorkersAiRunner }) {
   return (
     <section className="panel">
       <p className="eyebrow">Steps 2–4 · Extract, map, assess</p>
-      <h2>Waiting for Claude Code</h2>
-      <p className="lede">
-        The texts are stored and split. In Claude Code, inside this project, say:
-      </p>
-      <pre className="cmd">Run the gap check for run {data.run!.id}</pre>
-      <p className="muted small">This page refreshes automatically when the results arrive.</p>
+      <h2>Run the AI step</h2>
+      <p className="lede">The texts are stored and split. Choose an engine.</p>
+      <div className="engines">
+        <div className="engine">
+          <h3>In the app · Workers AI</h3>
+          <p className="muted small">
+            Llama 3.3 70B on Cloudflare. Runs here in about 1–2 minutes. Every citation is checked against the stored text;
+            the quality is lower than Claude, so review every rating.
+          </p>
+          <button className="btn big" disabled={ai.running} onClick={() => ai.start(data.run!.id)}>
+            {ai.running ? 'Running…' : 'Run with Workers AI'}
+          </button>
+        </div>
+        <div className="engine">
+          <h3>Claude Code</h3>
+          <p className="muted small">In Claude Code, inside this project, say:</p>
+          <pre className="cmd">Run the gap check for run {data.run!.id}</pre>
+          <p className="muted small">This page refreshes automatically when the results arrive.</p>
+        </div>
+      </div>
       <SectionList title="Regulation sections" sections={data.sections?.regulation ?? []} />
       <SectionList title="Policy sections" sections={data.sections?.policy ?? []} />
+    </section>
+  )
+}
+
+function engineLabel(engine: string) {
+  if (engine === 'claude-code') return 'Claude Code'
+  if (engine.startsWith('workers-ai:')) return `Workers AI · ${engine.includes('llama-3.3-70b') ? 'Llama 3.3 70B' : engine.slice(11)}`
+  return engine
+}
+
+// Drives the Workers AI steps one short request at a time and reports progress.
+type WorkersAiRunner = { running: boolean; progress: string | null; error: string | null; start: (runId: string) => void }
+
+function useWorkersAiRunner(onStep: () => void): WorkersAiRunner {
+  const api = useApi()
+  const [running, setRunning] = useState(false)
+  const [progress, setProgress] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
+
+  const start = useCallback(
+    async (runId: string) => {
+      setRunning(true)
+      setError(null)
+      try {
+        let chunks = 1
+        for (let n = 0; n < chunks; n++) {
+          setProgress(`Step 2 · Extracting requirements (${n + 1}/${chunks === 1 && n === 0 ? '…' : chunks})`)
+          const r = await api<{ chunks: number; label: string; total: number }>(`/runs/${runId}/ai/extract?chunk=${n}`, { method: 'POST' })
+          chunks = r.chunks
+          setProgress(`Step 2 · ${r.label} done (${n + 1}/${chunks}) · ${r.total} requirements so far`)
+        }
+        let batches = 1
+        for (let b = 0; b < batches; b++) {
+          setProgress(`Steps 3–4 · Mapping and rating (${b + 1}/${batches === 1 && b === 0 ? '…' : batches})`)
+          const r = await api<{ batches: number; from: string; to: string }>(`/runs/${runId}/ai/assess?batch=${b}`, { method: 'POST' })
+          batches = r.batches
+          setProgress(`Steps 3–4 · ${r.from}–${r.to} rated (${b + 1}/${batches})`)
+          onStep()
+        }
+        setProgress(null)
+      } catch (e) {
+        setError((e as Error).message)
+      } finally {
+        setRunning(false)
+        onStep()
+      }
+    },
+    [api, onStep],
+  )
+  return { running, progress, error, start: (id) => void start(id) }
+}
+
+function AiProgress({ ai }: { ai: WorkersAiRunner }) {
+  if (!ai.running && !ai.error) return null
+  return (
+    <section className={`panel ai-progress ${ai.error ? 'failed' : ''}`}>
+      {ai.running && <span className="spinner" aria-hidden />}
+      <span>{ai.error ? `Workers AI stopped: ${ai.error}` : ai.progress ?? 'Starting Workers AI…'}</span>
     </section>
   )
 }
@@ -279,7 +354,7 @@ function useRegister() {
 }
 
 // Stages 5–6 — Review and report
-function Report({ runId, requirements, onChange }: { runId: string; requirements: Requirement[]; onChange: () => void }) {
+function Report({ runId, requirements, onChange, ai }: { runId: string; requirements: Requirement[]; onChange: () => void; ai: WorkersAiRunner }) {
   const [onlyGaps, setOnlyGaps] = useState(true)
   const register = useRegister()
   const gaps = requirements.filter((r) => r.assessment && r.assessment.effectiveRating !== 'covered')
@@ -295,6 +370,15 @@ function Report({ runId, requirements, onChange }: { runId: string; requirements
         <div className="toggle">
           <button className={`btn small ${onlyGaps ? '' : 'ghost'}`} onClick={() => setOnlyGaps(true)}>Gaps</button>
           <button className={`btn small ${onlyGaps ? 'ghost' : ''}`} onClick={() => setOnlyGaps(false)}>All</button>
+          <button
+            className="btn small ghost"
+            disabled={ai.running}
+            onClick={() => {
+              if (window.confirm('Re-run steps 2–4 with Workers AI? This replaces the current requirements, reviews and tasks of this run.')) ai.start(runId)
+            }}
+          >
+            Re-run with Workers AI
+          </button>
         </div>
       </div>
       <p className="muted small">

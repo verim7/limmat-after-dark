@@ -19,8 +19,14 @@ wrangler.jsonc       Worker + assets + D1 binding
 
 1. **Load (app):** sign in, then upload the FIDLEG PDF and the Weisung PDF. The browser extracts the text (pdf.js), and the
    Worker splits it into sections (`shared/segment.ts`): FIDLEG Art. 4–16 by article and paragraph, W-07 by its `Ziff.` numbering.
-2. **Extract, map, assess (Claude Code):** in this project, tell Claude Code *"Run the gap check for run <id>"*.
-   The `gapcheck` skill reads the sections, writes requirements and ratings, and imports them with `npm run gapcheck -- import …`.
+2. **Extract, map, assess:** pick an engine on the screen.
+   - **Workers AI (in the app):** click **Run with Workers AI**. Llama 3.3 70B on Cloudflare runs step by step (extract per
+     article group, then map and rate in batches). Server-side guardrails: references come only from stored sections, unknown
+     sections are dropped, non-verbatim quotes are replaced by the exact paragraph, and every requirement gets a rating.
+     The free tier covers ~10k neurons/day, about 7 runs.
+   - **Claude Code:** in this project, tell Claude Code *"Run the gap check for run <id>"*. The `gapcheck` skill reads the
+     sections, writes requirements and ratings, and imports them with `npm run gapcheck -- import …`.
+   The run header shows which engine produced the ratings.
 3. **Review (app):** a signed-in compliance user confirms each AI rating or overrides it with a comment. The reviewer's
    Clerk name and the time are stored, and the report uses the final rating.
 4. **Impact and tasks (app):** for each gap, confirm or correct the affected policy (from `internal_policies_and_processes.csv`).
@@ -73,6 +79,8 @@ For production, switch to a Clerk production instance.
 | POST   | `/api/runs`       | ✅   | stage 1: `{regulation:{filename,text}, policy:{filename,text}}` → stored sections |
 | GET    | `/api/runs/latest`| ✅   | latest run with sections, requirements, assessments and verification flags |
 | GET    | `/api/runs/:id`   | ✅   | same for one run |
+| POST   | `/api/runs/:id/ai/extract?chunk=N` | ✅ | Workers AI stage 2 for one article group (chunk 0 resets the run's results) |
+| POST   | `/api/runs/:id/ai/assess?batch=N` | ✅ | Workers AI stages 3–4 for one batch of requirements; the last batch marks the run assessed |
 | PATCH  | `/api/runs/:id/requirements/:rid/review` | ✅ | `{action: confirm \| override \| reset, rating?, comment?}` |
 | PATCH  | `/api/runs/:id/requirements/:rid/impact` | ✅ | `{policyId, confirmed}`; policyId from the policy register |
 | POST   | `/api/runs/:id/tasks` | ✅ | (re)generate the task list from reviewed gaps with a confirmed impact |

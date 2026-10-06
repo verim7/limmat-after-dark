@@ -12,6 +12,8 @@
     "not_found_handling": "single-page-application",
     "run_worker_first": ["/api/*"]
   },
+  // Workers AI: in-app fallback engine for the gap check's AI stages (see worker/routes/workersAi.ts).
+  "ai": { "binding": "AI" },
   "d1_databases": [
     {
       "binding": "DB",

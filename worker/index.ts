@@ -3,6 +3,7 @@ import { clerkMiddleware, getAuth } from '@clerk/hono'
 import { createMiddleware } from 'hono/factory'
 import { gapcheck } from './routes/gapcheck'
 import { sources } from './routes/sources'
+import { workersAi } from './routes/workersAi'
 
 type Bindings = {
   DB: D1Database
@@ -42,6 +43,7 @@ app.get('/me', async (c) => {
 // Regulation gap check (Exercise 5, Option A)
 app.route('/', gapcheck)
 app.route('/', sources)
+app.route('/', workersAi)
 
 app.notFound((c) => c.json({ error: 'not found' }, 404))
 

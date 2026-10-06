@@ -7,7 +7,7 @@ description: Run the AI stages (extract requirements, map to policy, assess) of 
 
 The app (stage 1) has already stored both texts and split them into sections. Each section has a
 short id (`sid`): regulation `A8` / `A8.1` (= Art. 8 / Art. 8 Abs. 1 FIDLEG), policy `P4.2` (= W-07 Ziff. 4.2).
-Your job is stages 2–4. The app then verifies every citation against the stored text and shows the gap table.
+Your job is stages 2–4. (The app also offers an in-app Workers AI fallback for the same stages; your import replaces its results.) The app then verifies every citation against the stored text and shows the gap table.
 
 ## 1. Read the sections
 - **On a machine with wrangler logged in:** `npm run gapcheck -- sections <runId|latest>`. It prints `{ runId, sections: [...] }`.
