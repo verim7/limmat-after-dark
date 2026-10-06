@@ -4,7 +4,7 @@ import { quoteIsVerbatim, segmentPolicy, segmentRegulation, type Section } from 
 
 type Env = { Bindings: { DB: D1Database } }
 
-type DocInput = { filename?: string; text?: string }
+type DocInput = { filename?: string; text?: string; reuseLatest?: boolean }
 type SectionRow = Section & { kind: 'regulation' | 'policy' }
 type RequirementRow = { rid: string; section_sid: string; ref_label: string; quote: string; summary: string; ord: number }
 type AssessmentRow = {
@@ -22,8 +22,9 @@ export const gapcheck = new Hono<Env>()
 gapcheck.post('/runs', async (c) => {
   const userId = getAuth(c)!.userId!
   const body = await c.req.json<{ regulation?: DocInput; policy?: DocInput }>()
-  const reg = body.regulation
+  const reg = body.regulation?.reuseLatest ? await latestRegulation(c.env.DB, userId) : body.regulation
   const pol = body.policy
+  if (body.regulation?.reuseLatest && !reg) return c.json({ error: 'No saved regulation yet — upload the FIDLEG PDF once' }, 422)
   if (!reg?.text?.trim() || !pol?.text?.trim()) return c.json({ error: 'regulation.text and policy.text are required' }, 400)
 
   const regSections = segmentRegulation(reg.text, { fromArt: 4, toArt: 16, law: 'FIDLEG' })
@@ -47,6 +48,23 @@ gapcheck.post('/runs', async (c) => {
   ])
   return c.json({ runId, regulationSections: regSections.length, policySections: polSections.length }, 201)
 })
+
+// What the "Use saved documents" button can reuse.
+gapcheck.get('/saved', async (c) => {
+  const userId = getAuth(c)!.userId!
+  const reg = await latestRegulation(c.env.DB, userId)
+  return c.json({ regulation: reg ? { filename: reg.filename } : null })
+})
+
+function latestRegulation(db: D1Database, userId: string) {
+  return db
+    .prepare(
+      `SELECT d.filename, d.full_text AS text FROM documents d JOIN runs r ON r.id = d.run_id
+       WHERE r.user_id = ? AND d.kind = 'regulation' ORDER BY r.created_at DESC, r.rowid DESC LIMIT 1`,
+    )
+    .bind(userId)
+    .first<{ filename: string; text: string }>()
+}
 
 gapcheck.get('/runs/latest', async (c) => {
   const userId = getAuth(c)!.userId!

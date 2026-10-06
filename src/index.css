@@ -84,3 +84,5 @@ mark { background: rgba(110, 168, 255, 0.28); color: var(--text); border-radius:
 .assessment { margin-top: 10px; font-size: 14px; line-height: 1.55; }
 .assessment p { margin: 6px 0; }
 .proposal { background: rgba(110, 168, 255, 0.08); border: 1px solid rgba(110, 168, 255, 0.3); border-radius: 8px; padding: 10px 12px; }
+.saved { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--line); max-width: 640px; }
+.saved ul { padding-left: 18px; line-height: 1.6; }

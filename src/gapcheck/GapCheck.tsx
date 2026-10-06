@@ -46,28 +46,53 @@ export default function GapCheck() {
   )
 }
 
+// Saved exercise documents (public/samples): the policy W-07 and the internal policy register.
+const SAVED_POLICY = { url: '/samples/Weisung_W-07_Kundensegmentierung_und_Pruefung.pdf', filename: 'Weisung_W-07_Kundensegmentierung_und_Pruefung.pdf' }
+const SAVED_REGISTER_URL = '/samples/internal_policies_and_processes.csv'
+
+type RegisterEntry = { id: string; title: string; owner: string; regulatory_basis: string }
+
+function parseCsv(text: string): RegisterEntry[] {
+  const rows = text.trim().split(/\r?\n/).map((line) => [...line.matchAll(/("([^"]*)"|[^,]*)(,|$)/g)].map((m) => m[2] ?? m[1]).slice(0, -1))
+  const [header, ...body] = rows
+  return body.map((cells) => Object.fromEntries(header.map((h, i) => [h, cells[i] ?? ''])) as RegisterEntry)
+}
+
+async function fetchFile(url: string, filename: string): Promise<File> {
+  const res = await fetch(url)
+  if (!res.ok) throw new Error(`Could not load ${filename}`)
+  return new File([await res.blob()], filename, { type: res.headers.get('content-type') ?? '' })
+}
+
 // Stage 1 — Load
 function LoadStep({ onLoaded }: { onLoaded: () => void }) {
   const api = useApi()
   const [regFile, setRegFile] = useState<File | null>(null)
   const [polFile, setPolFile] = useState<File | null>(null)
+  const [savedReg, setSavedReg] = useState<string | null>(null)
+  const [register, setRegister] = useState<RegisterEntry | null>(null)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  async function submit(e: FormEvent) {
-    e.preventDefault()
-    if (!regFile || !polFile) return
+  useEffect(() => {
+    api<{ regulation: { filename: string } | null }>('/saved').then((s) => setSavedReg(s.regulation?.filename ?? null), () => {})
+    fetch(SAVED_REGISTER_URL)
+      .then((r) => r.text())
+      .then((csv) => setRegister(parseCsv(csv).find((e) => e.id === 'W-07') ?? null), () => {})
+  }, [api])
+
+  type RegInput = { filename: string; text: string } | { reuseLatest: true }
+
+  async function run(getRegulation: () => Promise<RegInput>, getPolicy: () => Promise<File>) {
     setBusy(true)
     setError(null)
     try {
       const { fileToText } = await import('../pdf') // pdf.js is large; load it only when needed
-      const [regulation, policy] = await Promise.all([fileToText(regFile), fileToText(polFile)])
+      const policyFile = await getPolicy()
+      const [regulation, policyText] = await Promise.all([getRegulation(), fileToText(policyFile)])
       await api('/runs', {
         method: 'POST',
-        body: JSON.stringify({
-          regulation: { filename: regFile.name, text: regulation },
-          policy: { filename: polFile.name, text: policy },
-        }),
+        body: JSON.stringify({ regulation, policy: { filename: policyFile.name, text: policyText } }),
       })
       onLoaded()
     } catch (err) {
@@ -77,15 +102,34 @@ function LoadStep({ onLoaded }: { onLoaded: () => void }) {
     }
   }
 
+  const readRegFile = async (file: File): Promise<RegInput> => {
+    const { fileToText } = await import('../pdf')
+    return { filename: file.name, text: await fileToText(file) }
+  }
+
+  function uploadBoth(e: FormEvent) {
+    e.preventDefault()
+    if (regFile && polFile) void run(() => readRegFile(regFile), async () => polFile)
+  }
+
+  function useSaved() {
+    void run(
+      () => (regFile ? readRegFile(regFile) : Promise.resolve({ reuseLatest: true as const })),
+      () => fetchFile(SAVED_POLICY.url, SAVED_POLICY.filename),
+    )
+  }
+
+  const canUseSaved = !!regFile || !!savedReg
+
   return (
     <section className="panel">
       <p className="eyebrow">Step 1 · Load</p>
       <h2>Regulation gap check</h2>
       <p className="lede">
-        Upload the regulation (FIDLEG, German PDF) and the internal policy (Weisung). Both are split into sections by
-        their own numbering; Articles 4–16 are kept from the regulation.
+        Upload the regulation (FIDLEG, German PDF) and the internal policy (Weisung), or use the saved documents. Both
+        are split into sections by their own numbering; Articles 4–16 are kept from the regulation.
       </p>
-      <form onSubmit={submit} className="stack">
+      <form onSubmit={uploadBoth} className="stack">
         <label className="file">
           <span>Regulation (FIDLEG PDF)</span>
           <input type="file" accept=".pdf,.txt" onChange={(e) => setRegFile(e.target.files?.[0] ?? null)} />
@@ -98,6 +142,34 @@ function LoadStep({ onLoaded }: { onLoaded: () => void }) {
           {busy ? 'Reading PDFs…' : 'Load and split into sections'}
         </button>
       </form>
+
+      <div className="saved">
+        <p className="eyebrow">Or use the saved documents</p>
+        <ul className="muted small">
+          <li>
+            Policy: <code>{SAVED_POLICY.filename}</code>
+            {register && (
+              <>
+                {' '}· register entry {register.id} “{register.title}”, owner {register.owner}, basis {register.regulatory_basis}
+                {' '}(<code>internal_policies_and_processes.csv</code>)
+              </>
+            )}
+          </li>
+          <li>
+            Regulation:{' '}
+            {regFile ? (
+              <>the file chosen above (<code>{regFile.name}</code>)</>
+            ) : savedReg ? (
+              <>last uploaded <code>{savedReg}</code></>
+            ) : (
+              <>none saved yet. Choose the FIDLEG PDF above once; it is reused after that</>
+            )}
+          </li>
+        </ul>
+        <button className="btn big ghost" disabled={!canUseSaved || busy} onClick={useSaved}>
+          Use saved documents
+        </button>
+      </div>
       {error && <p className="error">{error}</p>}
     </section>
   )

@@ -1,0 +1,19 @@
+id,title,owner,regulatory_basis
+W-01,Weisung Kundenannahme und Identifizierung (KYC),Compliance,"GwG, GwV-FINMA"
+W-02,Weisung wirtschaftlich berechtigte Person,Compliance,GwG
+W-03,Weisung Transaktionsüberwachung,Compliance,"GwG, GwV-FINMA"
+W-07,Weisung Kundensegmentierung und Prüfung von Finanzdienstleistungen,Compliance,FIDLEG
+W-08,Weisung Interessenkonflikte und Retrozessionen,Compliance,FIDLEG
+W-09,Weisung Kundeninformation und Basisinformationsblatt,Produktmanagement,FIDLEG
+W-10,Weisung Kundenberaterregister und Ausbildung,HR / Compliance,FIDLEG
+W-12,Weisung Bestmögliche Ausführung (Best Execution),Trading,FIDLEG
+W-15,Weisung Ombudsstelle und Beschwerdemanagement,Legal,FIDLEG
+W-20,Weisung Management operationeller Risiken,Risk,FINMA-RS 2023/1
+W-21,Weisung IKT-Risiken und IT-Betrieb,IT / CISO,FINMA-RS 2023/1
+W-22,Weisung Cyber-Risiken und Incident-Meldung an FINMA,CISO,FINMA-RS 2023/1
+W-23,Weisung kritische Daten,Data Office,FINMA-RS 2023/1
+W-24,Weisung Business Continuity Management,Risk,FINMA-RS 2023/1
+W-25,Weisung Outsourcing,Legal / Risk,FINMA-RS 2018/3
+P-11,Prozess Kundeneröffnung Retail,Retail,"GwG, FIDLEG"
+P-14,Prozess Anlageberatung,Private Banking,FIDLEG
+P-31,Prozess IT-Notfallwiederherstellung,IT,FINMA-RS 2023/1

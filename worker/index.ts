@@ -25,6 +25,7 @@ app.get('/health', (c) => c.json({ ok: true, at: new Date().toISOString() }))
 app.use('/me', requireUser)
 app.use('/runs', requireUser)
 app.use('/runs/*', requireUser)
+app.use('/saved', requireUser)
 
 app.get('/me', async (c) => {
   const { userId } = getAuth(c)!
