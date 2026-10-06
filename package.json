@@ -1,0 +1,37 @@
+{
+  "name": "limmat-after-dark",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "npm run build && vite preview",
+    "deploy": "npm run build && wrangler deploy",
+    "lint": "oxlint",
+    "typecheck": "tsc -b",
+    "db:migrate:local": "wrangler d1 migrations apply limmat-after-dark-db --local",
+    "db:migrate:remote": "wrangler d1 migrations apply limmat-after-dark-db --remote",
+    "cf-typegen": "wrangler types"
+  },
+  "dependencies": {
+    "@clerk/backend": "^3.23.0",
+    "@clerk/react": "^6.17.6",
+    "@hono/clerk-auth": "^3.1.1",
+    "hono": "^4.13.13",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.62.5",
+    "@cloudflare/workers-types": "^5.20261006.1",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "oxlint": "^1.81.0",
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0",
+    "wrangler": "^4.147.0"
+  }
+}

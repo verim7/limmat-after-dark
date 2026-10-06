@@ -1,0 +1,38 @@
+name: Deploy to Cloudflare
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      VITE_CLERK_PUBLISHABLE_KEY: ${{ vars.VITE_CLERK_PUBLISHABLE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
+      - name: Apply D1 migrations
+        run: npx wrangler d1 migrations apply limmat-after-dark-db --remote
+      - name: Deploy Worker (with Clerk secret)
+        env:
+          CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
+        run: |
+          printf 'CLERK_SECRET_KEY=%s\n' "$CLERK_SECRET_KEY" > "$RUNNER_TEMP/secrets.env"
+          npx wrangler deploy \
+            --var CLERK_PUBLISHABLE_KEY:"$VITE_CLERK_PUBLISHABLE_KEY" \
+            --secrets-file "$RUNNER_TEMP/secrets.env"
+          rm -f "$RUNNER_TEMP/secrets.env"

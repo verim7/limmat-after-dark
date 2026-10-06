@@ -1,0 +1,27 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "limmat-after-dark",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": { "enabled": true },
+  "assets": {
+    // React SPA from ./dist; /api/* goes to the Worker first.
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "limmat-after-dark-db",
+      "database_id": "83a77478-b01a-4e79-b705-2e7747debea7",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "vars": {
+    // Publishable key is public. CLERK_SECRET_KEY is a secret:
+    //   local:  .dev.vars
+    //   prod:   npx wrangler secret put CLERK_SECRET_KEY
+    "CLERK_PUBLISHABLE_KEY": ""
+  }
+}
