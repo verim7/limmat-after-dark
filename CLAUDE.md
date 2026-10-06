@@ -7,6 +7,8 @@
 - The Worker verifies every cited reference and quote against the stored text (✓ / ⚠) before the report shows it.
 - Never cite anything that is not in the stored sections.
 
+Reusable playbook for new apps (stack, setup, secrets, troubleshooting): `docs/verim-stack.md`. Keep it updated when something new is learned.
+
 This is a build-night repo. We get a cold brief and have one evening to ship it to a live URL.
 Go for speed and a working deploy over polish. Keep the stack below unless asked to change it.
 
@@ -25,6 +27,7 @@ Go for speed and a working deploy over polish. Keep the stack below unless asked
 - `npm run dev`: Vite + workerd locally (API, D1 and secrets the same as in prod)
 - `npm run build`: typecheck (`tsc -b`) and build client + worker
 - `npm run lint`: oxlint
+- `npm run test:e2e`: Playwright E2E (Chromium + WebKit) against the live app; needs Clerk dev keys in the environment
 - `npm run deploy`: build + `wrangler deploy`
 - `npm run db:migrate:local` / `db:migrate:remote`: apply D1 migrations
 - New migration: `npx wrangler d1 migrations create limmat-after-dark-db <name>`

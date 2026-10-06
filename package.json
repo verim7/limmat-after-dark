@@ -13,7 +13,8 @@
     "db:migrate:local": "wrangler d1 migrations apply limmat-after-dark-db --local",
     "db:migrate:remote": "wrangler d1 migrations apply limmat-after-dark-db --remote",
     "cf-typegen": "wrangler types",
-    "gapcheck": "node scripts/gapcheck.mjs"
+    "gapcheck": "node scripts/gapcheck.mjs",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@clerk/backend": "^3.23.0",
@@ -25,8 +26,10 @@
     "react-dom": "^19.2.8"
   },
   "devDependencies": {
+    "@clerk/testing": "^2.2.43",
     "@cloudflare/vite-plugin": "^1.62.5",
     "@cloudflare/workers-types": "^5.20261006.1",
+    "@playwright/test": "^1.63.0",
     "@types/node": "^24.13.3",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",

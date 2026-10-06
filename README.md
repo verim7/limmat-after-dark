@@ -1,5 +1,7 @@
 # limmat after dark 🌉
 
+> 📘 **Reusable playbook:** [`docs/verim-stack.md`](docs/verim-stack.md). The stack, setup checklist, deploy secrets, Clerk/AI notes and a troubleshooting log, for building new apps the same way.
+
 Starter for the **Claude Code build night in Zürich**: cold brief in, live URL out.
 
 **Stack:** React + Vite · Hono API on **Cloudflare Workers** · **Clerk** auth · **D1** database
@@ -47,6 +49,13 @@ npm run dev                       # http://localhost:5173
 ```
 
 You'll find the keys at https://dashboard.clerk.com → your app → **API keys**.
+
+## Tests
+
+- `npm run test:e2e` runs Playwright against the live app (or `BASE_URL`) in **Chromium and WebKit** (Safari's engine).
+  It needs `CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` (development instance). Test users `e2e-<browser>+clerk_test@example.com`
+  are created automatically.
+- In CI the `e2e` job runs after every deploy; the HTML report is uploaded as the `playwright-report` artifact.
 
 ## Sign-in (Clerk)
 

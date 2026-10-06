@@ -36,3 +36,27 @@ jobs:
             --var CLERK_PUBLISHABLE_KEY:"$VITE_CLERK_PUBLISHABLE_KEY" \
             --secrets-file "$RUNNER_TEMP/secrets.env"
           rm -f "$RUNNER_TEMP/secrets.env"
+
+  # End-to-end smoke test against the live app, in Chromium and WebKit (Safari's engine).
+  e2e:
+    needs: deploy
+    runs-on: ubuntu-latest
+    env:
+      BASE_URL: https://limmat-after-dark.verimajdini.workers.dev
+      CLERK_PUBLISHABLE_KEY: ${{ vars.VITE_CLERK_PUBLISHABLE_KEY }}
+      CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium webkit
+      - run: npx playwright test
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report
+          retention-days: 7
