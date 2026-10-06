@@ -113,3 +113,7 @@ input.cell { padding: 4px 6px; font-size: 13px; min-width: 110px; }
 .spinner { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--line); border-top-color: var(--accent); animation: spin 0.8s linear infinite; flex: none; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .toggle { flex-wrap: wrap; }
+.articles { margin: 14px 0 6px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; }
+.articles p { margin: 0 0 8px; }
+.article-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip.covered { opacity: 0.7; }

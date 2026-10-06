@@ -379,8 +379,10 @@ function Report({ runId, requirements, onChange, ai }: { runId: string; requirem
           >
             Re-run with Workers AI
           </button>
+          <button className="btn small ghost" onClick={() => exportGapTable(runId, requirements)}>Download gap table (CSV)</button>
         </div>
       </div>
+      <ArticleSummary requirements={requirements} />
       <p className="muted small">
         {pending > 0
           ? `${pending} AI rating${pending === 1 ? '' : 's'} still to review. Confirm or override each one; covered ratings are under "All".`
@@ -568,21 +570,15 @@ function TaskList({ runId, requirements, tasks, onChange }: { runId: string; req
     setBusy(false)
   }
 
-  function downloadCsv() {
-    const esc = (v: string) => `"${v.replaceAll('"', '""')}"`
-    const lines = [
-      ['Requirement', 'FIDLEG reference', 'Rating', 'Policy', 'Task', 'Owner', 'Due date', 'Status', 'Proposed policy text'].map(esc).join(','),
-      ...ordered.map((t) => {
+  function exportTasks() {
+    downloadCsv(
+      `gap-check-tasks-${runId.slice(0, 8)}.csv`,
+      ['Requirement', 'FIDLEG reference', 'Rating', 'Policy', 'Task', 'Owner', 'Due date', 'Status', 'Proposed policy text'],
+      ordered.map((t) => {
         const r = byRid.get(t.rid)
         return [t.rid, r?.ref_label ?? '', r?.assessment?.effectiveRating ?? '', t.policy_id, t.title, t.owner, t.due_date, t.status, r?.assessment?.proposed_text ?? '']
-          .map((v) => esc(String(v)))
-          .join(',')
       }),
-    ]
-    const url = URL.createObjectURL(new Blob(['\uFEFF' + lines.join('\n')], { type: 'text/csv;charset=utf-8' }))
-    const link = Object.assign(document.createElement('a'), { href: url, download: `gap-check-tasks-${runId.slice(0, 8)}.csv` })
-    link.click()
-    URL.revokeObjectURL(url)
+    )
   }
 
   return (
@@ -596,7 +592,7 @@ function TaskList({ runId, requirements, tasks, onChange }: { runId: string; req
           <button className="btn small" disabled={busy || ready.length === 0} onClick={generate}>
             {tasks.length ? 'Update task list' : 'Generate task list'}
           </button>
-          <button className="btn small ghost" disabled={tasks.length === 0} onClick={downloadCsv}>Download CSV</button>
+          <button className="btn small ghost" disabled={tasks.length === 0} onClick={exportTasks}>Download CSV</button>
         </div>
       </div>
       <p className="muted small">
@@ -644,6 +640,76 @@ function TaskList({ runId, requirements, tasks, onChange }: { runId: string; req
         </div>
       )}
     </section>
+  )
+}
+
+// CSV download with a BOM so Excel opens umlauts correctly.
+function downloadCsv(filename: string, header: string[], rows: (string | number)[][]) {
+  const esc = (v: string | number) => `"${String(v).replaceAll('"', '""')}"`
+  const csv = [header, ...rows].map((row) => row.map(esc).join(',')).join('\n')
+  const url = URL.createObjectURL(new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' }))
+  const link = Object.assign(document.createElement('a'), { href: url, download: filename })
+  link.click()
+  URL.revokeObjectURL(url)
+}
+
+// Gap table export: one row per requirement with both references, both ratings, the review and the proposal.
+function exportGapTable(runId: string, requirements: Requirement[]) {
+  downloadCsv(
+    `gap-table-${runId.slice(0, 8)}.csv`,
+    [
+      'Requirement', 'FIDLEG reference', 'Requirement summary', 'FIDLEG text (quote)', 'Policy sections', 'Policy text (quote)',
+      'AI rating', 'Final rating', 'Review status', 'Reviewer', 'Reviewed at (UTC)', 'Review comment', 'AI reason',
+      'Proposed policy text', 'Affected policy', 'Impact confirmed', 'Citations verified',
+    ],
+    requirements.map((r) => {
+      const a = r.assessment
+      return [
+        r.rid, r.ref_label, r.summary, r.quote,
+        a?.policySections.map((s) => s.ref).join('; ') ?? '', a?.policy_quote ?? '',
+        a?.rating ?? '', a?.effectiveRating ?? '', a?.review_status ?? '', a?.reviewer_name ?? '', a?.reviewed_at ?? '',
+        a?.review_comment ?? '', a?.reason ?? '', a?.proposed_text ?? '',
+        a && a.effectiveRating !== 'covered' ? a.impact_policy_id : '', a?.impact_confirmed ? 'yes' : 'no',
+        r.refVerified && r.quoteVerified && (a?.policyVerified ?? true) ? 'yes' : 'no',
+      ]
+    }),
+  )
+}
+
+// Rolls paragraph-level ratings up to articles: all covered → covered, all missing → missing, otherwise partial.
+function articleSummary(requirements: Requirement[]) {
+  const byArticle = new Map<string, Rating[]>()
+  for (const r of requirements) {
+    const art = r.ref_label.match(/Art\. (\d+[a-z]?)/)?.[1]
+    if (!art || !r.assessment) continue
+    byArticle.set(art, [...(byArticle.get(art) ?? []), r.assessment.effectiveRating])
+  }
+  return [...byArticle.entries()]
+    .sort((x, y) => parseInt(x[0]) - parseInt(y[0]))
+    .map(([art, ratings]) => {
+      const rating: Rating = ratings.every((x) => x === 'covered') ? 'covered' : ratings.every((x) => x === 'missing') ? 'missing' : 'partial'
+      return { art, rating, rows: ratings.length }
+    })
+}
+
+function ArticleSummary({ requirements }: { requirements: Requirement[] }) {
+  const articles = articleSummary(requirements)
+  const gaps = articles.filter((a) => a.rating !== 'covered')
+  const count = (r: Rating) => gaps.filter((a) => a.rating === r).length
+  return (
+    <div className="articles">
+      <p className="small">
+        <strong>By article:</strong> {gaps.length} of {articles.length} articles with gaps ({count('missing')} missing,{' '}
+        {count('partial')} partial). The table below lists paragraph-level findings.
+      </p>
+      <div className="article-chips">
+        {articles.map((a) => (
+          <span key={a.art} className={`chip ${a.rating}`} title={`${a.rows} requirement${a.rows === 1 ? '' : 's'}`}>
+            Art. {a.art} · {RATING_LABEL[a.rating]}
+          </span>
+        ))}
+      </div>
+    </div>
   )
 }
 
