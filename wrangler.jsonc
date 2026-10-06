@@ -22,6 +22,6 @@
     // Publishable key is public. CLERK_SECRET_KEY is a secret:
     //   local:  .dev.vars
     //   prod:   npx wrangler secret put CLERK_SECRET_KEY
-    "CLERK_PUBLISHABLE_KEY": ""
+    "CLERK_PUBLISHABLE_KEY": "pk_test_Y2VudHJhbC1jdWItNTA2OS5jbGVyay5hY2NvdW50cy5kZXYk"
   }
 }
