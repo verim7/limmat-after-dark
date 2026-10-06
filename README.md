@@ -48,6 +48,15 @@ npm run dev                       # http://localhost:5173
 
 You'll find the keys at https://dashboard.clerk.com → your app → **API keys**.
 
+## Sign-in (Clerk)
+
+- **SSO:** *Continue with Microsoft* is enabled in the Clerk dashboard (User & authentication → SSO connections). Clerk's
+  sign-in/sign-up modals show it automatically, so there is no code change. Corporate tenants may ask for admin consent the first time.
+- **Email code:** works, but on the Clerk *development* instance codes come from Clerk's shared sender and may be quarantined
+  by corporate mail filters. For tests use `name+clerk_test@domain` with code `424242` (no email is sent).
+- **Production:** a Clerk production instance needs a domain you own (not `*.workers.dev`), DNS records from Clerk,
+  `pk_live_`/`sk_live_` keys, and your own OAuth app for Microsoft.
+
 ## Go live
 
 **Option A, from your laptop:**
