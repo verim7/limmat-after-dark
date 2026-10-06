@@ -1,5 +1,6 @@
-import * as pdfjs from 'pdfjs-dist'
-import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url'
+// Legacy build: includes polyfills for features older Safari/iOS versions lack.
+import * as pdfjs from 'pdfjs-dist/legacy/build/pdf.mjs'
+import workerUrl from 'pdfjs-dist/legacy/build/pdf.worker.min.mjs?url'
 import { extractPdfText, type ExtractOptions } from '../shared/pdfText'
 
 pdfjs.GlobalWorkerOptions.workerSrc = workerUrl

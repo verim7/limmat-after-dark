@@ -50,21 +50,38 @@ export function itemsToLines(items: PdfTextItem[], opts: ExtractOptions = {}): s
   )
 }
 
+type PdfPage = {
+  streamTextContent?: () => ReadableStream<{ items: unknown[] }>
+  getTextContent: () => Promise<{ items: unknown[] }>
+}
+
 type PdfjsLike = {
   getDocument: (src: { data: Uint8Array }) => {
-    promise: Promise<{
-      numPages: number
-      getPage: (n: number) => Promise<{ getTextContent: () => Promise<{ items: unknown[] }> }>
-    }>
+    promise: Promise<{ numPages: number; getPage: (n: number) => Promise<PdfPage> }>
   }
+}
+
+// pdf.js' getTextContent() iterates a ReadableStream with `for await`, which Safari does not support
+// ("undefined is not a function … of …"). Reading the stream with getReader() works in every browser.
+async function readTextItems(page: PdfPage): Promise<unknown[]> {
+  if (typeof page.streamTextContent !== 'function') return (await page.getTextContent()).items
+  const reader = page.streamTextContent().getReader()
+  const items: unknown[] = []
+  for (;;) {
+    const { value, done } = await reader.read()
+    if (done) break
+    if (value?.items) items.push(...value.items)
+  }
+  return items
 }
 
 export async function extractPdfText(pdfjs: PdfjsLike, data: Uint8Array, opts: ExtractOptions = {}): Promise<string> {
   const doc = await pdfjs.getDocument({ data }).promise
   const pages: string[] = []
   for (let n = 1; n <= doc.numPages; n++) {
-    const content = await (await doc.getPage(n)).getTextContent()
-    const items = content.items.filter((i): i is PdfTextItem => typeof (i as PdfTextItem).str === 'string')
+    const items = (await readTextItems(await doc.getPage(n))).filter(
+      (i): i is PdfTextItem => typeof (i as PdfTextItem).str === 'string',
+    )
     pages.push(itemsToLines(items, opts).join('\n'))
   }
   return pages.join('\n')
