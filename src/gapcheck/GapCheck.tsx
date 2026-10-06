@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState, type FormEvent } from 'react'
-import { useApi } from '../api'
+import { useApi, useAuthedFetch } from '../api'
+import { findStand } from '../../shared/segment'
 import type { Rating, Requirement, RunData, Section } from './types'
 
 const RATING_LABEL: Record<Rating, string> = { covered: 'Covered', partial: 'Partially covered', missing: 'Missing' }
@@ -49,6 +50,8 @@ export default function GapCheck() {
 // Saved exercise documents (public/samples): the policy W-07 and the internal policy register.
 const SAVED_POLICY = { url: '/samples/Weisung_W-07_Kundensegmentierung_und_Pruefung.pdf', filename: 'Weisung_W-07_Kundensegmentierung_und_Pruefung.pdf' }
 const SAVED_REGISTER_URL = '/samples/internal_policies_and_processes.csv'
+// Fetched server-side by the Worker from the official link on the exercise sheet (see worker/routes/sources.ts).
+const FIDLEG_SOURCE = { key: 'fidleg-de-2026-10-01', label: 'FIDLEG (SR 950.1), German, Stand 1. Oktober 2026' }
 
 type RegisterEntry = { id: string; title: string; owner: string; regulatory_basis: string }
 
@@ -73,6 +76,7 @@ function LoadStep({ onLoaded }: { onLoaded: () => void }) {
   const [register, setRegister] = useState<RegisterEntry | null>(null)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const authedFetch = useAuthedFetch()
 
   useEffect(() => {
     api<{ regulation: { filename: string } | null }>('/saved').then((s) => setSavedReg(s.regulation?.filename ?? null), () => {})
@@ -112,14 +116,27 @@ function LoadStep({ onLoaded }: { onLoaded: () => void }) {
     if (regFile && polFile) void run(() => readRegFile(regFile), async () => polFile)
   }
 
+  // Downloads the official FIDLEG PDF via the Worker and checks the printed "Stand am" date.
+  const fetchFidleg = async (): Promise<RegInput> => {
+    const { fileToText } = await import('../pdf')
+    const res = await authedFetch(`/api/sources/${FIDLEG_SOURCE.key}`)
+    if (!res.ok) throw new Error(`Could not fetch FIDLEG: ${res.status} ${await res.text()}`)
+    const filename = res.headers.get('X-Source-Filename') ?? 'FIDLEG.pdf'
+    const expected = res.headers.get('X-Expected-Stand')
+    const text = await fileToText(new File([await res.blob()], filename, { type: 'application/pdf' }))
+    const stand = findStand(text)
+    if (expected && stand !== expected) {
+      throw new Error(`The fetched PDF is not the expected version: expected "Stand am ${expected}", found "${stand ?? 'no Stand date'}".`)
+    }
+    return { filename, text }
+  }
+
   function useSaved() {
     void run(
-      () => (regFile ? readRegFile(regFile) : Promise.resolve({ reuseLatest: true as const })),
+      () => (regFile ? readRegFile(regFile) : savedReg ? Promise.resolve({ reuseLatest: true as const }) : fetchFidleg()),
       () => fetchFile(SAVED_POLICY.url, SAVED_POLICY.filename),
     )
   }
-
-  const canUseSaved = !!regFile || !!savedReg
 
   return (
     <section className="panel">
@@ -162,11 +179,11 @@ function LoadStep({ onLoaded }: { onLoaded: () => void }) {
             ) : savedReg ? (
               <>last uploaded <code>{savedReg}</code></>
             ) : (
-              <>none saved yet. Choose the FIDLEG PDF above once; it is reused after that</>
+              <>{FIDLEG_SOURCE.label}, fetched from the official link on the exercise sheet</>
             )}
           </li>
         </ul>
-        <button className="btn big ghost" disabled={!canUseSaved || busy} onClick={useSaved}>
+        <button className="btn big ghost" disabled={busy} onClick={useSaved}>
           Use saved documents
         </button>
       </div>

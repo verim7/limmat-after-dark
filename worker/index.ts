@@ -2,6 +2,7 @@ import { Hono } from 'hono'
 import { clerkMiddleware, getAuth } from '@clerk/hono'
 import { createMiddleware } from 'hono/factory'
 import { gapcheck } from './routes/gapcheck'
+import { sources } from './routes/sources'
 
 type Bindings = {
   DB: D1Database
@@ -26,6 +27,7 @@ app.use('/me', requireUser)
 app.use('/runs', requireUser)
 app.use('/runs/*', requireUser)
 app.use('/saved', requireUser)
+app.use('/sources/*', requireUser)
 
 app.get('/me', async (c) => {
   const { userId } = getAuth(c)!
@@ -39,6 +41,7 @@ app.get('/me', async (c) => {
 
 // Regulation gap check (Exercise 5, Option A)
 app.route('/', gapcheck)
+app.route('/', sources)
 
 app.notFound((c) => c.json({ error: 'not found' }, 404))
 

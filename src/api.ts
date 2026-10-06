@@ -21,3 +21,15 @@ export function useApi() {
     [getToken],
   )
 }
+
+// Raw fetch with the Clerk token, for non-JSON responses (e.g. PDFs).
+export function useAuthedFetch() {
+  const { getToken } = useAuth()
+  return useCallback(
+    async (url: string) => {
+      const token = await getToken()
+      return fetch(url, { headers: token ? { Authorization: `Bearer ${token}` } : {} })
+    },
+    [getToken],
+  )
+}

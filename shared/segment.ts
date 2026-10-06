@@ -99,7 +99,13 @@ export type RegulationOptions = { fromArt: number; toArt: number; law: string }
 const REG_NOISE = [
   /^\d{1,4}$/, // page numbers
   /^SR \d{3}(\.\d+)*$/, // running header "SR 950.1"
+  /^\d{3}(\.\d+)+$/, // running header "950.1"
 ]
+
+/** The status date printed on Fedlex PDFs, e.g. "(Stand am 1. Oktober 2026)". */
+export function findStand(text: string): string | null {
+  return normalize(text).match(/Stand am (\d{1,2}\. [A-Za-zäÄ]+ \d{4})/)?.[1] ?? null
+}
 
 export function segmentRegulation(text: string, opts: RegulationOptions): Section[] {
   const lines = text.split('\n').map((l) => l.trim()).filter((l) => l && !REG_NOISE.some((r) => r.test(l)))
