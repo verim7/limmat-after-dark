@@ -8,7 +8,7 @@ Go for speed and a working deploy over polish. Keep the stack below unless asked
 - **API**: Hono on Cloudflare Workers, `worker/index.ts`, mounted at `/api/*`
   (`run_worker_first` in `wrangler.jsonc`). All other paths fall back to `index.html`.
 - **Auth**: Clerk. Frontend uses `@clerk/react` (`ClerkProvider` in `src/main.tsx`, controls
-  in `src/App.tsx`). The Worker verifies the bearer token with `@hono/clerk-auth`.
+  in `src/App.tsx`). The Worker verifies the bearer token with `@clerk/hono`.
   Use `getAuth(c).userId` in handlers and the `requireUser` middleware for protected routes.
 - **Data**: Cloudflare D1 (SQLite), binding `DB`, db `limmat-after-dark-db`.
   The schema lives in `migrations/NNNN_*.sql`.

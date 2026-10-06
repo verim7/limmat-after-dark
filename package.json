@@ -16,8 +16,8 @@
   },
   "dependencies": {
     "@clerk/backend": "^3.23.0",
+    "@clerk/hono": "^0.1.86",
     "@clerk/react": "^6.17.6",
-    "@hono/clerk-auth": "^3.1.1",
     "hono": "^4.13.13",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"

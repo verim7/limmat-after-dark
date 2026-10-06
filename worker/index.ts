@@ -1,5 +1,5 @@
 import { Hono } from 'hono'
-import { clerkMiddleware, getAuth } from '@hono/clerk-auth'
+import { clerkMiddleware, getAuth } from '@clerk/hono'
 import { createMiddleware } from 'hono/factory'
 
 type Bindings = {
