@@ -79,6 +79,7 @@ function validate(input) {
 
 function toSql({ runId, requirements }) {
   const lines = [
+    `DELETE FROM tasks WHERE run_id = ${q(runId)};`,
     `DELETE FROM assessments WHERE run_id = ${q(runId)};`,
     `DELETE FROM requirements WHERE run_id = ${q(runId)};`,
   ]

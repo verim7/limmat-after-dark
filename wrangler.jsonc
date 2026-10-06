@@ -7,6 +7,8 @@
   "observability": { "enabled": true },
   "assets": {
     // React SPA from ./dist; /api/* goes to the Worker first.
+    // ASSETS lets the Worker read public files such as the policy register CSV.
+    "binding": "ASSETS",
     "not_found_handling": "single-page-application",
     "run_worker_first": ["/api/*"]
   },

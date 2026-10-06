@@ -19,12 +19,25 @@ export type Requirement = {
     proposed_text: string
     policySections: Section[]
     policyVerified: boolean
+    review_status: 'pending' | 'confirmed' | 'overridden'
+    final_rating: Rating | null
+    review_comment: string
+    reviewer_name: string | null
+    reviewed_at: string | null
+    impact_policy_id: string
+    impact_confirmed: boolean
+    effectiveRating: Rating
   }
 }
+
+export type Task = { rid: string; policy_id: string; title: string; owner: string; due_date: string; status: 'open' | 'done' }
+
+export type RegisterEntry = { id: string; title: string; owner: string; regulatory_basis: string }
 
 export type RunData = {
   run: null | { id: string; status: 'awaiting_ai' | 'assessed'; created_at: string }
   documents?: { kind: string; filename: string }[]
   sections?: { regulation: Section[]; policy: Section[] }
   requirements?: Requirement[]
+  tasks?: Task[]
 }

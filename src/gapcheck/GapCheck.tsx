@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState, type FormEvent } from 'react'
 import { useApi, useAuthedFetch } from '../api'
 import { findStand } from '../../shared/segment'
-import type { Rating, Requirement, RunData, Section } from './types'
+import type { Rating, RegisterEntry, Requirement, RunData, Section, Task } from './types'
 
 const RATING_LABEL: Record<Rating, string> = { covered: 'Covered', partial: 'Partially covered', missing: 'Missing' }
 
@@ -42,7 +42,14 @@ export default function GapCheck() {
   return (
     <>
       <RunHeader data={data} onNew={() => setNewRun(true)} />
-      {waiting ? <AwaitingAi data={data} /> : <Report requirements={data.requirements ?? []} />}
+      {waiting ? (
+        <AwaitingAi data={data} />
+      ) : (
+        <>
+          <Report runId={data.run.id} requirements={data.requirements ?? []} onChange={refresh} />
+          <TaskList runId={data.run.id} requirements={data.requirements ?? []} tasks={data.tasks ?? []} onChange={refresh} />
+        </>
+      )}
     </>
   )
 }
@@ -52,8 +59,6 @@ const SAVED_POLICY = { url: '/samples/Weisung_W-07_Kundensegmentierung_und_Pruef
 const SAVED_REGISTER_URL = '/samples/internal_policies_and_processes.csv'
 // Fetched server-side by the Worker from the official link on the exercise sheet (see worker/routes/sources.ts).
 const FIDLEG_SOURCE = { key: 'fidleg-de-2026-10-01', label: 'FIDLEG (SR 950.1), German, Stand 1. Oktober 2026' }
-
-type RegisterEntry = { id: string; title: string; owner: string; regulatory_basis: string }
 
 function parseCsv(text: string): RegisterEntry[] {
   const rows = text.trim().split(/\r?\n/).map((line) => [...line.matchAll(/("([^"]*)"|[^,]*)(,|$)/g)].map((m) => m[2] ?? m[1]).slice(0, -1))
@@ -194,7 +199,8 @@ function LoadStep({ onLoaded }: { onLoaded: () => void }) {
 
 function RunHeader({ data, onNew }: { data: RunData; onNew: () => void }) {
   const reqs = data.requirements ?? []
-  const count = (r: Rating) => reqs.filter((q) => q.assessment?.rating === r).length
+  const count = (r: Rating) => reqs.filter((q) => q.assessment?.effectiveRating === r).length
+  const reviewed = reqs.filter((q) => q.assessment && q.assessment.review_status !== 'pending').length
   return (
     <section className="panel run">
       <div>
@@ -210,6 +216,7 @@ function RunHeader({ data, onNew }: { data: RunData; onNew: () => void }) {
           <Stat n={count('covered')} label="covered" tone="covered" />
           <Stat n={count('partial')} label="partial" tone="partial" />
           <Stat n={count('missing')} label="missing" tone="missing" />
+          <Stat n={reviewed} label={`of ${reqs.length} reviewed`} />
         </div>
       )}
       <button className="btn ghost" onClick={onNew}>New run</button>
@@ -260,16 +267,29 @@ function SectionList({ title, sections }: { title: string; sections: Section[] }
   )
 }
 
-// Stage 6 — Report
-function Report({ requirements }: { requirements: Requirement[] }) {
+// Policy register (internal_policies_and_processes.csv) for the impact selector.
+function useRegister() {
+  const [register, setRegister] = useState<RegisterEntry[]>([])
+  useEffect(() => {
+    fetch(SAVED_REGISTER_URL)
+      .then((r) => r.text())
+      .then((csv) => setRegister(parseCsv(csv)), () => {})
+  }, [])
+  return register
+}
+
+// Stages 5–6 — Review and report
+function Report({ runId, requirements, onChange }: { runId: string; requirements: Requirement[]; onChange: () => void }) {
   const [onlyGaps, setOnlyGaps] = useState(true)
-  const gaps = requirements.filter((r) => r.assessment && r.assessment.rating !== 'covered')
+  const register = useRegister()
+  const gaps = requirements.filter((r) => r.assessment && r.assessment.effectiveRating !== 'covered')
   const rows = onlyGaps ? gaps : requirements
+  const pending = requirements.filter((r) => r.assessment?.review_status === 'pending').length
   return (
     <section className="panel">
       <div className="row between">
         <div>
-          <p className="eyebrow">Step 6 · Report</p>
+          <p className="eyebrow">Steps 5–6 · Review and report</p>
           <h2>{onlyGaps ? `Gap table (${gaps.length})` : `All requirements (${requirements.length})`}</h2>
         </div>
         <div className="toggle">
@@ -278,12 +298,14 @@ function Report({ requirements }: { requirements: Requirement[] }) {
         </div>
       </div>
       <p className="muted small">
-        AI ratings from Claude Code, not yet reviewed by compliance. ✓ means the cited reference and the quote were found
-        verbatim in the stored source text; ⚠ means they were not.
+        {pending > 0
+          ? `${pending} AI rating${pending === 1 ? '' : 's'} still to review. Confirm or override each one; covered ratings are under "All".`
+          : 'All ratings reviewed.'}{' '}
+        ✓ means the cited reference and the quote were found verbatim in the stored source text; ⚠ means they were not.
       </p>
       <div className="findings">
         {rows.map((r) => (
-          <Finding key={r.rid} r={r} />
+          <Finding key={r.rid} runId={runId} r={r} register={register} onChange={onChange} />
         ))}
         {rows.length === 0 && <p className="muted">Nothing to show.</p>}
       </div>
@@ -291,13 +313,14 @@ function Report({ requirements }: { requirements: Requirement[] }) {
   )
 }
 
-function Finding({ r }: { r: Requirement }) {
+function Finding({ runId, r, register, onChange }: { runId: string; r: Requirement; register: RegisterEntry[]; onChange: () => void }) {
   const a = r.assessment
   const regOk = r.refVerified && r.quoteVerified
+  const rating = a?.effectiveRating
   return (
-    <article className={`finding ${a?.rating ?? ''}`}>
+    <article className={`finding ${rating ?? ''}`}>
       <header>
-        <span className={`chip ${a?.rating ?? ''}`}>{a ? RATING_LABEL[a.rating] : 'Not rated'}</span>
+        <span className={`chip ${rating ?? ''}`}>{rating ? RATING_LABEL[rating] : 'Not rated'}</span>
         <strong>{r.rid}</strong> <span>{r.summary}</span>
       </header>
       <div className="sides">
@@ -322,13 +345,221 @@ function Finding({ r }: { r: Requirement }) {
       </div>
       {a && (
         <div className="assessment">
-          <p><strong>Reason:</strong> {a.reason}</p>
-          {a.proposed_text && (
+          <p><strong>AI reason:</strong> {a.reason}</p>
+          {a.proposed_text && a.effectiveRating !== 'covered' && (
             <p className="proposal"><strong>Proposed policy text:</strong> {a.proposed_text}</p>
           )}
+          <ReviewBar runId={runId} r={r} onChange={onChange} />
+          {a.effectiveRating !== 'covered' && <ImpactBar runId={runId} r={r} register={register} onChange={onChange} />}
         </div>
       )}
     </article>
+  )
+}
+
+// Stage 5: confirm the AI rating or override it with a comment. The reviewer is the signed-in Clerk user.
+function ReviewBar({ runId, r, onChange }: { runId: string; r: Requirement; onChange: () => void }) {
+  const api = useApi()
+  const a = r.assessment!
+  const [editing, setEditing] = useState(false)
+  const [rating, setRating] = useState<Rating>(a.effectiveRating)
+  const [comment, setComment] = useState(a.review_comment)
+  const [error, setError] = useState<string | null>(null)
+
+  async function send(body: object) {
+    setError(null)
+    try {
+      await api(`/runs/${runId}/requirements/${r.rid}/review`, { method: 'PATCH', body: JSON.stringify(body) })
+      setEditing(false)
+      onChange()
+    } catch (e) {
+      setError((e as Error).message)
+    }
+  }
+
+  return (
+    <div className={`review ${a.review_status}`}>
+      {a.review_status === 'pending' ? (
+        <span className="muted small">AI rating: {RATING_LABEL[a.rating]} · not yet reviewed</span>
+      ) : (
+        <span className="small">
+          {a.review_status === 'confirmed' ? '✔ Confirmed' : `✎ Overridden (AI: ${RATING_LABEL[a.rating]})`} by{' '}
+          <strong>{a.reviewer_name}</strong> · {a.reviewed_at?.slice(0, 16)} UTC
+          {a.review_comment && <> · “{a.review_comment}”</>}
+        </span>
+      )}
+      {!editing ? (
+        <div className="row">
+          {a.review_status === 'pending' && (
+            <button className="btn small" onClick={() => send({ action: 'confirm' })}>Confirm</button>
+          )}
+          <button className="btn small ghost" onClick={() => setEditing(true)}>
+            {a.review_status === 'pending' ? 'Override' : 'Change'}
+          </button>
+          {a.review_status !== 'pending' && (
+            <button className="btn small ghost" onClick={() => send({ action: 'reset' })}>Reset</button>
+          )}
+        </div>
+      ) : (
+        <div className="override">
+          <select value={rating} onChange={(e) => setRating(e.target.value as Rating)}>
+            {(Object.keys(RATING_LABEL) as Rating[]).map((k) => (
+              <option key={k} value={k}>{RATING_LABEL[k]}</option>
+            ))}
+          </select>
+          <input placeholder="Reason for the review decision (required)" value={comment} onChange={(e) => setComment(e.target.value)} />
+          <button className="btn small" disabled={!comment.trim()} onClick={() => send({ action: 'override', rating, comment })}>Save</button>
+          <button className="btn small ghost" onClick={() => setEditing(false)}>Cancel</button>
+        </div>
+      )}
+      {error && <p className="error small">{error}</p>}
+    </div>
+  )
+}
+
+// Impact: which internal policy must change for this gap. The user confirms or corrects it.
+function ImpactBar({ runId, r, register, onChange }: { runId: string; r: Requirement; register: RegisterEntry[]; onChange: () => void }) {
+  const api = useApi()
+  const a = r.assessment!
+  const [policyId, setPolicyId] = useState(a.impact_policy_id)
+  const [error, setError] = useState<string | null>(null)
+  const entry = register.find((p) => p.id === a.impact_policy_id)
+
+  async function save(confirmed: boolean) {
+    setError(null)
+    try {
+      await api(`/runs/${runId}/requirements/${r.rid}/impact`, { method: 'PATCH', body: JSON.stringify({ policyId, confirmed }) })
+      onChange()
+    } catch (e) {
+      setError((e as Error).message)
+    }
+  }
+
+  return (
+    <div className={`impact ${a.impact_confirmed ? 'done' : ''}`}>
+      <span className="small">Affected policy:</span>
+      <select value={policyId} onChange={(e) => setPolicyId(e.target.value)}>
+        {register.map((p) => (
+          <option key={p.id} value={p.id}>{p.id} · {p.title} ({p.owner})</option>
+        ))}
+      </select>
+      {a.impact_confirmed && policyId === a.impact_policy_id ? (
+        <span className="small ok">
+          ✔ impact confirmed{entry ? ` · owner ${entry.owner}` : ''}{' '}
+          <button className="link" onClick={() => save(false)}>undo</button>
+        </span>
+      ) : (
+        <button className="btn small" onClick={() => save(true)}>
+          {policyId === a.impact_policy_id ? 'Confirm impact' : 'Correct and confirm'}
+        </button>
+      )}
+      {error && <p className="error small">{error}</p>}
+    </div>
+  )
+}
+
+// Task list: one task per reviewed gap with a confirmed impact; owner from the policy register.
+function TaskList({ runId, requirements, tasks, onChange }: { runId: string; requirements: Requirement[]; tasks: Task[]; onChange: () => void }) {
+  const api = useApi()
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const gaps = requirements.filter((r) => r.assessment && r.assessment.effectiveRating !== 'covered')
+  const ready = gaps.filter((r) => r.assessment!.review_status !== 'pending' && r.assessment!.impact_confirmed)
+  const byRid = new Map(requirements.map((r) => [r.rid, r]))
+  const ordered = [...tasks].sort((x, y) => x.rid.localeCompare(y.rid))
+
+  async function call(path: string, init: RequestInit) {
+    setError(null)
+    try {
+      await api(path, init)
+      onChange()
+    } catch (e) {
+      setError((e as Error).message)
+    }
+  }
+
+  async function generate() {
+    setBusy(true)
+    await call(`/runs/${runId}/tasks`, { method: 'POST' })
+    setBusy(false)
+  }
+
+  function downloadCsv() {
+    const esc = (v: string) => `"${v.replaceAll('"', '""')}"`
+    const lines = [
+      ['Requirement', 'FIDLEG reference', 'Rating', 'Policy', 'Task', 'Owner', 'Due date', 'Status', 'Proposed policy text'].map(esc).join(','),
+      ...ordered.map((t) => {
+        const r = byRid.get(t.rid)
+        return [t.rid, r?.ref_label ?? '', r?.assessment?.effectiveRating ?? '', t.policy_id, t.title, t.owner, t.due_date, t.status, r?.assessment?.proposed_text ?? '']
+          .map((v) => esc(String(v)))
+          .join(',')
+      }),
+    ]
+    const url = URL.createObjectURL(new Blob(['\uFEFF' + lines.join('\n')], { type: 'text/csv;charset=utf-8' }))
+    const link = Object.assign(document.createElement('a'), { href: url, download: `gap-check-tasks-${runId.slice(0, 8)}.csv` })
+    link.click()
+    URL.revokeObjectURL(url)
+  }
+
+  return (
+    <section className="panel tasks">
+      <div className="row between">
+        <div>
+          <p className="eyebrow">Action plan</p>
+          <h2>Task list ({tasks.length})</h2>
+        </div>
+        <div className="row">
+          <button className="btn small" disabled={busy || ready.length === 0} onClick={generate}>
+            {tasks.length ? 'Update task list' : 'Generate task list'}
+          </button>
+          <button className="btn small ghost" disabled={tasks.length === 0} onClick={downloadCsv}>Download CSV</button>
+        </div>
+      </div>
+      <p className="muted small">
+        {ready.length} of {gaps.length} gaps are reviewed and have a confirmed impact; only those become tasks.
+      </p>
+      {error && <p className="error">{error}</p>}
+      {tasks.length > 0 && (
+        <div className="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Done</th><th>Req.</th><th>Policy</th><th>Task</th><th>Owner</th><th>Due</th></tr>
+            </thead>
+            <tbody>
+              {ordered.map((t) => (
+                <tr key={t.rid} className={t.status}>
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={t.status === 'done'}
+                      onChange={(e) => call(`/runs/${runId}/tasks/${t.rid}`, { method: 'PATCH', body: JSON.stringify({ status: e.target.checked ? 'done' : 'open' }) })}
+                    />
+                  </td>
+                  <td><code>{t.rid}</code></td>
+                  <td><code>{t.policy_id}</code></td>
+                  <td>{t.title}</td>
+                  <td>
+                    <input
+                      className="cell"
+                      defaultValue={t.owner}
+                      onBlur={(e) => e.target.value !== t.owner && call(`/runs/${runId}/tasks/${t.rid}`, { method: 'PATCH', body: JSON.stringify({ owner: e.target.value }) })}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      className="cell"
+                      type="date"
+                      defaultValue={t.due_date}
+                      onChange={(e) => e.target.value && call(`/runs/${runId}/tasks/${t.rid}`, { method: 'PATCH', body: JSON.stringify({ due_date: e.target.value }) })}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
   )
 }
 

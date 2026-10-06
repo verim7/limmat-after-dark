@@ -86,3 +86,20 @@ mark { background: rgba(110, 168, 255, 0.28); color: var(--text); border-radius:
 .proposal { background: rgba(110, 168, 255, 0.08); border: 1px solid rgba(110, 168, 255, 0.3); border-radius: 8px; padding: 10px 12px; }
 .saved { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--line); max-width: 640px; }
 .saved ul { padding-left: 18px; line-height: 1.6; }
+.review, .impact { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin-top: 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; }
+.review.confirmed { border-color: rgba(76, 195, 138, 0.5); }
+.review.overridden { border-color: rgba(245, 181, 68, 0.6); }
+.impact { justify-content: flex-start; }
+.impact.done { border-color: rgba(76, 195, 138, 0.5); }
+.override { display: flex; flex-wrap: wrap; gap: 6px; width: 100%; }
+.override input { min-width: 200px; }
+select { background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; font: inherit; font-size: 14px; max-width: 100%; }
+.link { background: none; border: 0; color: var(--accent); cursor: pointer; font: inherit; padding: 0; text-decoration: underline; }
+.tasks { margin-top: 16px; }
+.table-wrap { overflow-x: auto; margin-top: 12px; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { text-align: left; padding: 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+tr.done td { color: var(--muted); text-decoration: line-through; }
+tr.done td input { text-decoration: none; }
+input.cell { padding: 4px 6px; font-size: 13px; min-width: 110px; }

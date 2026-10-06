@@ -60,5 +60,6 @@ Then import it:
 - **With wrangler:** `npm run gapcheck -- import <file.json>`
 - **With the D1 MCP:** `npm run gapcheck -- import <file.json> --print`, then run the printed SQL with the D1 query tool.
 
-The import validates the shape, replaces any earlier results for that run, and sets the run to `assessed`. The app polls
+The import validates the shape and replaces any earlier results for that run, **including human reviews and tasks**. It then sets the run to `assessed`. The app polls
 every 5 s and shows the gap table. Finally, report the counts per rating and any row the app marks ⚠.
+Stages 5 (human review), impact confirmation and the task list happen in the app. Never write review fields yourself.

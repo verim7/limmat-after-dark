@@ -21,7 +21,11 @@ wrangler.jsonc       Worker + assets + D1 binding
    Worker splits it into sections (`shared/segment.ts`): FIDLEG Art. 4–16 by article and paragraph, W-07 by its `Ziff.` numbering.
 2. **Extract, map, assess (Claude Code):** in this project, tell Claude Code *"Run the gap check for run <id>"*.
    The `gapcheck` skill reads the sections, writes requirements and ratings, and imports them with `npm run gapcheck -- import …`.
-3. **Report (app):** the gap table shows the FIDLEG reference and passage next to the W-07 section, the rating, the
+3. **Review (app):** a signed-in compliance user confirms each AI rating or overrides it with a comment. The reviewer's
+   Clerk name and the time are stored, and the report uses the final rating.
+4. **Impact and tasks (app):** for each gap, confirm or correct the affected policy (from `internal_policies_and_processes.csv`).
+   **Generate task list** then creates one task per reviewed gap, with the owner from the register, a due date and a status, plus CSV export.
+5. **Report (app):** the gap table shows the FIDLEG reference and passage next to the W-07 section, the rating, the
    reason and the proposed text. ✓ means the reference and quote were verified verbatim against the stored source.
 
 ## Run locally
@@ -69,3 +73,7 @@ For production, switch to a Clerk production instance.
 | POST   | `/api/runs`       | ✅   | stage 1: `{regulation:{filename,text}, policy:{filename,text}}` → stored sections |
 | GET    | `/api/runs/latest`| ✅   | latest run with sections, requirements, assessments and verification flags |
 | GET    | `/api/runs/:id`   | ✅   | same for one run |
+| PATCH  | `/api/runs/:id/requirements/:rid/review` | ✅ | `{action: confirm \| override \| reset, rating?, comment?}` |
+| PATCH  | `/api/runs/:id/requirements/:rid/impact` | ✅ | `{policyId, confirmed}`; policyId from the policy register |
+| POST   | `/api/runs/:id/tasks` | ✅ | (re)generate the task list from reviewed gaps with a confirmed impact |
+| PATCH  | `/api/runs/:id/tasks/:rid` | ✅ | `{owner?, due_date?, status?}` |
