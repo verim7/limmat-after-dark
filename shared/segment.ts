@@ -100,7 +100,11 @@ const REG_NOISE = [
   /^\d{1,4}$/, // page numbers
   /^SR \d{3}(\.\d+)*$/, // running header "SR 950.1"
   /^\d{3}(\.\d+)+$/, // running header "950.1"
+  /^\d+ \/ \d+$/, // page footer "4 / 36"
 ]
+
+// Structural headings between articles ("2. Titel: …", "1. Kapitel: …", "3. Abschnitt: …") are not article text.
+const REG_STRUCTURE = /^\d+[a-z]?\. (Titel|Kapitel|Abschnitt)\b/
 
 /** The status date printed on Fedlex PDFs, e.g. "(Stand am 1. Oktober 2026)". */
 export function findStand(text: string): string | null {
@@ -136,6 +140,10 @@ export function segmentRegulation(text: string, opts: RegulationOptions): Sectio
       continue
     }
     if (!art) continue
+    if (REG_STRUCTURE.test(line)) {
+      flush()
+      continue
+    }
     const no = `${art.n}${art.suffix}`
     const p = line.match(/^(\d{1,2})\s+(\S.*)$/)
     if (p && Number(p[1]) === para + 1) {
@@ -145,12 +153,6 @@ export function segmentRegulation(text: string, opts: RegulationOptions): Sectio
       continue
     }
     if (!current) continue
-    // Heading line was only "Art. N": the next line before any paragraph is the article title.
-    if (para === 0 && !art.title && current.lines.length === 0) {
-      art.title = line
-      current.heading = `Art. ${no} ${line}`
-      continue
-    }
     current.lines.push(line)
   }
   flush()

@@ -108,7 +108,7 @@ function LoadStep({ onLoaded }: { onLoaded: () => void }) {
 
   const readRegFile = async (file: File): Promise<RegInput> => {
     const { fileToText } = await import('../pdf')
-    return { filename: file.name, text: await fileToText(file) }
+    return { filename: file.name, text: await fileToText(file, { stripFootnotes: true }) }
   }
 
   function uploadBoth(e: FormEvent) {
@@ -123,7 +123,7 @@ function LoadStep({ onLoaded }: { onLoaded: () => void }) {
     if (!res.ok) throw new Error(`Could not fetch FIDLEG: ${res.status} ${await res.text()}`)
     const filename = res.headers.get('X-Source-Filename') ?? 'FIDLEG.pdf'
     const expected = res.headers.get('X-Expected-Stand')
-    const text = await fileToText(new File([await res.blob()], filename, { type: 'application/pdf' }))
+    const text = await fileToText(new File([await res.blob()], filename, { type: 'application/pdf' }), { stripFootnotes: true })
     const stand = findStand(text)
     if (expected && stand !== expected) {
       throw new Error(`The fetched PDF is not the expected version: expected "Stand am ${expected}", found "${stand ?? 'no Stand date'}".`)
