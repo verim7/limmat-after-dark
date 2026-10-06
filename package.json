@@ -12,13 +12,15 @@
     "typecheck": "tsc -b",
     "db:migrate:local": "wrangler d1 migrations apply limmat-after-dark-db --local",
     "db:migrate:remote": "wrangler d1 migrations apply limmat-after-dark-db --remote",
-    "cf-typegen": "wrangler types"
+    "cf-typegen": "wrangler types",
+    "gapcheck": "node scripts/gapcheck.mjs"
   },
   "dependencies": {
     "@clerk/backend": "^3.23.0",
     "@clerk/hono": "^0.1.86",
     "@clerk/react": "^6.17.6",
     "hono": "^4.13.13",
+    "pdfjs-dist": "^6.4.299",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },

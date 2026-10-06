@@ -7,12 +7,15 @@
   --accent: #6ea8ff;
   --accent-ink: #0b0d12;
   --danger: #ff6b6b;
+  --covered: #4cc38a;
+  --partial: #f5b544;
+  --missing: #ff6b6b;
   color-scheme: dark;
   font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: var(--text); }
-.shell { min-height: 100dvh; display: flex; flex-direction: column; max-width: 880px; margin: 0 auto; padding: 0 16px; }
+.shell { min-height: 100dvh; display: flex; flex-direction: column; max-width: 1120px; margin: 0 auto; padding: 0 16px; }
 .nav { display: flex; align-items: center; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid var(--line); }
 .brand { color: var(--text); text-decoration: none; font-weight: 600; letter-spacing: -0.01em; display: flex; align-items: center; gap: 10px; }
 .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 12px var(--accent); }
@@ -37,3 +40,47 @@ input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
 .error { color: var(--danger); }
 .foot { color: var(--muted); font-size: 13px; padding: 20px 0; border-top: 1px solid var(--line); }
 code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+/* gap check */
+.small { font-size: 13px; }
+.stack { display: grid; gap: 12px; max-width: 520px; }
+.file { display: grid; gap: 6px; padding: 12px; border: 1px dashed var(--line); border-radius: 8px; }
+.file span { font-weight: 600; }
+.run { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; margin-bottom: 16px; padding: 18px 22px; }
+.run .eyebrow { margin: 0 0 4px; }
+.run p { margin: 0; }
+.stats { display: flex; gap: 10px; }
+.stat { display: grid; text-align: center; padding: 6px 12px; border: 1px solid var(--line); border-radius: 8px; min-width: 76px; }
+.stat strong { font-size: 22px; }
+.stat span { font-size: 12px; color: var(--muted); }
+.stat.covered strong { color: var(--covered); }
+.stat.partial strong { color: var(--partial); }
+.stat.missing strong { color: var(--missing); }
+.cmd { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; font-family: ui-monospace, Menlo, monospace; white-space: pre-wrap; word-break: break-all; }
+.sections { margin-top: 14px; }
+.sections summary { cursor: pointer; font-weight: 600; }
+.sections ul { padding-left: 18px; color: var(--muted); font-size: 14px; line-height: 1.5; }
+.sections code { color: var(--text); }
+.row.between { justify-content: space-between; align-items: flex-end; flex-wrap: wrap; }
+.toggle { display: flex; gap: 6px; }
+.findings { display: grid; gap: 14px; margin-top: 16px; }
+.finding { border: 1px solid var(--line); border-left: 4px solid var(--line); border-radius: 10px; padding: 16px; }
+.finding.covered { border-left-color: var(--covered); }
+.finding.partial { border-left-color: var(--partial); }
+.finding.missing { border-left-color: var(--missing); }
+.finding header { display: flex; flex-wrap: wrap; gap: 10px; align-items: baseline; margin-bottom: 12px; }
+.chip { font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px; border: 1px solid currentColor; }
+.chip.covered { color: var(--covered); }
+.chip.partial { color: var(--partial); }
+.chip.missing { color: var(--missing); }
+.sides { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 720px) { .sides { grid-template-columns: 1fr; } }
+.side-label { font-size: 13px; color: var(--muted); margin: 0 0 6px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.side-label code { color: var(--text); background: var(--bg); padding: 1px 6px; border-radius: 4px; }
+blockquote { margin: 0 0 8px; padding: 10px 12px; background: var(--bg); border-radius: 8px; font-size: 14px; line-height: 1.55; }
+mark { background: rgba(110, 168, 255, 0.28); color: var(--text); border-radius: 3px; padding: 0 2px; }
+.ok { color: var(--covered); font-weight: 700; }
+.warn { color: var(--partial); font-weight: 700; }
+.assessment { margin-top: 10px; font-size: 14px; line-height: 1.55; }
+.assessment p { margin: 6px 0; }
+.proposal { background: rgba(110, 168, 255, 0.08); border: 1px solid rgba(110, 168, 255, 0.3); border-radius: 8px; padding: 10px 12px; }
