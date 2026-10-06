@@ -20,8 +20,10 @@ wrangler.jsonc       Worker + assets + D1 binding
 1. **Load (app):** sign in, then upload the FIDLEG PDF and the Weisung PDF. The browser extracts the text (pdf.js), and the
    Worker splits it into sections (`shared/segment.ts`): FIDLEG Art. 4–16 by article and paragraph, W-07 by its `Ziff.` numbering.
 2. **Extract, map, assess:** pick an engine on the screen.
-   - **Workers AI (in the app):** click **Run with Workers AI**. Llama 3.3 70B on Cloudflare runs step by step (extract per
-     article group, then map and rate in batches). Server-side guardrails: references come only from stored sections, unknown
+   - **Workers AI (in the app):** click **Run with Workers AI**. Llama 3.3 70B on Cloudflare extracts all article groups
+     **in parallel**, numbers the requirements in article order, then maps and rates all batches **in parallel**. The model
+     returns no quotes: the server fills them in from the stored text, which keeps model output (the main cost of latency)
+     small. Each step's duration and token usage are stored and shown under **AI timing** in the run header. Server-side guardrails: references come only from stored sections, unknown
      sections are dropped, non-verbatim quotes are replaced by the exact paragraph, and every requirement gets a rating.
      The free tier covers ~10k neurons/day, about 7 runs.
    - **Claude Code:** in this project, tell Claude Code *"Run the gap check for run <id>"*. The `gapcheck` skill reads the
@@ -79,8 +81,11 @@ For production, switch to a Clerk production instance.
 | POST   | `/api/runs`       | ✅   | stage 1: `{regulation:{filename,text}, policy:{filename,text}}` → stored sections |
 | GET    | `/api/runs/latest`| ✅   | latest run with sections, requirements, assessments and verification flags |
 | GET    | `/api/runs/:id`   | ✅   | same for one run |
-| POST   | `/api/runs/:id/ai/extract?chunk=N` | ✅ | Workers AI stage 2 for one article group (chunk 0 resets the run's results) |
-| POST   | `/api/runs/:id/ai/assess?batch=N` | ✅ | Workers AI stages 3–4 for one batch of requirements; the last batch marks the run assessed |
+| POST   | `/api/runs/:id/ai/start` | ✅ | Workers AI: reset the run's results, return the article groups |
+| POST   | `/api/runs/:id/ai/extract?chunk=N` | ✅ | Workers AI stage 2 for one article group (parallel-safe) |
+| POST   | `/api/runs/:id/ai/number` | ✅ | assign R01… in article order |
+| POST   | `/api/runs/:id/ai/assess?batch=N` | ✅ | Workers AI stages 3–4 for one batch (parallel-safe) |
+| POST   | `/api/runs/:id/ai/finish` | ✅ | rate anything left, mark the run assessed, store the wall-clock time |
 | PATCH  | `/api/runs/:id/requirements/:rid/review` | ✅ | `{action: confirm \| override \| reset, rating?, comment?}` |
 | PATCH  | `/api/runs/:id/requirements/:rid/impact` | ✅ | `{policyId, confirmed}`; policyId from the policy register |
 | POST   | `/api/runs/:id/tasks` | ✅ | (re)generate the task list from reviewed gaps with a confirmed impact |

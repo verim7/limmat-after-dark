@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState, type FormEvent } from 'react'
 import { useApi, useAuthedFetch } from '../api'
 import { findStand } from '../../shared/segment'
-import type { Rating, RegisterEntry, Requirement, RunData, Section, Task } from './types'
+import type { AiStep, Rating, RegisterEntry, Requirement, RunData, Section, Task } from './types'
 
 const RATING_LABEL: Record<Rating, string> = { covered: 'Covered', partial: 'Partially covered', missing: 'Missing' }
 
@@ -223,6 +223,7 @@ function RunHeader({ data, onNew }: { data: RunData; onNew: () => void }) {
         </div>
       )}
       <button className="btn ghost" onClick={onNew}>New run</button>
+      <AiTiming data={data} />
     </section>
   )
 }
@@ -273,36 +274,49 @@ function engineLabel(engine: string) {
   return engine
 }
 
-// Drives the Workers AI steps one short request at a time and reports progress.
-type WorkersAiRunner = { running: boolean; progress: string | null; error: string | null; start: (runId: string) => void }
+// Drives the Workers AI steps from the browser: start → extract chunks in parallel → number →
+// assess batches in parallel → finish. Each request is one model call, so none runs long.
+type StepDone = { label: string; durationMs: number; attempts: number; completionTokens: number | null }
+type WorkersAiRunner = {
+  running: boolean
+  phase: string | null
+  done: StepDone[]
+  error: string | null
+  wallMs: number | null
+  start: (runId: string) => void
+}
 
 function useWorkersAiRunner(onStep: () => void): WorkersAiRunner {
   const api = useApi()
   const [running, setRunning] = useState(false)
-  const [progress, setProgress] = useState<string | null>(null)
+  const [phase, setPhase] = useState<string | null>(null)
+  const [done, setDone] = useState<StepDone[]>([])
   const [error, setError] = useState<string | null>(null)
+  const [wallMs, setWallMs] = useState<number | null>(null)
 
   const start = useCallback(
     async (runId: string) => {
       setRunning(true)
       setError(null)
+      setDone([])
+      setWallMs(null)
+      const t0 = performance.now()
+      const step = async (path: string) => {
+        const r = await api<StepDone>(path, { method: 'POST' })
+        setDone((d) => [...d, r])
+        return r
+      }
       try {
-        let chunks = 1
-        for (let n = 0; n < chunks; n++) {
-          setProgress(`Step 2 · Extracting requirements (${n + 1}/${chunks === 1 && n === 0 ? '…' : chunks})`)
-          const r = await api<{ chunks: number; label: string; total: number }>(`/runs/${runId}/ai/extract?chunk=${n}`, { method: 'POST' })
-          chunks = r.chunks
-          setProgress(`Step 2 · ${r.label} done (${n + 1}/${chunks}) · ${r.total} requirements so far`)
-        }
-        let batches = 1
-        for (let b = 0; b < batches; b++) {
-          setProgress(`Steps 3–4 · Mapping and rating (${b + 1}/${batches === 1 && b === 0 ? '…' : batches})`)
-          const r = await api<{ batches: number; from: string; to: string }>(`/runs/${runId}/ai/assess?batch=${b}`, { method: 'POST' })
-          batches = r.batches
-          setProgress(`Steps 3–4 · ${r.from}–${r.to} rated (${b + 1}/${batches})`)
-          onStep()
-        }
-        setProgress(null)
+        setPhase('Preparing…')
+        const { chunks } = await api<{ chunks: string[] }>(`/runs/${runId}/ai/start`, { method: 'POST' })
+        setPhase(`Step 2 · Extracting ${chunks.length} article groups in parallel (${chunks.join(', ')})`)
+        await Promise.all(chunks.map((_, n) => step(`/runs/${runId}/ai/extract?chunk=${n}`)))
+        const { total, batches } = await api<{ total: number; batches: number }>(`/runs/${runId}/ai/number`, { method: 'POST' })
+        setPhase(`Steps 3–4 · Mapping and rating ${total} requirements in ${batches} parallel batches`)
+        await Promise.all(Array.from({ length: batches }, (_, b) => step(`/runs/${runId}/ai/assess?batch=${b}`)))
+        await api(`/runs/${runId}/ai/finish`, { method: 'POST' })
+        setWallMs(performance.now() - t0)
+        setPhase(null)
       } catch (e) {
         setError((e as Error).message)
       } finally {
@@ -312,16 +326,77 @@ function useWorkersAiRunner(onStep: () => void): WorkersAiRunner {
     },
     [api, onStep],
   )
-  return { running, progress, error, start: (id) => void start(id) }
+  return { running, phase, done, error, wallMs, start: (id) => void start(id) }
 }
 
+const secs = (ms: number) => `${(ms / 1000).toFixed(1)} s`
+
 function AiProgress({ ai }: { ai: WorkersAiRunner }) {
-  if (!ai.running && !ai.error) return null
+  if (!ai.running && !ai.error && ai.wallMs === null) return null
   return (
     <section className={`panel ai-progress ${ai.error ? 'failed' : ''}`}>
-      {ai.running && <span className="spinner" aria-hidden />}
-      <span>{ai.error ? `Workers AI stopped: ${ai.error}` : ai.progress ?? 'Starting Workers AI…'}</span>
+      <div className="row">
+        {ai.running && <span className="spinner" aria-hidden />}
+        <span>
+          {ai.error
+            ? `Workers AI stopped: ${ai.error}`
+            : ai.running
+              ? ai.phase ?? 'Starting Workers AI…'
+              : `Workers AI finished in ${secs(ai.wallMs!)} (${ai.done.length} model calls)`}
+        </span>
+      </div>
+      {ai.done.length > 0 && (
+        <ul className="step-times">
+          {ai.done.map((d) => (
+            <li key={d.label}>
+              {d.label}: <strong>{secs(d.durationMs)}</strong>
+              {d.completionTokens !== null && <> · {d.completionTokens} output tokens</>}
+              {d.attempts > 1 && <> · retried</>}
+            </li>
+          ))}
+        </ul>
+      )}
     </section>
+  )
+}
+
+// Stored timing of the run's AI step (Workers AI only).
+function AiTiming({ data }: { data: RunData }) {
+  const steps: AiStep[] = data.aiSteps ?? []
+  const run = data.run!
+  if (steps.length === 0) return null
+  const wall = run.ai_started_at && run.ai_finished_at ? run.ai_finished_at - run.ai_started_at : null
+  const sum = steps.reduce((t, s) => t + s.duration_ms, 0)
+  const out = steps.reduce((t, s) => t + (s.completion_tokens ?? 0), 0)
+  const inp = steps.reduce((t, s) => t + (s.prompt_tokens ?? 0), 0)
+  const slowest = [...steps].sort((x, y) => y.duration_ms - x.duration_ms)[0]
+  return (
+    <details className="ai-timing">
+      <summary className="small">
+        AI timing: {wall !== null ? <>wall clock <strong>{secs(wall)}</strong> · </> : null}
+        {steps.length} model calls totalling {secs(sum)}
+        {out > 0 && <> · {inp.toLocaleString()} input / {out.toLocaleString()} output tokens</>}
+        {slowest && <> · slowest: {slowest.label} ({secs(slowest.duration_ms)})</>}
+      </summary>
+      <table>
+        <thead>
+          <tr><th>Step</th><th>Duration</th><th>Items</th><th>Input tokens</th><th>Output tokens</th><th>Output tokens/s</th><th>Attempts</th></tr>
+        </thead>
+        <tbody>
+          {steps.map((s) => (
+            <tr key={s.step}>
+              <td>{s.label}</td>
+              <td>{secs(s.duration_ms)}</td>
+              <td>{s.items}</td>
+              <td>{s.prompt_tokens ?? '–'}</td>
+              <td>{s.completion_tokens ?? '–'}</td>
+              <td>{s.completion_tokens ? (s.completion_tokens / (s.duration_ms / 1000)).toFixed(0) : '–'}</td>
+              <td>{s.attempts}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </details>
   )
 }
 

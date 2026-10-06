@@ -93,12 +93,12 @@ gapcheck.get('/runs/:id', async (c) => {
 
 // Stage 6 — the report view is computed here, including the traceability checks.
 async function loadRun(db: D1Database, runId: string, userId: string) {
-  const run = await db.prepare('SELECT id, status, engine, created_at FROM runs WHERE id = ? AND user_id = ?')
+  const run = await db.prepare('SELECT id, status, engine, created_at, ai_started_at, ai_finished_at FROM runs WHERE id = ? AND user_id = ?')
     .bind(runId, userId)
-    .first<{ id: string; status: string; engine: string | null; created_at: string }>()
+    .first<{ id: string; status: string; engine: string | null; created_at: string; ai_started_at: number | null; ai_finished_at: number | null }>()
   if (!run) return { run: null }
 
-  const [docs, sections, reqs, assessments, tasks] = await db.batch([
+  const [docs, sections, reqs, assessments, tasks, aiSteps] = await db.batch([
     db.prepare('SELECT kind, filename FROM documents WHERE run_id = ?').bind(runId),
     db.prepare('SELECT sid, kind, ref, heading, text, ord FROM sections WHERE run_id = ? ORDER BY kind, ord').bind(runId),
     db.prepare('SELECT rid, section_sid, ref_label, quote, summary, ord FROM requirements WHERE run_id = ? ORDER BY ord').bind(runId),
@@ -107,6 +107,9 @@ async function loadRun(db: D1Database, runId: string, userId: string) {
               reviewer_name, reviewed_at, impact_policy_id, impact_confirmed FROM assessments WHERE run_id = ?`,
     ).bind(runId),
     db.prepare('SELECT rid, policy_id, title, owner, due_date, status FROM tasks WHERE run_id = ?').bind(runId),
+    db.prepare(
+      'SELECT step, label, duration_ms, prompt_tokens, completion_tokens, attempts, items FROM ai_steps WHERE run_id = ? ORDER BY step',
+    ).bind(runId),
   ])
   const bySid = new Map((sections.results as SectionRow[]).map((s) => [s.sid, s]))
   const assessmentByRid = new Map((assessments.results as AssessmentRow[]).map((a) => [a.rid, a]))
@@ -146,6 +149,7 @@ async function loadRun(db: D1Database, runId: string, userId: string) {
     sections: { regulation: [...bySid.values()].filter((s) => s.kind === 'regulation'), policy: [...bySid.values()].filter((s) => s.kind === 'policy') },
     requirements,
     tasks: tasks.results as TaskRow[],
+    aiSteps: aiSteps.results,
   }
 }
 

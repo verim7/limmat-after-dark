@@ -35,9 +35,27 @@ export type Task = { rid: string; policy_id: string; title: string; owner: strin
 export type RegisterEntry = { id: string; title: string; owner: string; regulatory_basis: string }
 
 export type RunData = {
-  run: null | { id: string; status: 'awaiting_ai' | 'assessed'; engine: string | null; created_at: string }
+  run: null | {
+    id: string
+    status: 'awaiting_ai' | 'assessed'
+    engine: string | null
+    created_at: string
+    ai_started_at: number | null
+    ai_finished_at: number | null
+  }
   documents?: { kind: string; filename: string }[]
   sections?: { regulation: Section[]; policy: Section[] }
   requirements?: Requirement[]
   tasks?: Task[]
+  aiSteps?: AiStep[]
+}
+
+export type AiStep = {
+  step: string
+  label: string
+  duration_ms: number
+  prompt_tokens: number | null
+  completion_tokens: number | null
+  attempts: number
+  items: number
 }

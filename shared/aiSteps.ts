@@ -1,9 +1,11 @@
 // Pure logic for the in-app AI engine (Workers AI): chunking, prompts, schemas and guardrails.
 // The model only proposes; everything it returns is checked against the stored sections here.
+// Output is kept small on purpose (no quotes from the model): generation time dominates latency,
+// and every quote is filled in server-side from the stored source text, so it is always exact.
 
-import { quoteIsVerbatim } from './segment'
+import { normalize } from './segment'
 
-export type StoredSection = { sid: string; ref: string; heading: string; text: string }
+export type StoredSection = { sid: string; ref: string; heading: string; text: string; ord: number }
 export type Rating = 'covered' | 'partial' | 'missing'
 
 export const WORKERS_AI_MODEL = '@cf/meta/llama-3.3-70b-instruct-fp8-fast'
@@ -42,18 +44,22 @@ export function chunkLabel(chunk: StoredSection[]): string {
 const RULES = `Rules:
 - Use ONLY the sections given below. No outside legal knowledge, no other articles, no other sources.
 - Cite sections only by their exact "sid".
-- Every quote must be copied character for character from the cited section (German, unchanged). No ellipses, no paraphrase.
-- Write summaries and reasons in English.`
+- Write summaries and reasons in English. Be concise.`
+
+// ---------------------------------------------------------------------------
+// Stage 2 — extract requirements
 
 export function extractPrompt(chunk: StoredSection[]) {
-  const system = `You are a Swiss compliance analyst. Split regulation paragraphs into single, checkable obligations of the financial service provider.
+  const system = `You are a Swiss compliance analyst. Turn regulation paragraphs into single, checkable requirements for a bank's internal policy.
 ${RULES}
-- One requirement per distinct duty. Skip pure definitions, options without a duty, exemptions and delegations to the Federal Council unless an internal policy must reflect them.
-- Always extract: the client segment rules and definitions (which clients are private, professional, institutional) and every paragraph on opting-out or opting-in, including the client's right to opt out, the conditions and the form of the declaration.`
+- One requirement per distinct duty of the financial service provider. Skip pure definitions, exemptions and delegations to the Federal Council unless the policy must reflect them.
+- Client segmentation: include the duty to segment clients and the definitions of each client segment.
+- Client options (rights the client may exercise, e.g. opting-out or opting-in): ONE requirement per option, covering its conditions and the form of the declaration. Do not create separate requirements for the conditions or the form.
+- Include the provider's duty to inform clients about such options.`
   const user =
     'Regulation sections (FIDLEG):\n' +
     chunk.map((s) => `[${s.sid}] ${s.ref}\n${s.text}`).join('\n\n') +
-    '\n\nReturn JSON: {"requirements": [{"section_sid": "...", "quote": "...", "summary": "..."}]}'
+    '\n\nReturn JSON: {"requirements": [{"section_sid": "...", "summary": "one sentence: what the provider must do"}]}'
   return { system, user }
 }
 
@@ -64,31 +70,35 @@ export const EXTRACT_SCHEMA = {
       type: 'array',
       items: {
         type: 'object',
-        properties: { section_sid: { type: 'string' }, quote: { type: 'string' }, summary: { type: 'string' } },
-        required: ['section_sid', 'quote', 'summary'],
+        properties: { section_sid: { type: 'string' }, summary: { type: 'string' } },
+        required: ['section_sid', 'summary'],
       },
     },
   },
   required: ['requirements'],
 }
 
-export type ExtractItem = { section_sid: string; quote: string; summary: string }
-export type CleanRequirement = { section_sid: string; ref_label: string; quote: string; summary: string }
+export type CleanRequirement = { section_sid: string; ref_label: string; quote: string; summary: string; ord: number }
 
-/** Guardrails for stage 2: known sids only, refs from storage, quotes verbatim or the full section text. */
+/** Guardrails for stage 2: known sids only, refs and quotes from storage, no duplicates, in source order. */
 export function cleanExtract(items: unknown, chunk: StoredSection[]): CleanRequirement[] {
   const bySid = new Map(chunk.map((s) => [s.sid, s]))
   const out: CleanRequirement[] = []
-  for (const it of Array.isArray(items) ? (items as Partial<ExtractItem>[]) : []) {
+  const perSection = new Map<string, number>()
+  for (const it of Array.isArray(items) ? (items as Record<string, unknown>[]) : []) {
     const section = typeof it?.section_sid === 'string' ? bySid.get(it.section_sid.trim()) : undefined
     if (!section) continue
-    const quote = typeof it.quote === 'string' && quoteIsVerbatim(section.text, it.quote) ? it.quote.trim() : section.text
     const summary = typeof it.summary === 'string' && it.summary.trim() ? it.summary.trim() : section.heading
-    if (out.some((r) => r.section_sid === section.sid && r.quote === quote)) continue
-    out.push({ section_sid: section.sid, ref_label: section.ref, quote, summary })
+    if (out.some((r) => r.section_sid === section.sid && normalize(r.summary) === normalize(summary))) continue
+    const n = perSection.get(section.sid) ?? 0
+    perSection.set(section.sid, n + 1)
+    out.push({ section_sid: section.sid, ref_label: section.ref, quote: section.text, summary, ord: section.ord * 100 + n })
   }
   return out
 }
+
+// ---------------------------------------------------------------------------
+// Stages 3–4 — map to policy sections and assess
 
 export function assessPrompt(
   reqs: { rid: string; ref_label: string; quote: string; summary: string }[],
@@ -96,16 +106,17 @@ export function assessPrompt(
 ) {
   const system = `You are a Swiss compliance analyst. For each regulatory requirement, find the internal policy sections that address it and rate the coverage.
 ${RULES}
-- rating: "covered" = the policy fully meets the requirement, including when it meets or exceeds it (for example reporting more often, or informing earlier, than the law requires); "partial" = the policy addresses the topic but leaves out an element the law requires (name that element); "missing" = no policy section addresses it.
-- A general duty that the policy's scope clause already commits to (for example "comply with the duties of this Act") counts as covered by that clause.
-- For "missing", policy_sids must be [] and policy_quote "". Never guess a section.
-- proposed_text: REQUIRED for "partial" and "missing": a German policy clause that closes the gap. "" for "covered".`
+- rating: "covered" = the policy meets the requirement, including when it meets or exceeds it (e.g. reports more often or informs earlier than required). "partial" = the policy addresses the topic but leaves out an element the law requires; name that element. "missing" = no policy section addresses it.
+- A general duty to comply with the duties of this Act is covered by the policy's purpose and scope section.
+- Judge each requirement only on what it asks. A timing requirement is covered if the policy states the same timing, even if other information duties are incomplete.
+- For "missing", policy_sids must be [].
+- proposed_text: REQUIRED for "partial" and "missing". Write it in German as a new clause of the bank's internal policy W-07, in the policy's own voice (e.g. "Die Bank …" or "Die Kundenberaterin oder der Kundenberater …"), concrete about the missing element. Never copy the law text. "" for "covered".`
   const user =
     'Internal policy sections (Weisung W-07):\n' +
     policy.map((s) => `[${s.sid}] ${s.ref}\n${s.text}`).join('\n\n') +
     '\n\nRequirements to assess:\n' +
     reqs.map((r) => `[${r.rid}] ${r.ref_label}: ${r.summary}\nLaw text: ${r.quote}`).join('\n\n') +
-    '\n\nReturn JSON: {"assessments": [{"rid": "...", "policy_sids": ["..."], "policy_quote": "...", "rating": "covered|partial|missing", "reason": "...", "proposed_text": "..."}]}'
+    '\n\nReturn JSON: {"assessments": [{"rid": "...", "policy_sids": ["..."], "rating": "covered|partial|missing", "reason": "...", "proposed_text": "..."}]}'
   return { system, user }
 }
 
@@ -119,12 +130,11 @@ export const ASSESS_SCHEMA = {
         properties: {
           rid: { type: 'string' },
           policy_sids: { type: 'array', items: { type: 'string' } },
-          policy_quote: { type: 'string' },
           rating: { type: 'string', enum: ['covered', 'partial', 'missing'] },
           reason: { type: 'string' },
           proposed_text: { type: 'string' },
         },
-        required: ['rid', 'policy_sids', 'policy_quote', 'rating', 'reason', 'proposed_text'],
+        required: ['rid', 'policy_sids', 'rating', 'reason', 'proposed_text'],
       },
     },
   },
@@ -140,20 +150,23 @@ export type CleanAssessment = {
   proposed_text: string
 }
 
-/** Guardrails for stages 3–4: known policy sids only, consistent ratings, verbatim quotes, every requirement rated. */
-export function cleanAssess(items: unknown, rids: string[], policy: StoredSection[]): CleanAssessment[] {
+/**
+ * Guardrails for stages 3–4: known policy sids only, consistent ratings, policy quote from storage,
+ * every requirement rated, and proposals that merely repeat the law are rejected.
+ */
+export function cleanAssess(
+  items: unknown,
+  reqs: { rid: string; quote: string }[],
+  policy: StoredSection[],
+): CleanAssessment[] {
   const bySid = new Map(policy.map((s) => [s.sid, s]))
+  const rids = reqs.map((r) => r.rid)
   const byRid = new Map<string, Record<string, unknown>>()
   for (const it of Array.isArray(items) ? (items as Record<string, unknown>[]) : []) {
-    if (typeof it?.rid === 'string' && rids.includes(it.rid.trim()) && !byRid.has(it.rid.trim())) byRid.set(it.rid.trim(), it)
+    const rid = typeof it?.rid === 'string' ? it.rid.trim() : ''
+    if (rids.includes(rid) && !byRid.has(rid)) byRid.set(rid, it)
   }
-  return rids.map((rid) => withProposalNote(assessOne(rid, byRid.get(rid), bySid)))
-}
-
-// A gap without a proposed clause is flagged, so the reviewer sees it immediately.
-function withProposalNote(a: CleanAssessment): CleanAssessment {
-  if (a.rating === 'covered' || a.proposed_text || a.reason.includes('[No proposal')) return a
-  return { ...a, reason: `${a.reason} [No proposal from the model — draft the policy text in review.]` }
+  return reqs.map((r) => checkProposal(assessOne(r.rid, byRid.get(r.rid), bySid), r.quote))
 }
 
 function assessOne(rid: string, it: Record<string, unknown> | undefined, bySid: Map<string, StoredSection>): CleanAssessment {
@@ -162,20 +175,50 @@ function assessOne(rid: string, it: Record<string, unknown> | undefined, bySid: 
   }
   let rating: Rating = it.rating === 'covered' || it.rating === 'partial' || it.rating === 'missing' ? it.rating : 'missing'
   let reason = typeof it.reason === 'string' && it.reason.trim() ? it.reason.trim() : 'No reason given by the model.'
+  const proposal = str(it.proposed_text)
   const sids = (Array.isArray(it.policy_sids) ? it.policy_sids : [])
     .map((s) => String(s).trim())
     .filter((s, i, all) => bySid.has(s) && all.indexOf(s) === i)
-  let quote = typeof it.policy_quote === 'string' ? it.policy_quote.trim() : ''
-  if (rating === 'missing') {
-    return { rid, policy_sids: [], policy_quote: '', rating, reason, proposed_text: str(it.proposed_text) }
-  }
+  if (rating === 'missing') return { rid, policy_sids: [], policy_quote: '', rating, reason, proposed_text: proposal }
   if (sids.length === 0) {
     rating = 'missing'
     reason = `${reason} [Model named no existing W-07 section; rated missing.]`
-    return { rid, policy_sids: [], policy_quote: '', rating, reason, proposed_text: str(it.proposed_text) }
+    return { rid, policy_sids: [], policy_quote: '', rating, reason, proposed_text: proposal }
   }
-  if (!sids.some((s) => quoteIsVerbatim(bySid.get(s)!.text, quote))) quote = bySid.get(sids[0])!.text
-  return { rid, policy_sids: sids, policy_quote: quote, rating, reason, proposed_text: rating === 'covered' ? '' : str(it.proposed_text) }
+  // The policy quote is the exact stored text of the first mapped section.
+  return { rid, policy_sids: sids, policy_quote: bySid.get(sids[0])!.text, rating, reason, proposed_text: rating === 'covered' ? '' : proposal }
+}
+
+/** Flags gaps without a proposal, and drops proposals that only repeat the law text. */
+function checkProposal(a: CleanAssessment, lawText: string): CleanAssessment {
+  if (a.rating === 'covered') return a
+  if (a.proposed_text && repeatsLaw(a.proposed_text, lawText)) {
+    return { ...a, proposed_text: '', reason: `${a.reason} [The model's proposal only repeated the law text; draft the policy clause in review.]` }
+  }
+  if (!a.proposed_text) return { ...a, reason: `${a.reason} [No proposal from the model; draft the policy clause in review.]` }
+  return a
+}
+
+// Signs that a clause is written in the internal policy's own voice rather than copied from the law.
+const POLICY_VOICE = /\b(bank|kundenberater\w*|weisung|ziff\.)/i
+
+/**
+ * True when the proposal is (nearly) the law text: identical / contained, or the same words without
+ * being rewritten in the policy's voice ("Die Bank …", "Ziff. …"). Adapted clauses are kept.
+ */
+export function repeatsLaw(proposal: string, law: string): boolean {
+  const p = normalize(proposal).toLowerCase()
+  const l = normalize(law).toLowerCase()
+  if (!p || !l) return false
+  if (l.includes(p) || p.includes(l)) return true
+  if (POLICY_VOICE.test(proposal)) return false
+  const words = (s: string) => new Set(s.split(/[^\p{L}\p{N}]+/u).filter((w) => w.length > 3))
+  const pw = words(p)
+  const lw = words(l)
+  if (pw.size === 0) return false
+  let shared = 0
+  for (const w of pw) if (lw.has(w)) shared++
+  return shared / pw.size >= 0.85
 }
 
 const str = (v: unknown) => (typeof v === 'string' ? v.trim() : '')
@@ -193,4 +236,11 @@ export function parseAiResponse(res: unknown): Record<string, unknown> | null {
     }
   }
   return null
+}
+
+/** Token usage as reported by Workers AI (absent on some models). */
+export function parseUsage(res: unknown): { prompt_tokens: number | null; completion_tokens: number | null } {
+  const u = (res as { usage?: { prompt_tokens?: unknown; completion_tokens?: unknown } })?.usage
+  const n = (v: unknown) => (typeof v === 'number' && Number.isFinite(v) ? v : null)
+  return { prompt_tokens: n(u?.prompt_tokens), completion_tokens: n(u?.completion_tokens) }
 }

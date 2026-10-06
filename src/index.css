@@ -117,3 +117,8 @@ input.cell { padding: 4px 6px; font-size: 13px; min-width: 110px; }
 .articles p { margin: 0 0 8px; }
 .article-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .chip.covered { opacity: 0.7; }
+.ai-progress { flex-direction: column; align-items: stretch; }
+.step-times { margin: 4px 0 0; padding-left: 24px; font-size: 13px; color: var(--muted); }
+.ai-timing { width: 100%; }
+.ai-timing summary { cursor: pointer; color: var(--muted); }
+.ai-timing table { margin-top: 8px; }
