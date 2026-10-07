@@ -29,7 +29,7 @@ Use a personal identity for personal projects. The Clerk CLI and git picked up t
 | AI via Claude | Claude Code + a project skill + a D1 bridge script | best quality, no Anthropic API key needed |
 | PDF parsing | `pdfjs-dist` **legacy build**, in the browser | keeps the Worker within free-plan CPU limits; legacy build works on Safari |
 | Lint / types | oxlint, `tsc -b` | `npm run build && npm run lint` before every commit |
-| E2E tests | Playwright (Chromium + **WebKit**) + `@clerk/testing` | WebKit = Safari's engine |
+| E2E tests | Playwright (Chromium + **WebKit**, desktop + **iPhone/Pixel**) + `@clerk/testing` | WebKit = Safari's engine; phone tests mock the API with a real fixture |
 | CI/CD | GitHub Actions: lint → build → D1 migrations → deploy → E2E | a push to `main` deploys |
 
 ## 3. Repo layout (copy this)
@@ -136,6 +136,7 @@ Workers AI lessons:
 | Email verification code never arrives | dev-instance sender + corporate filter | `+clerk_test` / `424242`, SSO, or a production instance on your own domain |
 | `@hono/clerk-auth` deprecation warning | package renamed | switch to `@clerk/hono` (same API) |
 | `undefined is not a function (near '…e of t…')` on Safari | pdf.js `for await` over a `ReadableStream` | read `streamTextContent()` with `getReader()` and use the pdf.js **legacy** build |
+| Page wider than the phone; sideways scrolling | `<select>` sized to its longest option inside a CSS grid (`1fr` = `minmax(auto, 1fr)`), wide tables and stat rows | `grid-template-columns: minmax(0, 1fr)`, `select { min-width: 0; width: 100% }` on mobile, tables as cards under 640 px, and a Playwright phone test that fails if any element passes the viewport edge |
 | Footnotes inside law paragraphs | PDF text extraction mixes in footnotes | strip by font size (§8) |
 | GitHub Actions deploy fails: no `CLOUDFLARE_API_TOKEN` | secrets not set | add the secrets (§5) |
 | Couldn't open the live site or fetch sources from the cloud session | sandbox network allowlist | allow the hosts (§10) or let the Worker fetch |

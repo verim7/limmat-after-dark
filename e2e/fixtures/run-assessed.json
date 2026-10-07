@@ -1,0 +1,1990 @@
+{
+ "_note": "Snapshot of Workers AI run af856af7-ab94-4968-a1b9-eb31f7318cf6 (fictional W-07 vs. FIDLEG data, no user ids). Two reviews and the matching tasks were added for layout testing.",
+ "run": {
+  "id": "af856af7-ab94-4968-a1b9-eb31f7318cf6",
+  "status": "assessed",
+  "engine": "workers-ai:@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+  "created_at": "2026-10-07 13:50:24",
+  "ai_started_at": 1791381040346,
+  "ai_finished_at": 1791381078208
+ },
+ "documents": [
+  {
+   "kind": "policy",
+   "filename": "Weisung_W-07_Kundensegmentierung_und_Pruefung.pdf"
+  },
+  {
+   "kind": "regulation",
+   "filename": "FIDLEG_SR-950.1_de_Stand_2026-10-01.pdf"
+  }
+ ],
+ "sections": {
+  "regulation": [
+   {
+    "sid": "A4.1",
+    "kind": "regulation",
+    "ref": "Art. 4 Abs. 1 FIDLEG",
+    "heading": "Art. 4 Kundensegmentierung",
+    "text": "Die Finanzdienstleister ordnen die Personen, für die sie Finanzdienstleistungen erbringen, einem der folgenden Segmente zu: a. Privatkundinnen und -kunden; b. professionelle Kunden; c. institutionelle Kunden.",
+    "ord": 0
+   },
+   {
+    "sid": "A4.2",
+    "kind": "regulation",
+    "ref": "Art. 4 Abs. 2 FIDLEG",
+    "heading": "Art. 4 Kundensegmentierung",
+    "text": "Als Privatkundinnen und -kunden gelten Kundinnen und Kunden, die keine professionellen Kunden sind.",
+    "ord": 1
+   },
+   {
+    "sid": "A4.3",
+    "kind": "regulation",
+    "ref": "Art. 4 Abs. 3 FIDLEG",
+    "heading": "Art. 4 Kundensegmentierung",
+    "text": "Als professionelle Kunden gelten: a. Finanzintermediäre nach dem Bankengesetz vom 8. November 1934 (BankG), dem Finanzinstitutsgesetz vom 15. Juni 2018 (FINIG) und dem KAG ; b. beaufsichtigte Versicherungseinrichtungen; c. ausländische Kundinnen und Kunden, die einer prudenziellen Aufsicht unterstehen wie die Personen nach den Buchstaben a und b; d. Zentralbanken; e. öffentlich-rechtliche Körperschaften, Anstalten und Stiftungen mit professioneller Tresorerie; f. Vorsorgeeinrichtungen und Einrichtungen, die nach ihrem Zweck der beruflichen Vorsorge dienen, mit professioneller Tresorerie; g. Unternehmen mit professioneller Tresorerie; h. grosse Unternehmen; i. für vermögende Privatkundinnen und -kunden errichtete private Anlagestrukturen mit professioneller Tresorerie.",
+    "ord": 2
+   },
+   {
+    "sid": "A4.4",
+    "kind": "regulation",
+    "ref": "Art. 4 Abs. 4 FIDLEG",
+    "heading": "Art. 4 Kundensegmentierung",
+    "text": "Als institutionelle Kunden gelten professionelle Kunden nach Absatz 3 Buchstaben a – d sowie nationale und supranationale öffentlich-rechtliche Körperschaften mit professioneller Tresorerie.",
+    "ord": 3
+   },
+   {
+    "sid": "A4.5",
+    "kind": "regulation",
+    "ref": "Art. 4 Abs. 5 FIDLEG",
+    "heading": "Art. 4 Kundensegmentierung",
+    "text": "Als grosses Unternehmen gilt ein Unternehmen, das zwei der folgenden Grössen überschreitet: a. Bilanzsumme von 20 Millionen Franken; b. Umsatzerlös von 40 Millionen Franken; c. Eigenkapital von 2 Millionen Franken.",
+    "ord": 4
+   },
+   {
+    "sid": "A4.6",
+    "kind": "regulation",
+    "ref": "Art. 4 Abs. 6 FIDLEG",
+    "heading": "Art. 4 Kundensegmentierung",
+    "text": "Nicht als Kundinnen gelten Gesellschaften eines Konzerns, für die eine andere Gesellschaft des gleichen Konzerns eine Finanzdienstleistung erbringt.",
+    "ord": 5
+   },
+   {
+    "sid": "A4.7",
+    "kind": "regulation",
+    "ref": "Art. 4 Abs. 7 FIDLEG",
+    "heading": "Art. 4 Kundensegmentierung",
+    "text": "Finanzdienstleister können auf eine Kundensegmentierung verzichten, wenn sie alle Kundinnen und Kunden als Privatkundinnen und -kunden behandeln.",
+    "ord": 6
+   },
+   {
+    "sid": "A5.1",
+    "kind": "regulation",
+    "ref": "Art. 5 Abs. 1 FIDLEG",
+    "heading": "Art. 5 Opting-out und Opting-in",
+    "text": "Vermögende Privatkundinnen und -kunden und für diese errichtete private Anlagestrukturen können erklären, dass sie als professionelle Kunden gelten wollen ( Opting-out ).",
+    "ord": 7
+   },
+   {
+    "sid": "A5.2",
+    "kind": "regulation",
+    "ref": "Art. 5 Abs. 2 FIDLEG",
+    "heading": "Art. 5 Opting-out und Opting-in",
+    "text": "Als vermögend im Sinne von Absatz 1 gilt, wer glaubhaft erklärt, dass sie oder er: a. aufgrund der persönlichen Ausbildung und der beruflichen Erfahrung oder aufgrund einer vergleichbaren Erfahrung im Finanzsektor über die Kenntnisse verfügt, die notwendig sind, um die Risiken der Anlagen zu verstehen, und über ein Vermögen von mindestens 500 000 Franken verfügt; oder b. über ein Vermögen von mindestens 2 Millionen Franken verfügt.",
+    "ord": 8
+   },
+   {
+    "sid": "A5.3",
+    "kind": "regulation",
+    "ref": "Art. 5 Abs. 3 FIDLEG",
+    "heading": "Art. 5 Opting-out und Opting-in",
+    "text": "Professionelle Kunden nach Artikel 4 Absatz 3 Buchstaben f und g können erklären, dass sie als institutionelle Kunden gelten wollen.",
+    "ord": 9
+   },
+   {
+    "sid": "A5.4",
+    "kind": "regulation",
+    "ref": "Art. 5 Abs. 4 FIDLEG",
+    "heading": "Art. 5 Opting-out und Opting-in",
+    "text": "Schweizerische und ausländische kollektive Kapitalanlagen und deren Verwaltungsgesellschaften, die nicht bereits nach Artikel 4 Absatz 3 Buchstabe a oder c in Verbindung mit Artikel 4 Absatz 4 als institutionelle Kunden gelten, können erklären, dass sie als institutionelle Kunden gelten wollen.",
+    "ord": 10
+   },
+   {
+    "sid": "A5.5",
+    "kind": "regulation",
+    "ref": "Art. 5 Abs. 5 FIDLEG",
+    "heading": "Art. 5 Opting-out und Opting-in",
+    "text": "Professionelle Kunden, die keine institutionellen Kunden im Sinn von Artikel 4 Absatz 4 sind, können erklären, dass sie als Privatkunden gelten wollen ( Opting-in ).",
+    "ord": 11
+   },
+   {
+    "sid": "A5.6",
+    "kind": "regulation",
+    "ref": "Art. 5 Abs. 6 FIDLEG",
+    "heading": "Art. 5 Opting-out und Opting-in",
+    "text": "Institutionelle Kunden können erklären, dass sie nur als professionelle Kunden gelten wollen.",
+    "ord": 12
+   },
+   {
+    "sid": "A5.7",
+    "kind": "regulation",
+    "ref": "Art. 5 Abs. 7 FIDLEG",
+    "heading": "Art. 5 Opting-out und Opting-in",
+    "text": "Vor dem Erbringen von Finanzdienstleistungen informieren Finanzdienstleister ihre Kundinnen und Kunden, die nicht als Privatkundinnen und -kunden gelten, über die Möglichkeit zum Opting-in.",
+    "ord": 13
+   },
+   {
+    "sid": "A5.8",
+    "kind": "regulation",
+    "ref": "Art. 5 Abs. 8 FIDLEG",
+    "heading": "Art. 5 Opting-out und Opting-in",
+    "text": "Die Erklärungen nach den Absätzen 1 – 6 müssen schriftlich oder in anderer durch Text nachweisbarer Form vorliegen.",
+    "ord": 14
+   },
+   {
+    "sid": "A6",
+    "kind": "regulation",
+    "ref": "Art. 6 FIDLEG",
+    "heading": "Art. 6",
+    "text": "Kundenberaterinnen und -berater müssen über hinreichende Kenntnisse über die Verhaltensregeln nach diesem Gesetz sowie über das für ihre Tätigkeit notwendige Fachwissen verfügen.",
+    "ord": 15
+   },
+   {
+    "sid": "A7.1",
+    "kind": "regulation",
+    "ref": "Art. 7 Abs. 1 FIDLEG",
+    "heading": "Art. 7",
+    "text": "Finanzdienstleister müssen beim Erbringen von Finanzdienstleistungen die aufsichtsrechtlichen Pflichten nach diesem Titel befolgen.",
+    "ord": 16
+   },
+   {
+    "sid": "A7.2",
+    "kind": "regulation",
+    "ref": "Art. 7 Abs. 2 FIDLEG",
+    "heading": "Art. 7",
+    "text": "Vorbehalten bleiben spezialgesetzliche Regelungen.",
+    "ord": 17
+   },
+   {
+    "sid": "A8.1",
+    "kind": "regulation",
+    "ref": "Art. 8 Abs. 1 FIDLEG",
+    "heading": "Art. 8 Inhalt und Form der Information",
+    "text": "Finanzdienstleister informieren ihre Kundinnen und Kunden über: a. ihren Namen und ihre Adresse; b. ihr Tätigkeitsfeld und ihren Aufsichtsstatus; c. die Möglichkeit zur Einleitung von Vermittlungsverfahren vor einer anerkannten Ombudsstelle nach dem 5. Titel; und d. die allgemeinen mit Finanzinstrumenten verbundenen Risiken.",
+    "ord": 18
+   },
+   {
+    "sid": "A8.2",
+    "kind": "regulation",
+    "ref": "Art. 8 Abs. 2 FIDLEG",
+    "heading": "Art. 8 Inhalt und Form der Information",
+    "text": "Sie informieren zusätzlich über: a. die persönlich empfohlene Finanzdienstleistung und die damit verbundenen Risiken und Kosten; b. die im Zusammenhang mit der angebotenen Finanzdienstleistung bestehenden wirtschaftlichen Bindungen an Dritte; c. das bei der Auswahl der Finanzinstrumente berücksichtigte Marktangebot.",
+    "ord": 19
+   },
+   {
+    "sid": "A8.3",
+    "kind": "regulation",
+    "ref": "Art. 8 Abs. 3 FIDLEG",
+    "heading": "Art. 8 Inhalt und Form der Information",
+    "text": "Bei der persönlichen Empfehlung von Finanzinstrumenten stellen die Finanzdienstleister der Privatkundin oder dem Privatkunden zusätzlich das Basisinformationsblatt zur Verfügung, sofern ein solches für das empfohlene Finanzinstrument zu erstellen ist (Art. 58 und 59). Bei einem zusammengesetzten Finanzinstrument ist nur für dieses ein Basisinformationsblatt zur Verfügung zu stellen.",
+    "ord": 20
+   },
+   {
+    "sid": "A8.4",
+    "kind": "regulation",
+    "ref": "Art. 8 Abs. 4 FIDLEG",
+    "heading": "Art. 8 Inhalt und Form der Information",
+    "text": "Kein Basisinformationsblatt muss zur Verfügung gestellt werden, wenn die Dienstleistung ausschliesslich in der Ausführung oder Übermittlung von Kundenaufträgen besteht, ausser wenn bereits ein Basisinformationsblatt für das Finanzinstrument vorhanden ist.",
+    "ord": 21
+   },
+   {
+    "sid": "A8.5",
+    "kind": "regulation",
+    "ref": "Art. 8 Abs. 5 FIDLEG",
+    "heading": "Art. 8 Inhalt und Form der Information",
+    "text": "Bei der persönlichen Empfehlung von Finanzinstrumenten, für die ein Prospekt zu erstellen ist (Art. 35 – 37), stellen die Finanzdienstleister der Privatkundin oder dem Privatkunden auf Anfrage kostenlos einen Prospekt zur Verfügung .",
+    "ord": 22
+   },
+   {
+    "sid": "A8.6",
+    "kind": "regulation",
+    "ref": "Art. 8 Abs. 6 FIDLEG",
+    "heading": "Art. 8 Inhalt und Form der Information",
+    "text": "Werbung muss als solche gekennzeichnet sein.",
+    "ord": 23
+   },
+   {
+    "sid": "A9.1",
+    "kind": "regulation",
+    "ref": "Art. 9 Abs. 1 FIDLEG",
+    "heading": "Art. 9 Zeitpunkt und Form der Informationen",
+    "text": "Finanzdienstleister informieren ihre Kundinnen und Kunden vor Abschluss des Vertrags oder vor Erbringen der Dienstleistung.",
+    "ord": 24
+   },
+   {
+    "sid": "A9.2",
+    "kind": "regulation",
+    "ref": "Art. 9 Abs. 2 FIDLEG",
+    "heading": "Art. 9 Zeitpunkt und Form der Informationen",
+    "text": "Die Finanzdienstleister stellen ihren Privatkundinnen und -kunden das Basisinformationsblatt vor der Zeichnung oder vor dem Vertragsabschluss kostenlos zur Verfügung. Erfolgt eine Beratung unter Abwesenden, kann das Basisinformationsblatt mit Zustimmung der Kundin oder des Kunden nach Abschluss des Geschäfts zur Verfügung gestellt werden. Die Finanzdienstleister dokumentieren diese Zustimmung.",
+    "ord": 25
+   },
+   {
+    "sid": "A9.3",
+    "kind": "regulation",
+    "ref": "Art. 9 Abs. 3 FIDLEG",
+    "heading": "Art. 9 Zeitpunkt und Form der Informationen",
+    "text": "Die Informationen können den Kundinnen und Kunden in standardisierter Form auf Papier oder elektronisch zur Verfügung gestellt werden.",
+    "ord": 26
+   },
+   {
+    "sid": "A10",
+    "kind": "regulation",
+    "ref": "Art. 10 FIDLEG",
+    "heading": "Art. 10 Prüfpflicht",
+    "text": "Finanzdienstleister, die eine Anlageberatung oder eine Vermögensverwaltung erbringen, führen eine Angemessenheits- oder Eignungsprüfung durch.",
+    "ord": 27
+   },
+   {
+    "sid": "A11",
+    "kind": "regulation",
+    "ref": "Art. 11 FIDLEG",
+    "heading": "Art. 11 Angemessenheitsprüfung",
+    "text": "Ein Finanzdienstleister, der die Anlageberatung für einzelne Transaktionen erbringt, ohne dafür das gesamte Kundenportfolio zu berücksichtigen, muss sich über die Kenntnisse und Erfahrungen seiner Kundinnen und Kunden erkundigen und vor der Empfehlung von Finanzinstrumenten prüfen, ob diese für die Kundin oder den Kunden angemessen sind.",
+    "ord": 28
+   },
+   {
+    "sid": "A12",
+    "kind": "regulation",
+    "ref": "Art. 12 FIDLEG",
+    "heading": "Art. 12 Eignungsprüfung",
+    "text": "Ein Finanzdienstleister, der die Anlageberatung unter Berücksichtigung des Kundenportfolios oder die Vermögensverwaltung erbringt, muss sich über die finanziellen Verhältnisse und Anlageziele sowie über die Kenntnisse und Erfahrungen der Kundin oder des Kunden erkundigen. Diese Kenntnisse und Erfahrungen beziehen sich auf die Finanzdienstleistung und nicht auf die einzelnen Transaktionen.",
+    "ord": 29
+   },
+   {
+    "sid": "A13.1",
+    "kind": "regulation",
+    "ref": "Art. 13 Abs. 1 FIDLEG",
+    "heading": "Art. 13 Ausnahme von der Prüfpflicht",
+    "text": "Bei blosser Ausführung oder Übermittlung von Kundenaufträgen müssen die Finanzdienstleister weder eine Angemessenheits- noch eine Eignungsprüfung durchführen.",
+    "ord": 30
+   },
+   {
+    "sid": "A13.2",
+    "kind": "regulation",
+    "ref": "Art. 13 Abs. 2 FIDLEG",
+    "heading": "Art. 13 Ausnahme von der Prüfpflicht",
+    "text": "Sie informieren die Kundinnen und Kunden vor der Erbringung von Dienstleistungen nach Absatz 1, dass keine Angemessenheits- oder Eignungsprüfung durchgeführt wird.",
+    "ord": 31
+   },
+   {
+    "sid": "A13.3",
+    "kind": "regulation",
+    "ref": "Art. 13 Abs. 3 FIDLEG",
+    "heading": "Art. 13 Ausnahme von der Prüfpflicht",
+    "text": "Bei professionellen Kunden können sie davon ausgehen, dass diese über die erforderlichen Kenntnisse und Erfahrungen verfügen und die mit der Finanzdienstleistung einhergehenden Anlagerisiken finanziell tragbar sind.",
+    "ord": 32
+   },
+   {
+    "sid": "A14.1",
+    "kind": "regulation",
+    "ref": "Art. 14 Abs. 1 FIDLEG",
+    "heading": "Art. 14 Nicht beurteilbare oder fehlende Angemessenheit oder Eignung",
+    "text": "Reichen die Informationen, die der Finanzdienstleister erhält, nicht aus, um die Angemessenheit oder die Eignung eines Finanzinstruments zu beurteilen, so weist er die Kundin oder den Kunden vor der Erbringung der Dienstleistung darauf hin, dass er diese Beurteilung nicht vornehmen kann.",
+    "ord": 33
+   },
+   {
+    "sid": "A14.2",
+    "kind": "regulation",
+    "ref": "Art. 14 Abs. 2 FIDLEG",
+    "heading": "Art. 14 Nicht beurteilbare oder fehlende Angemessenheit oder Eignung",
+    "text": "Ist der Finanzdienstleister der Auffassung, dass ein Finanzinstrument für seine Kundinnen und Kunden nicht angemessen oder geeignet ist, so rät er ihnen vor der Erbringung der Dienstleistung davon ab.",
+    "ord": 34
+   },
+   {
+    "sid": "A14.3",
+    "kind": "regulation",
+    "ref": "Art. 14 Abs. 3 FIDLEG",
+    "heading": "Art. 14 Nicht beurteilbare oder fehlende Angemessenheit oder Eignung",
+    "text": "Mangelnde Kenntnisse und Erfahrungen können durch Aufklärung der Kundinnen und Kunden kompensiert werden.",
+    "ord": 35
+   },
+   {
+    "sid": "A15.1",
+    "kind": "regulation",
+    "ref": "Art. 15 Abs. 1 FIDLEG",
+    "heading": "Art. 15 Dokumentation",
+    "text": "Finanzdienstleister dokumentieren in geeigneter Weise: a. die mit den Kundinnen und Kunden vereinbarten Finanzdienstleistungen und die über sie erhobenen Informationen; b. die Information nach Artikel 13 Absatz 2 oder die Tatsache, dass sie den Kundinnen und Kunden nach Artikel 14 von der Inanspruchnahme der Dienstleistung abgeraten haben; c. die für die Kundinnen und Kunden erbrachten Finanzdienstleistungen.",
+    "ord": 36
+   },
+   {
+    "sid": "A15.2",
+    "kind": "regulation",
+    "ref": "Art. 15 Abs. 2 FIDLEG",
+    "heading": "Art. 15 Dokumentation",
+    "text": "Bei der Anlageberatung dokumentieren sie zusätzlich die Bedürfnisse der Kundinnen und Kunden sowie die Gründe für jede Empfehlung, die zum Erwerb oder zur Veräusserung eines Finanzinstruments führt.",
+    "ord": 37
+   },
+   {
+    "sid": "A16.1",
+    "kind": "regulation",
+    "ref": "Art. 16 Abs. 1 FIDLEG",
+    "heading": "Art. 16 Rechenschaft",
+    "text": "Finanzdienstleister stellen ihren Kundinnen und Kunden auf Anfrage eine Kopie der Dokumentation nach Artikel 15 zu oder machen sie ihnen in anderer geeigneter Weise zugänglich.",
+    "ord": 38
+   },
+   {
+    "sid": "A16.2",
+    "kind": "regulation",
+    "ref": "Art. 16 Abs. 2 FIDLEG",
+    "heading": "Art. 16 Rechenschaft",
+    "text": "Zudem legen sie auf Anfrage der Kundinnen und Kunden Rechenschaft ab über: a. die vereinbarten und erbrachten Finanzdienstleistungen; b. die Zusammensetzung, Bewertung und Entwicklung des Portfolios; c. die mit den Finanzdienstleistungen verbundenen Kosten.",
+    "ord": 39
+   },
+   {
+    "sid": "A16.3",
+    "kind": "regulation",
+    "ref": "Art. 16 Abs. 3 FIDLEG",
+    "heading": "Art. 16 Rechenschaft",
+    "text": "Der Bundesrat regelt den Mindestinhalt der Informationen nach Absatz 2.",
+    "ord": 40
+   }
+  ],
+  "policy": [
+   {
+    "sid": "P0",
+    "kind": "policy",
+    "ref": "W-07 Kopf",
+    "heading": "Titel und Metadaten",
+    "text": "Bank Zürichsee AG - Interne Weisung Weisung W-07: Kundensegmentierung und Prüfung von Finanzdienstleistungen Version 3.1 Gültig ab 01.03.2025 Eigentümer Compliance Bezug Finanzdienstleistungsgesetz (FIDLEG), SR 950.1",
+    "ord": 0
+   },
+   {
+    "sid": "P1",
+    "kind": "policy",
+    "ref": "W-07 Ziff. 1",
+    "heading": "1. Zweck und Geltungsbereich",
+    "text": "Diese Weisung regelt die Pflichten der Bank Zürichsee AG beim Erbringen von Finanzdienstleistungen gemäss Finanzdienstleistungsgesetz (FIDLEG). Sie gilt für alle Kundenberaterinnen und Kundenberater sowie für die Einheiten Private Banking, Retail und Vermögensverwaltung.",
+    "ord": 1
+   },
+   {
+    "sid": "P2.1",
+    "kind": "policy",
+    "ref": "W-07 Ziff. 2.1",
+    "heading": "2. Kundensegmentierung",
+    "text": "Vor dem Erbringen einer Finanzdienstleistung wird jede Kundin und jeder Kunde einem der drei Segmente zugeordnet: Privatkunde, professioneller Kunde oder institutioneller Kunde.",
+    "ord": 2
+   },
+   {
+    "sid": "P2.2",
+    "kind": "policy",
+    "ref": "W-07 Ziff. 2.2",
+    "heading": "2. Kundensegmentierung",
+    "text": "Als professionelle Kunden gelten insbesondere beaufsichtigte Finanzintermediäre, Versicherungsunternehmen, öffentlich-rechtliche Körperschaften mit professioneller Tresorerie, Vorsorgeeinrichtungen mit professioneller Tresorerie sowie Unternehmen mit professioneller Tresorerie.",
+    "ord": 3
+   },
+   {
+    "sid": "P2.3",
+    "kind": "policy",
+    "ref": "W-07 Ziff. 2.3",
+    "heading": "2. Kundensegmentierung",
+    "text": "Institutionelle Kunden sind namentlich Banken, Wertpapierhäuser, Versicherungen und Zentralbanken.",
+    "ord": 4
+   },
+   {
+    "sid": "P2.4",
+    "kind": "policy",
+    "ref": "W-07 Ziff. 2.4",
+    "heading": "2. Kundensegmentierung",
+    "text": "Alle übrigen Kunden gelten als Privatkunden.",
+    "ord": 5
+   },
+   {
+    "sid": "P2.5",
+    "kind": "policy",
+    "ref": "W-07 Ziff. 2.5",
+    "heading": "2. Kundensegmentierung",
+    "text": "Die Zuordnung wird im Kundenstamm erfasst und bei Änderungen der Verhältnisse überprüft.",
+    "ord": 6
+   },
+   {
+    "sid": "P3.1",
+    "kind": "policy",
+    "ref": "W-07 Ziff. 3.1",
+    "heading": "3. Information der Kundinnen und Kunden",
+    "text": "Vor Vertragsabschluss informiert die Bank die Kundin oder den Kunden über Name und Adresse der Bank, ihr Tätigkeitsfeld und ihren Aufsichtsstatus.",
+    "ord": 7
+   },
+   {
+    "sid": "P3.2",
+    "kind": "policy",
+    "ref": "W-07 Ziff. 3.2",
+    "heading": "3. Information der Kundinnen und Kunden",
+    "text": "Die Bank informiert über die Kosten der angebotenen Finanzdienstleistung gemäss der aktuellen Preisliste.",
+    "ord": 8
+   },
+   {
+    "sid": "P3.3",
+    "kind": "policy",
+    "ref": "W-07 Ziff. 3.3",
+    "heading": "3. Information der Kundinnen und Kunden",
+    "text": "Die Informationen werden auf Papier oder elektronisch zur Verfügung gestellt.",
+    "ord": 9
+   },
+   {
+    "sid": "P4.1",
+    "kind": "policy",
+    "ref": "W-07 Ziff. 4.1",
+    "heading": "4. Angemessenheits- und Eignungsprüfung",
+    "text": "Bei Anlageberatung für einzelne Transaktionen ohne Berücksichtigung des Gesamtportfolios prüft die Kundenberaterin oder der Kundenberater die Angemessenheit. Dazu werden die Kenntnisse und Erfahrungen des Kunden erhoben.",
+    "ord": 10
+   },
+   {
+    "sid": "P4.2",
+    "kind": "policy",
+    "ref": "W-07 Ziff. 4.2",
+    "heading": "4. Angemessenheits- und Eignungsprüfung",
+    "text": "Bei Anlageberatung unter Berücksichtigung des Kundenportfolios und bei der Vermögensverwaltung wird die Eignung geprüft. Dazu werden die finanziellen Verhältnisse, die Anlageziele sowie die Kenntnisse und Erfahrungen erhoben.",
+    "ord": 11
+   },
+   {
+    "sid": "P4.3",
+    "kind": "policy",
+    "ref": "W-07 Ziff. 4.3",
+    "heading": "4. Angemessenheits- und Eignungsprüfung",
+    "text": "Die Erhebung erfolgt mit dem Fragebogen F-07a (Anlegerprofil) und wird alle drei Jahre aktualisiert.",
+    "ord": 12
+   },
+   {
+    "sid": "P4.4",
+    "kind": "policy",
+    "ref": "W-07 Ziff. 4.4",
+    "heading": "4. Angemessenheits- und Eignungsprüfung",
+    "text": "Bei professionellen und institutionellen Kunden gelten die Erleichterungen gemäss FIDLEG.",
+    "ord": 13
+   },
+   {
+    "sid": "P5.1",
+    "kind": "policy",
+    "ref": "W-07 Ziff. 5.1",
+    "heading": "5. Reine Ausführungsgeschäfte (Execution only)",
+    "text": "Bei Aufträgen, die auf Veranlassung der Kundin oder des Kunden ohne Beratung ausgeführt werden, findet keine Angemessenheits- oder Eignungsprüfung statt.",
+    "ord": 14
+   },
+   {
+    "sid": "P5.2",
+    "kind": "policy",
+    "ref": "W-07 Ziff. 5.2",
+    "heading": "5. Reine Ausführungsgeschäfte (Execution only)",
+    "text": "Die Kundin oder der Kunde wird vor Erbringung der Dienstleistung darauf hingewiesen, dass keine Prüfung stattfindet. Der Hinweis kann standardisiert erfolgen.",
+    "ord": 15
+   },
+   {
+    "sid": "P6.1",
+    "kind": "policy",
+    "ref": "W-07 Ziff. 6.1",
+    "heading": "6. Dokumentation",
+    "text": "Die Bank dokumentiert die mit der Kundin oder dem Kunden vereinbarten Finanzdienstleistungen sowie die über die Kundin oder den Kunden erhobenen Informationen.",
+    "ord": 16
+   },
+   {
+    "sid": "P6.2",
+    "kind": "policy",
+    "ref": "W-07 Ziff. 6.2",
+    "heading": "6. Dokumentation",
+    "text": "Die Dokumentation wird während zehn Jahren aufbewahrt.",
+    "ord": 17
+   },
+   {
+    "sid": "P7.1",
+    "kind": "policy",
+    "ref": "W-07 Ziff. 7.1",
+    "heading": "7. Rechenschaft",
+    "text": "Die Bank legt den Kundinnen und Kunden mindestens jährlich Rechenschaft ab über die erbrachten Finanzdienstleistungen, die Zusammensetzung, Bewertung und Entwicklung des Portfolios sowie die damit verbundenen Kosten.",
+    "ord": 18
+   },
+   {
+    "sid": "P7.2",
+    "kind": "policy",
+    "ref": "W-07 Ziff. 7.2",
+    "heading": "7. Rechenschaft",
+    "text": "Auf Anfrage wird eine Kopie des Kundendossiers herausgegeben.",
+    "ord": 19
+   },
+   {
+    "sid": "P8.1",
+    "kind": "policy",
+    "ref": "W-07 Ziff. 8.1",
+    "heading": "8. Ausbildung der Kundenberatenden",
+    "text": "Kundenberaterinnen und Kundenberater verfügen über ausreichende Kenntnisse der Verhaltensregeln und das für ihre Tätigkeit notwendige Fachwissen.",
+    "ord": 20
+   },
+   {
+    "sid": "P8.2",
+    "kind": "policy",
+    "ref": "W-07 Ziff. 8.2",
+    "heading": "8. Ausbildung der Kundenberatenden",
+    "text": "Sie absolvieren jährlich eine Weiterbildung von mindestens acht Stunden.",
+    "ord": 21
+   },
+   {
+    "sid": "P9",
+    "kind": "policy",
+    "ref": "W-07 Ziff. 9",
+    "heading": "9. Inkraftsetzung",
+    "text": "Diese Weisung tritt am 1. März 2025 in Kraft und ersetzt die Version 2.4 vom 1. Januar 2022. Verantwortlich: Leitung Compliance.",
+    "ord": 22
+   }
+  ]
+ },
+ "requirements": [
+  {
+   "rid": "R01",
+   "section_sid": "A4.1",
+   "ref_label": "Art. 4 Abs. 1 FIDLEG",
+   "quote": "Die Finanzdienstleister ordnen die Personen, für die sie Finanzdienstleistungen erbringen, einem der folgenden Segmente zu: a. Privatkundinnen und -kunden; b. professionelle Kunden; c. institutionelle Kunden.",
+   "summary": "The financial service provider must assign clients to one of the following segments: private clients, professional clients, or institutional clients.",
+   "ord": 0,
+   "section": {
+    "sid": "A4.1",
+    "kind": "regulation",
+    "ref": "Art. 4 Abs. 1 FIDLEG",
+    "heading": "Art. 4 Kundensegmentierung",
+    "text": "Die Finanzdienstleister ordnen die Personen, für die sie Finanzdienstleistungen erbringen, einem der folgenden Segmente zu: a. Privatkundinnen und -kunden; b. professionelle Kunden; c. institutionelle Kunden.",
+    "ord": 0
+   },
+   "refVerified": true,
+   "quoteVerified": true,
+   "assessment": {
+    "rid": "R01",
+    "policy_sids": [
+     "P2.1",
+     "P2.2",
+     "P2.3",
+     "P2.4"
+    ],
+    "policy_quote": "Vor dem Erbringen einer Finanzdienstleistung wird jede Kundin und jeder Kunde einem der drei Segmente zugeordnet: Privatkunde, professioneller Kunde oder institutioneller Kunde.",
+    "rating": "covered",
+    "reason": "The policy sections P2.1 to P2.4 cover the client segmentation requirement by assigning clients to one of the three segments: private clients, professional clients, or institutional clients.",
+    "proposed_text": "",
+    "review_status": "pending",
+    "final_rating": null,
+    "review_comment": "",
+    "reviewer_name": null,
+    "reviewed_at": null,
+    "impact_policy_id": "W-07",
+    "impact_confirmed": false,
+    "policySections": [
+     {
+      "sid": "P2.1",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 2.1",
+      "heading": "2. Kundensegmentierung",
+      "text": "Vor dem Erbringen einer Finanzdienstleistung wird jede Kundin und jeder Kunde einem der drei Segmente zugeordnet: Privatkunde, professioneller Kunde oder institutioneller Kunde.",
+      "ord": 2
+     },
+     {
+      "sid": "P2.2",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 2.2",
+      "heading": "2. Kundensegmentierung",
+      "text": "Als professionelle Kunden gelten insbesondere beaufsichtigte Finanzintermediäre, Versicherungsunternehmen, öffentlich-rechtliche Körperschaften mit professioneller Tresorerie, Vorsorgeeinrichtungen mit professioneller Tresorerie sowie Unternehmen mit professioneller Tresorerie.",
+      "ord": 3
+     },
+     {
+      "sid": "P2.3",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 2.3",
+      "heading": "2. Kundensegmentierung",
+      "text": "Institutionelle Kunden sind namentlich Banken, Wertpapierhäuser, Versicherungen und Zentralbanken.",
+      "ord": 4
+     },
+     {
+      "sid": "P2.4",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 2.4",
+      "heading": "2. Kundensegmentierung",
+      "text": "Alle übrigen Kunden gelten als Privatkunden.",
+      "ord": 5
+     }
+    ],
+    "policyVerified": true,
+    "effectiveRating": "covered"
+   }
+  },
+  {
+   "rid": "R02",
+   "section_sid": "A4.7",
+   "ref_label": "Art. 4 Abs. 7 FIDLEG",
+   "quote": "Finanzdienstleister können auf eine Kundensegmentierung verzichten, wenn sie alle Kundinnen und Kunden als Privatkundinnen und -kunden behandeln.",
+   "summary": "The financial service provider may opt out of client segmentation if it treats all clients as private clients.",
+   "ord": 1,
+   "section": {
+    "sid": "A4.7",
+    "kind": "regulation",
+    "ref": "Art. 4 Abs. 7 FIDLEG",
+    "heading": "Art. 4 Kundensegmentierung",
+    "text": "Finanzdienstleister können auf eine Kundensegmentierung verzichten, wenn sie alle Kundinnen und Kunden als Privatkundinnen und -kunden behandeln.",
+    "ord": 6
+   },
+   "refVerified": true,
+   "quoteVerified": true,
+   "assessment": {
+    "rid": "R02",
+    "policy_sids": [],
+    "policy_quote": "",
+    "rating": "missing",
+    "reason": "There is no policy section that addresses the option to opt out of client segmentation if all clients are treated as private clients.",
+    "proposed_text": "Die Bank kann auf eine Kundensegmentierung verzichten, wenn sie alle Kundinnen und Kunden als Privatkundinnen und -kunden behandelt.",
+    "review_status": "confirmed",
+    "final_rating": "missing",
+    "review_comment": "",
+    "reviewer_name": "E2E Test Reviewer",
+    "reviewed_at": "2026-10-07 14:00:00",
+    "impact_policy_id": "W-07",
+    "impact_confirmed": true,
+    "policySections": [],
+    "policyVerified": true,
+    "effectiveRating": "missing"
+   }
+  },
+  {
+   "rid": "R03",
+   "section_sid": "A5.1",
+   "ref_label": "Art. 5 Abs. 1 FIDLEG",
+   "quote": "Vermögende Privatkundinnen und -kunden und für diese errichtete private Anlagestrukturen können erklären, dass sie als professionelle Kunden gelten wollen ( Opting-out ).",
+   "summary": "The financial service provider must allow wealthy private clients to opt-out as professional clients if they declare to have the necessary knowledge and a minimum wealth of 500,000 or 2,000,000 Franken.",
+   "ord": 2,
+   "section": {
+    "sid": "A5.1",
+    "kind": "regulation",
+    "ref": "Art. 5 Abs. 1 FIDLEG",
+    "heading": "Art. 5 Opting-out und Opting-in",
+    "text": "Vermögende Privatkundinnen und -kunden und für diese errichtete private Anlagestrukturen können erklären, dass sie als professionelle Kunden gelten wollen ( Opting-out ).",
+    "ord": 7
+   },
+   "refVerified": true,
+   "quoteVerified": true,
+   "assessment": {
+    "rid": "R03",
+    "policy_sids": [],
+    "policy_quote": "",
+    "rating": "missing",
+    "reason": "There is no policy section that allows wealthy private clients to opt-out as professional clients.",
+    "proposed_text": "Vermögende Privatkundinnen und -kunden können erklären, dass sie als professionelle Kunden gelten wollen, wenn sie die notwendigen Kenntnisse haben und ein Mindestvermögen von 500,000 oder 2,000,000 Franken nachweisen.",
+    "review_status": "overridden",
+    "final_rating": "missing",
+    "review_comment": "Overridden in review: W-07 Ziff. 2.2 lists the categories only non-exhaustively; the Weisung_W-07_Kundensegmentierung_und_Pruefung must name them explicitly.",
+    "reviewer_name": "E2E Test Reviewer",
+    "reviewed_at": "2026-10-07 14:00:00",
+    "impact_policy_id": "W-09",
+    "impact_confirmed": true,
+    "policySections": [],
+    "policyVerified": true,
+    "effectiveRating": "missing"
+   }
+  },
+  {
+   "rid": "R04",
+   "section_sid": "A5.3",
+   "ref_label": "Art. 5 Abs. 3 FIDLEG",
+   "quote": "Professionelle Kunden nach Artikel 4 Absatz 3 Buchstaben f und g können erklären, dass sie als institutionelle Kunden gelten wollen.",
+   "summary": "The financial service provider must allow professional clients to opt-in as institutional clients.",
+   "ord": 3,
+   "section": {
+    "sid": "A5.3",
+    "kind": "regulation",
+    "ref": "Art. 5 Abs. 3 FIDLEG",
+    "heading": "Art. 5 Opting-out und Opting-in",
+    "text": "Professionelle Kunden nach Artikel 4 Absatz 3 Buchstaben f und g können erklären, dass sie als institutionelle Kunden gelten wollen.",
+    "ord": 9
+   },
+   "refVerified": true,
+   "quoteVerified": true,
+   "assessment": {
+    "rid": "R04",
+    "policy_sids": [],
+    "policy_quote": "",
+    "rating": "missing",
+    "reason": "There is no policy section that allows professional clients to opt-in as institutional clients. [The model's proposal only repeated the law text; draft the policy clause in review.]",
+    "proposed_text": "",
+    "review_status": "pending",
+    "final_rating": null,
+    "review_comment": "",
+    "reviewer_name": null,
+    "reviewed_at": null,
+    "impact_policy_id": "W-07",
+    "impact_confirmed": false,
+    "policySections": [],
+    "policyVerified": true,
+    "effectiveRating": "missing"
+   }
+  },
+  {
+   "rid": "R05",
+   "section_sid": "A5.5",
+   "ref_label": "Art. 5 Abs. 5 FIDLEG",
+   "quote": "Professionelle Kunden, die keine institutionellen Kunden im Sinn von Artikel 4 Absatz 4 sind, können erklären, dass sie als Privatkunden gelten wollen ( Opting-in ).",
+   "summary": "The financial service provider must allow professional clients to opt-in as private clients.",
+   "ord": 4,
+   "section": {
+    "sid": "A5.5",
+    "kind": "regulation",
+    "ref": "Art. 5 Abs. 5 FIDLEG",
+    "heading": "Art. 5 Opting-out und Opting-in",
+    "text": "Professionelle Kunden, die keine institutionellen Kunden im Sinn von Artikel 4 Absatz 4 sind, können erklären, dass sie als Privatkunden gelten wollen ( Opting-in ).",
+    "ord": 11
+   },
+   "refVerified": true,
+   "quoteVerified": true,
+   "assessment": {
+    "rid": "R05",
+    "policy_sids": [],
+    "policy_quote": "",
+    "rating": "missing",
+    "reason": "There is no policy section that allows professional clients to opt-in as private clients. [The model's proposal only repeated the law text; draft the policy clause in review.]",
+    "proposed_text": "",
+    "review_status": "pending",
+    "final_rating": null,
+    "review_comment": "",
+    "reviewer_name": null,
+    "reviewed_at": null,
+    "impact_policy_id": "W-07",
+    "impact_confirmed": false,
+    "policySections": [],
+    "policyVerified": true,
+    "effectiveRating": "missing"
+   }
+  },
+  {
+   "rid": "R06",
+   "section_sid": "A5.6",
+   "ref_label": "Art. 5 Abs. 6 FIDLEG",
+   "quote": "Institutionelle Kunden können erklären, dass sie nur als professionelle Kunden gelten wollen.",
+   "summary": "The financial service provider must allow institutional clients to opt-out as professional clients.",
+   "ord": 5,
+   "section": {
+    "sid": "A5.6",
+    "kind": "regulation",
+    "ref": "Art. 5 Abs. 6 FIDLEG",
+    "heading": "Art. 5 Opting-out und Opting-in",
+    "text": "Institutionelle Kunden können erklären, dass sie nur als professionelle Kunden gelten wollen.",
+    "ord": 12
+   },
+   "refVerified": true,
+   "quoteVerified": true,
+   "assessment": {
+    "rid": "R06",
+    "policy_sids": [],
+    "policy_quote": "",
+    "rating": "missing",
+    "reason": "There is no policy section that allows institutional clients to opt-out as professional clients. [The model's proposal only repeated the law text; draft the policy clause in review.]",
+    "proposed_text": "",
+    "review_status": "pending",
+    "final_rating": null,
+    "review_comment": "",
+    "reviewer_name": null,
+    "reviewed_at": null,
+    "impact_policy_id": "W-07",
+    "impact_confirmed": false,
+    "policySections": [],
+    "policyVerified": true,
+    "effectiveRating": "missing"
+   }
+  },
+  {
+   "rid": "R07",
+   "section_sid": "A5.7",
+   "ref_label": "Art. 5 Abs. 7 FIDLEG",
+   "quote": "Vor dem Erbringen von Finanzdienstleistungen informieren Finanzdienstleister ihre Kundinnen und Kunden, die nicht als Privatkundinnen und -kunden gelten, über die Möglichkeit zum Opting-in.",
+   "summary": "The financial service provider must inform non-private clients about the possibility to opt-in before providing financial services.",
+   "ord": 6,
+   "section": {
+    "sid": "A5.7",
+    "kind": "regulation",
+    "ref": "Art. 5 Abs. 7 FIDLEG",
+    "heading": "Art. 5 Opting-out und Opting-in",
+    "text": "Vor dem Erbringen von Finanzdienstleistungen informieren Finanzdienstleister ihre Kundinnen und Kunden, die nicht als Privatkundinnen und -kunden gelten, über die Möglichkeit zum Opting-in.",
+    "ord": 13
+   },
+   "refVerified": true,
+   "quoteVerified": true,
+   "assessment": {
+    "rid": "R07",
+    "policy_sids": [],
+    "policy_quote": "",
+    "rating": "missing",
+    "reason": "No policy section addresses the requirement to inform non-private clients about the possibility to opt-in before providing financial services.",
+    "proposed_text": "Die Bank informiert ihre Kunden, die nicht als Privatkunden gelten, über die Möglichkeit zum Opting-in, bevor sie Finanzdienstleistungen erbringt.",
+    "review_status": "pending",
+    "final_rating": null,
+    "review_comment": "",
+    "reviewer_name": null,
+    "reviewed_at": null,
+    "impact_policy_id": "W-07",
+    "impact_confirmed": false,
+    "policySections": [],
+    "policyVerified": true,
+    "effectiveRating": "missing"
+   }
+  },
+  {
+   "rid": "R08",
+   "section_sid": "A5.8",
+   "ref_label": "Art. 5 Abs. 8 FIDLEG",
+   "quote": "Die Erklärungen nach den Absätzen 1 – 6 müssen schriftlich oder in anderer durch Text nachweisbarer Form vorliegen.",
+   "summary": "The financial service provider must ensure that client declarations to opt-in or opt-out are made in writing or in another text-provable form.",
+   "ord": 7,
+   "section": {
+    "sid": "A5.8",
+    "kind": "regulation",
+    "ref": "Art. 5 Abs. 8 FIDLEG",
+    "heading": "Art. 5 Opting-out und Opting-in",
+    "text": "Die Erklärungen nach den Absätzen 1 – 6 müssen schriftlich oder in anderer durch Text nachweisbarer Form vorliegen.",
+    "ord": 14
+   },
+   "refVerified": true,
+   "quoteVerified": true,
+   "assessment": {
+    "rid": "R08",
+    "policy_sids": [],
+    "policy_quote": "",
+    "rating": "missing",
+    "reason": "No policy section addresses the requirement to ensure that client declarations to opt-in or opt-out are made in writing or in another text-provable form.",
+    "proposed_text": "Die Erklärungen der Kunden zum Opting-in oder Opting-out müssen schriftlich oder in anderer durch Text nachweisbarer Form vorliegen.",
+    "review_status": "pending",
+    "final_rating": null,
+    "review_comment": "",
+    "reviewer_name": null,
+    "reviewed_at": null,
+    "impact_policy_id": "W-07",
+    "impact_confirmed": false,
+    "policySections": [],
+    "policyVerified": true,
+    "effectiveRating": "missing"
+   }
+  },
+  {
+   "rid": "R09",
+   "section_sid": "A6",
+   "ref_label": "Art. 6 FIDLEG",
+   "quote": "Kundenberaterinnen und -berater müssen über hinreichende Kenntnisse über die Verhaltensregeln nach diesem Gesetz sowie über das für ihre Tätigkeit notwendige Fachwissen verfügen.",
+   "summary": "The financial service provider must ensure that client advisors have sufficient knowledge of the code of conduct and necessary expertise for their activities.",
+   "ord": 8,
+   "section": {
+    "sid": "A6",
+    "kind": "regulation",
+    "ref": "Art. 6 FIDLEG",
+    "heading": "Art. 6",
+    "text": "Kundenberaterinnen und -berater müssen über hinreichende Kenntnisse über die Verhaltensregeln nach diesem Gesetz sowie über das für ihre Tätigkeit notwendige Fachwissen verfügen.",
+    "ord": 15
+   },
+   "refVerified": true,
+   "quoteVerified": true,
+   "assessment": {
+    "rid": "R09",
+    "policy_sids": [
+     "P8.1",
+     "P8.2"
+    ],
+    "policy_quote": "Kundenberaterinnen und Kundenberater verfügen über ausreichende Kenntnisse der Verhaltensregeln und das für ihre Tätigkeit notwendige Fachwissen.",
+    "rating": "covered",
+    "reason": "The policy ensures that client advisors have sufficient knowledge of the code of conduct and necessary expertise for their activities.",
+    "proposed_text": "",
+    "review_status": "pending",
+    "final_rating": null,
+    "review_comment": "",
+    "reviewer_name": null,
+    "reviewed_at": null,
+    "impact_policy_id": "W-07",
+    "impact_confirmed": false,
+    "policySections": [
+     {
+      "sid": "P8.1",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 8.1",
+      "heading": "8. Ausbildung der Kundenberatenden",
+      "text": "Kundenberaterinnen und Kundenberater verfügen über ausreichende Kenntnisse der Verhaltensregeln und das für ihre Tätigkeit notwendige Fachwissen.",
+      "ord": 20
+     },
+     {
+      "sid": "P8.2",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 8.2",
+      "heading": "8. Ausbildung der Kundenberatenden",
+      "text": "Sie absolvieren jährlich eine Weiterbildung von mindestens acht Stunden.",
+      "ord": 21
+     }
+    ],
+    "policyVerified": true,
+    "effectiveRating": "covered"
+   }
+  },
+  {
+   "rid": "R10",
+   "section_sid": "A7.1",
+   "ref_label": "Art. 7 Abs. 1 FIDLEG",
+   "quote": "Finanzdienstleister müssen beim Erbringen von Finanzdienstleistungen die aufsichtsrechtlichen Pflichten nach diesem Titel befolgen.",
+   "summary": "The financial service provider must comply with supervisory obligations when providing financial services.",
+   "ord": 9,
+   "section": {
+    "sid": "A7.1",
+    "kind": "regulation",
+    "ref": "Art. 7 Abs. 1 FIDLEG",
+    "heading": "Art. 7",
+    "text": "Finanzdienstleister müssen beim Erbringen von Finanzdienstleistungen die aufsichtsrechtlichen Pflichten nach diesem Titel befolgen.",
+    "ord": 16
+   },
+   "refVerified": true,
+   "quoteVerified": true,
+   "assessment": {
+    "rid": "R10",
+    "policy_sids": [
+     "P1"
+    ],
+    "policy_quote": "Diese Weisung regelt die Pflichten der Bank Zürichsee AG beim Erbringen von Finanzdienstleistungen gemäss Finanzdienstleistungsgesetz (FIDLEG). Sie gilt für alle Kundenberaterinnen und Kundenberater sowie für die Einheiten Private Banking, Retail und Vermögensverwaltung.",
+    "rating": "covered",
+    "reason": "The policy states that it regulates the obligations of the bank when providing financial services, which implies compliance with supervisory obligations.",
+    "proposed_text": "",
+    "review_status": "pending",
+    "final_rating": null,
+    "review_comment": "",
+    "reviewer_name": null,
+    "reviewed_at": null,
+    "impact_policy_id": "W-07",
+    "impact_confirmed": false,
+    "policySections": [
+     {
+      "sid": "P1",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 1",
+      "heading": "1. Zweck und Geltungsbereich",
+      "text": "Diese Weisung regelt die Pflichten der Bank Zürichsee AG beim Erbringen von Finanzdienstleistungen gemäss Finanzdienstleistungsgesetz (FIDLEG). Sie gilt für alle Kundenberaterinnen und Kundenberater sowie für die Einheiten Private Banking, Retail und Vermögensverwaltung.",
+      "ord": 1
+     }
+    ],
+    "policyVerified": true,
+    "effectiveRating": "covered"
+   }
+  },
+  {
+   "rid": "R11",
+   "section_sid": "A8.1",
+   "ref_label": "Art. 8 Abs. 1 FIDLEG",
+   "quote": "Finanzdienstleister informieren ihre Kundinnen und Kunden über: a. ihren Namen und ihre Adresse; b. ihr Tätigkeitsfeld und ihren Aufsichtsstatus; c. die Möglichkeit zur Einleitung von Vermittlungsverfahren vor einer anerkannten Ombudsstelle nach dem 5. Titel; und d. die allgemeinen mit Finanzinstrumenten verbundenen Risiken.",
+   "summary": "Inform clients about their name and address, field of activity and supervisory status, the possibility of initiating mediation proceedings, and general risks associated with financial instruments.",
+   "ord": 10,
+   "section": {
+    "sid": "A8.1",
+    "kind": "regulation",
+    "ref": "Art. 8 Abs. 1 FIDLEG",
+    "heading": "Art. 8 Inhalt und Form der Information",
+    "text": "Finanzdienstleister informieren ihre Kundinnen und Kunden über: a. ihren Namen und ihre Adresse; b. ihr Tätigkeitsfeld und ihren Aufsichtsstatus; c. die Möglichkeit zur Einleitung von Vermittlungsverfahren vor einer anerkannten Ombudsstelle nach dem 5. Titel; und d. die allgemeinen mit Finanzinstrumenten verbundenen Risiken.",
+    "ord": 18
+   },
+   "refVerified": true,
+   "quoteVerified": true,
+   "assessment": {
+    "rid": "R11",
+    "policy_sids": [
+     "P3.1"
+    ],
+    "policy_quote": "Vor Vertragsabschluss informiert die Bank die Kundin oder den Kunden über Name und Adresse der Bank, ihr Tätigkeitsfeld und ihren Aufsichtsstatus.",
+    "rating": "partial",
+    "reason": "The policy only mentions informing clients about the name and address of the bank, its field of activity, and its supervisory status, but does not mention the possibility of initiating mediation proceedings or general risks associated with financial instruments. [No proposal from the model; draft the policy clause in review.]",
+    "proposed_text": "",
+    "review_status": "pending",
+    "final_rating": null,
+    "review_comment": "",
+    "reviewer_name": null,
+    "reviewed_at": null,
+    "impact_policy_id": "W-07",
+    "impact_confirmed": false,
+    "policySections": [
+     {
+      "sid": "P3.1",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 3.1",
+      "heading": "3. Information der Kundinnen und Kunden",
+      "text": "Vor Vertragsabschluss informiert die Bank die Kundin oder den Kunden über Name und Adresse der Bank, ihr Tätigkeitsfeld und ihren Aufsichtsstatus.",
+      "ord": 7
+     }
+    ],
+    "policyVerified": true,
+    "effectiveRating": "partial"
+   }
+  },
+  {
+   "rid": "R12",
+   "section_sid": "A8.2",
+   "ref_label": "Art. 8 Abs. 2 FIDLEG",
+   "quote": "Sie informieren zusätzlich über: a. die persönlich empfohlene Finanzdienstleistung und die damit verbundenen Risiken und Kosten; b. die im Zusammenhang mit der angebotenen Finanzdienstleistung bestehenden wirtschaftlichen Bindungen an Dritte; c. das bei der Auswahl der Finanzinstrumente berücksichtigte Marktangebot.",
+   "summary": "Inform clients about the personally recommended financial service, associated risks and costs, economic ties to third parties, and the market offer considered when selecting financial instruments.",
+   "ord": 11,
+   "section": {
+    "sid": "A8.2",
+    "kind": "regulation",
+    "ref": "Art. 8 Abs. 2 FIDLEG",
+    "heading": "Art. 8 Inhalt und Form der Information",
+    "text": "Sie informieren zusätzlich über: a. die persönlich empfohlene Finanzdienstleistung und die damit verbundenen Risiken und Kosten; b. die im Zusammenhang mit der angebotenen Finanzdienstleistung bestehenden wirtschaftlichen Bindungen an Dritte; c. das bei der Auswahl der Finanzinstrumente berücksichtigte Marktangebot.",
+    "ord": 19
+   },
+   "refVerified": true,
+   "quoteVerified": true,
+   "assessment": {
+    "rid": "R12",
+    "policy_sids": [
+     "P3.1",
+     "P3.2"
+    ],
+    "policy_quote": "Vor Vertragsabschluss informiert die Bank die Kundin oder den Kunden über Name und Adresse der Bank, ihr Tätigkeitsfeld und ihren Aufsichtsstatus.",
+    "rating": "partial",
+    "reason": "The policy mentions informing clients about the costs of the financial service, but does not mention the personally recommended financial service, associated risks, economic ties to third parties, or the market offer considered when selecting financial instruments. [No proposal from the model; draft the policy clause in review.]",
+    "proposed_text": "",
+    "review_status": "pending",
+    "final_rating": null,
+    "review_comment": "",
+    "reviewer_name": null,
+    "reviewed_at": null,
+    "impact_policy_id": "W-07",
+    "impact_confirmed": false,
+    "policySections": [
+     {
+      "sid": "P3.1",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 3.1",
+      "heading": "3. Information der Kundinnen und Kunden",
+      "text": "Vor Vertragsabschluss informiert die Bank die Kundin oder den Kunden über Name und Adresse der Bank, ihr Tätigkeitsfeld und ihren Aufsichtsstatus.",
+      "ord": 7
+     },
+     {
+      "sid": "P3.2",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 3.2",
+      "heading": "3. Information der Kundinnen und Kunden",
+      "text": "Die Bank informiert über die Kosten der angebotenen Finanzdienstleistung gemäss der aktuellen Preisliste.",
+      "ord": 8
+     }
+    ],
+    "policyVerified": true,
+    "effectiveRating": "partial"
+   }
+  },
+  {
+   "rid": "R13",
+   "section_sid": "A8.3",
+   "ref_label": "Art. 8 Abs. 3 FIDLEG",
+   "quote": "Bei der persönlichen Empfehlung von Finanzinstrumenten stellen die Finanzdienstleister der Privatkundin oder dem Privatkunden zusätzlich das Basisinformationsblatt zur Verfügung, sofern ein solches für das empfohlene Finanzinstrument zu erstellen ist (Art. 58 und 59). Bei einem zusammengesetzten Finanzinstrument ist nur für dieses ein Basisinformationsblatt zur Verfügung zu stellen.",
+   "summary": "Provide a basic information sheet to private clients when personally recommending financial instruments, if such a sheet is required for the recommended instrument.",
+   "ord": 12,
+   "section": {
+    "sid": "A8.3",
+    "kind": "regulation",
+    "ref": "Art. 8 Abs. 3 FIDLEG",
+    "heading": "Art. 8 Inhalt und Form der Information",
+    "text": "Bei der persönlichen Empfehlung von Finanzinstrumenten stellen die Finanzdienstleister der Privatkundin oder dem Privatkunden zusätzlich das Basisinformationsblatt zur Verfügung, sofern ein solches für das empfohlene Finanzinstrument zu erstellen ist (Art. 58 und 59). Bei einem zusammengesetzten Finanzinstrument ist nur für dieses ein Basisinformationsblatt zur Verfügung zu stellen.",
+    "ord": 20
+   },
+   "refVerified": true,
+   "quoteVerified": true,
+   "assessment": {
+    "rid": "R13",
+    "policy_sids": [
+     "P3.1",
+     "P3.2",
+     "P3.3"
+    ],
+    "policy_quote": "Vor Vertragsabschluss informiert die Bank die Kundin oder den Kunden über Name und Adresse der Bank, ihr Tätigkeitsfeld und ihren Aufsichtsstatus.",
+    "rating": "partial",
+    "reason": "The policy addresses the topic of informing clients before concluding a contract or providing a service, but it does not explicitly mention providing a basic information sheet or prospectus as required by the law. [No proposal from the model; draft the policy clause in review.]",
+    "proposed_text": "",
+    "review_status": "pending",
+    "final_rating": null,
+    "review_comment": "",
+    "reviewer_name": null,
+    "reviewed_at": null,
+    "impact_policy_id": "W-07",
+    "impact_confirmed": false,
+    "policySections": [
+     {
+      "sid": "P3.1",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 3.1",
+      "heading": "3. Information der Kundinnen und Kunden",
+      "text": "Vor Vertragsabschluss informiert die Bank die Kundin oder den Kunden über Name und Adresse der Bank, ihr Tätigkeitsfeld und ihren Aufsichtsstatus.",
+      "ord": 7
+     },
+     {
+      "sid": "P3.2",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 3.2",
+      "heading": "3. Information der Kundinnen und Kunden",
+      "text": "Die Bank informiert über die Kosten der angebotenen Finanzdienstleistung gemäss der aktuellen Preisliste.",
+      "ord": 8
+     },
+     {
+      "sid": "P3.3",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 3.3",
+      "heading": "3. Information der Kundinnen und Kunden",
+      "text": "Die Informationen werden auf Papier oder elektronisch zur Verfügung gestellt.",
+      "ord": 9
+     }
+    ],
+    "policyVerified": true,
+    "effectiveRating": "partial"
+   }
+  },
+  {
+   "rid": "R14",
+   "section_sid": "A8.5",
+   "ref_label": "Art. 8 Abs. 5 FIDLEG",
+   "quote": "Bei der persönlichen Empfehlung von Finanzinstrumenten, für die ein Prospekt zu erstellen ist (Art. 35 – 37), stellen die Finanzdienstleister der Privatkundin oder dem Privatkunden auf Anfrage kostenlos einen Prospekt zur Verfügung .",
+   "summary": "Provide a prospectus to private clients on request, free of charge, when personally recommending financial instruments that require a prospectus.",
+   "ord": 13,
+   "section": {
+    "sid": "A8.5",
+    "kind": "regulation",
+    "ref": "Art. 8 Abs. 5 FIDLEG",
+    "heading": "Art. 8 Inhalt und Form der Information",
+    "text": "Bei der persönlichen Empfehlung von Finanzinstrumenten, für die ein Prospekt zu erstellen ist (Art. 35 – 37), stellen die Finanzdienstleister der Privatkundin oder dem Privatkunden auf Anfrage kostenlos einen Prospekt zur Verfügung .",
+    "ord": 22
+   },
+   "refVerified": true,
+   "quoteVerified": true,
+   "assessment": {
+    "rid": "R14",
+    "policy_sids": [],
+    "policy_quote": "",
+    "rating": "missing",
+    "reason": "No policy section addresses the requirement to provide a prospectus to private clients on request, free of charge, when personally recommending financial instruments that require a prospectus.",
+    "proposed_text": "Die Bank stellt der Privatkundin oder dem Privatkunden auf Anfrage kostenlos einen Prospekt zur Verfügung, sofern ein solcher für das empfohlene Finanzinstrument zu erstellen ist.",
+    "review_status": "pending",
+    "final_rating": null,
+    "review_comment": "",
+    "reviewer_name": null,
+    "reviewed_at": null,
+    "impact_policy_id": "W-07",
+    "impact_confirmed": false,
+    "policySections": [],
+    "policyVerified": true,
+    "effectiveRating": "missing"
+   }
+  },
+  {
+   "rid": "R15",
+   "section_sid": "A8.6",
+   "ref_label": "Art. 8 Abs. 6 FIDLEG",
+   "quote": "Werbung muss als solche gekennzeichnet sein.",
+   "summary": "Clearly identify advertising as such.",
+   "ord": 14,
+   "section": {
+    "sid": "A8.6",
+    "kind": "regulation",
+    "ref": "Art. 8 Abs. 6 FIDLEG",
+    "heading": "Art. 8 Inhalt und Form der Information",
+    "text": "Werbung muss als solche gekennzeichnet sein.",
+    "ord": 23
+   },
+   "refVerified": true,
+   "quoteVerified": true,
+   "assessment": {
+    "rid": "R15",
+    "policy_sids": [],
+    "policy_quote": "",
+    "rating": "missing",
+    "reason": "No policy section addresses the requirement to clearly identify advertising as such.",
+    "proposed_text": "Die Bank kennzeichnet Werbung als solche.",
+    "review_status": "pending",
+    "final_rating": null,
+    "review_comment": "",
+    "reviewer_name": null,
+    "reviewed_at": null,
+    "impact_policy_id": "W-07",
+    "impact_confirmed": false,
+    "policySections": [],
+    "policyVerified": true,
+    "effectiveRating": "missing"
+   }
+  },
+  {
+   "rid": "R16",
+   "section_sid": "A9.1",
+   "ref_label": "Art. 9 Abs. 1 FIDLEG",
+   "quote": "Finanzdienstleister informieren ihre Kundinnen und Kunden vor Abschluss des Vertrags oder vor Erbringen der Dienstleistung.",
+   "summary": "Inform clients before concluding a contract or providing a service.",
+   "ord": 15,
+   "section": {
+    "sid": "A9.1",
+    "kind": "regulation",
+    "ref": "Art. 9 Abs. 1 FIDLEG",
+    "heading": "Art. 9 Zeitpunkt und Form der Informationen",
+    "text": "Finanzdienstleister informieren ihre Kundinnen und Kunden vor Abschluss des Vertrags oder vor Erbringen der Dienstleistung.",
+    "ord": 24
+   },
+   "refVerified": true,
+   "quoteVerified": true,
+   "assessment": {
+    "rid": "R16",
+    "policy_sids": [
+     "P3.1",
+     "P3.2",
+     "P3.3"
+    ],
+    "policy_quote": "Vor Vertragsabschluss informiert die Bank die Kundin oder den Kunden über Name und Adresse der Bank, ihr Tätigkeitsfeld und ihren Aufsichtsstatus.",
+    "rating": "partial",
+    "reason": "The policy addresses the topic of informing clients before concluding a contract or providing a service, but it does not explicitly mention all the required information. [No proposal from the model; draft the policy clause in review.]",
+    "proposed_text": "",
+    "review_status": "pending",
+    "final_rating": null,
+    "review_comment": "",
+    "reviewer_name": null,
+    "reviewed_at": null,
+    "impact_policy_id": "W-07",
+    "impact_confirmed": false,
+    "policySections": [
+     {
+      "sid": "P3.1",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 3.1",
+      "heading": "3. Information der Kundinnen und Kunden",
+      "text": "Vor Vertragsabschluss informiert die Bank die Kundin oder den Kunden über Name und Adresse der Bank, ihr Tätigkeitsfeld und ihren Aufsichtsstatus.",
+      "ord": 7
+     },
+     {
+      "sid": "P3.2",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 3.2",
+      "heading": "3. Information der Kundinnen und Kunden",
+      "text": "Die Bank informiert über die Kosten der angebotenen Finanzdienstleistung gemäss der aktuellen Preisliste.",
+      "ord": 8
+     },
+     {
+      "sid": "P3.3",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 3.3",
+      "heading": "3. Information der Kundinnen und Kunden",
+      "text": "Die Informationen werden auf Papier oder elektronisch zur Verfügung gestellt.",
+      "ord": 9
+     }
+    ],
+    "policyVerified": true,
+    "effectiveRating": "partial"
+   }
+  },
+  {
+   "rid": "R17",
+   "section_sid": "A9.2",
+   "ref_label": "Art. 9 Abs. 2 FIDLEG",
+   "quote": "Die Finanzdienstleister stellen ihren Privatkundinnen und -kunden das Basisinformationsblatt vor der Zeichnung oder vor dem Vertragsabschluss kostenlos zur Verfügung. Erfolgt eine Beratung unter Abwesenden, kann das Basisinformationsblatt mit Zustimmung der Kundin oder des Kunden nach Abschluss des Geschäfts zur Verfügung gestellt werden. Die Finanzdienstleister dokumentieren diese Zustimmung.",
+   "summary": "Provide the basic information sheet to private clients before they sign or conclude a contract, or after the transaction with their consent, and document this consent.",
+   "ord": 16,
+   "section": {
+    "sid": "A9.2",
+    "kind": "regulation",
+    "ref": "Art. 9 Abs. 2 FIDLEG",
+    "heading": "Art. 9 Zeitpunkt und Form der Informationen",
+    "text": "Die Finanzdienstleister stellen ihren Privatkundinnen und -kunden das Basisinformationsblatt vor der Zeichnung oder vor dem Vertragsabschluss kostenlos zur Verfügung. Erfolgt eine Beratung unter Abwesenden, kann das Basisinformationsblatt mit Zustimmung der Kundin oder des Kunden nach Abschluss des Geschäfts zur Verfügung gestellt werden. Die Finanzdienstleister dokumentieren diese Zustimmung.",
+    "ord": 25
+   },
+   "refVerified": true,
+   "quoteVerified": true,
+   "assessment": {
+    "rid": "R17",
+    "policy_sids": [],
+    "policy_quote": "",
+    "rating": "missing",
+    "reason": "No policy section addresses the requirement to provide the basic information sheet to private clients before they sign or conclude a contract, or after the transaction with their consent, and document this consent.",
+    "proposed_text": "Die Bank stellt ihren Privatkundinnen und -kunden das Basisinformationsblatt vor der Zeichnung oder vor dem Vertragsabschluss kostenlos zur Verfügung. Erfolgt eine Beratung unter Abwesenden, kann das Basisinformationsblatt mit Zustimmung der Kundin oder des Kunden nach Abschluss des Geschäfts zur Verfügung gestellt werden. Die Bank dokumentiert diese Zustimmung.",
+    "review_status": "pending",
+    "final_rating": null,
+    "review_comment": "",
+    "reviewer_name": null,
+    "reviewed_at": null,
+    "impact_policy_id": "W-07",
+    "impact_confirmed": false,
+    "policySections": [],
+    "policyVerified": true,
+    "effectiveRating": "missing"
+   }
+  },
+  {
+   "rid": "R18",
+   "section_sid": "A10",
+   "ref_label": "Art. 10 FIDLEG",
+   "quote": "Finanzdienstleister, die eine Anlageberatung oder eine Vermögensverwaltung erbringen, führen eine Angemessenheits- oder Eignungsprüfung durch.",
+   "summary": "Conduct an appropriateness or suitability test for clients when providing investment advice or asset management.",
+   "ord": 17,
+   "section": {
+    "sid": "A10",
+    "kind": "regulation",
+    "ref": "Art. 10 FIDLEG",
+    "heading": "Art. 10 Prüfpflicht",
+    "text": "Finanzdienstleister, die eine Anlageberatung oder eine Vermögensverwaltung erbringen, führen eine Angemessenheits- oder Eignungsprüfung durch.",
+    "ord": 27
+   },
+   "refVerified": true,
+   "quoteVerified": true,
+   "assessment": {
+    "rid": "R18",
+    "policy_sids": [
+     "P4.1",
+     "P4.2"
+    ],
+    "policy_quote": "Bei Anlageberatung für einzelne Transaktionen ohne Berücksichtigung des Gesamtportfolios prüft die Kundenberaterin oder der Kundenberater die Angemessenheit. Dazu werden die Kenntnisse und Erfahrungen des Kunden erhoben.",
+    "rating": "covered",
+    "reason": "The policy addresses the requirement to conduct an appropriateness or suitability test for clients when providing investment advice or asset management.",
+    "proposed_text": "",
+    "review_status": "pending",
+    "final_rating": null,
+    "review_comment": "",
+    "reviewer_name": null,
+    "reviewed_at": null,
+    "impact_policy_id": "W-07",
+    "impact_confirmed": false,
+    "policySections": [
+     {
+      "sid": "P4.1",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 4.1",
+      "heading": "4. Angemessenheits- und Eignungsprüfung",
+      "text": "Bei Anlageberatung für einzelne Transaktionen ohne Berücksichtigung des Gesamtportfolios prüft die Kundenberaterin oder der Kundenberater die Angemessenheit. Dazu werden die Kenntnisse und Erfahrungen des Kunden erhoben.",
+      "ord": 10
+     },
+     {
+      "sid": "P4.2",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 4.2",
+      "heading": "4. Angemessenheits- und Eignungsprüfung",
+      "text": "Bei Anlageberatung unter Berücksichtigung des Kundenportfolios und bei der Vermögensverwaltung wird die Eignung geprüft. Dazu werden die finanziellen Verhältnisse, die Anlageziele sowie die Kenntnisse und Erfahrungen erhoben.",
+      "ord": 11
+     }
+    ],
+    "policyVerified": true,
+    "effectiveRating": "covered"
+   }
+  },
+  {
+   "rid": "R19",
+   "section_sid": "A11",
+   "ref_label": "Art. 11 FIDLEG",
+   "quote": "Ein Finanzdienstleister, der die Anlageberatung für einzelne Transaktionen erbringt, ohne dafür das gesamte Kundenportfolio zu berücksichtigen, muss sich über die Kenntnisse und Erfahrungen seiner Kundinnen und Kunden erkundigen und vor der Empfehlung von Finanzinstrumenten prüfen, ob diese für die Kundin oder den Kunden angemessen sind.",
+   "summary": "Investigate clients' knowledge and experience and assess the suitability of recommended financial instruments when providing investment advice for individual transactions.",
+   "ord": 18,
+   "section": {
+    "sid": "A11",
+    "kind": "regulation",
+    "ref": "Art. 11 FIDLEG",
+    "heading": "Art. 11 Angemessenheitsprüfung",
+    "text": "Ein Finanzdienstleister, der die Anlageberatung für einzelne Transaktionen erbringt, ohne dafür das gesamte Kundenportfolio zu berücksichtigen, muss sich über die Kenntnisse und Erfahrungen seiner Kundinnen und Kunden erkundigen und vor der Empfehlung von Finanzinstrumenten prüfen, ob diese für die Kundin oder den Kunden angemessen sind.",
+    "ord": 28
+   },
+   "refVerified": true,
+   "quoteVerified": true,
+   "assessment": {
+    "rid": "R19",
+    "policy_sids": [
+     "P4.1"
+    ],
+    "policy_quote": "Bei Anlageberatung für einzelne Transaktionen ohne Berücksichtigung des Gesamtportfolios prüft die Kundenberaterin oder der Kundenberater die Angemessenheit. Dazu werden die Kenntnisse und Erfahrungen des Kunden erhoben.",
+    "rating": "covered",
+    "reason": "The policy section P4.1 covers the requirement by stating that the bank checks the suitability of the recommended financial instruments when providing investment advice for individual transactions, including investigating clients' knowledge and experience.",
+    "proposed_text": "",
+    "review_status": "pending",
+    "final_rating": null,
+    "review_comment": "",
+    "reviewer_name": null,
+    "reviewed_at": null,
+    "impact_policy_id": "W-07",
+    "impact_confirmed": false,
+    "policySections": [
+     {
+      "sid": "P4.1",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 4.1",
+      "heading": "4. Angemessenheits- und Eignungsprüfung",
+      "text": "Bei Anlageberatung für einzelne Transaktionen ohne Berücksichtigung des Gesamtportfolios prüft die Kundenberaterin oder der Kundenberater die Angemessenheit. Dazu werden die Kenntnisse und Erfahrungen des Kunden erhoben.",
+      "ord": 10
+     }
+    ],
+    "policyVerified": true,
+    "effectiveRating": "covered"
+   }
+  },
+  {
+   "rid": "R20",
+   "section_sid": "A12",
+   "ref_label": "Art. 12 FIDLEG",
+   "quote": "Ein Finanzdienstleister, der die Anlageberatung unter Berücksichtigung des Kundenportfolios oder die Vermögensverwaltung erbringt, muss sich über die finanziellen Verhältnisse und Anlageziele sowie über die Kenntnisse und Erfahrungen der Kundin oder des Kunden erkundigen. Diese Kenntnisse und Erfahrungen beziehen sich auf die Finanzdienstleistung und nicht auf die einzelnen Transaktionen.",
+   "summary": "The financial service provider must inquire about the client's financial situation, investment goals, knowledge, and experience related to the financial service.",
+   "ord": 19,
+   "section": {
+    "sid": "A12",
+    "kind": "regulation",
+    "ref": "Art. 12 FIDLEG",
+    "heading": "Art. 12 Eignungsprüfung",
+    "text": "Ein Finanzdienstleister, der die Anlageberatung unter Berücksichtigung des Kundenportfolios oder die Vermögensverwaltung erbringt, muss sich über die finanziellen Verhältnisse und Anlageziele sowie über die Kenntnisse und Erfahrungen der Kundin oder des Kunden erkundigen. Diese Kenntnisse und Erfahrungen beziehen sich auf die Finanzdienstleistung und nicht auf die einzelnen Transaktionen.",
+    "ord": 29
+   },
+   "refVerified": true,
+   "quoteVerified": true,
+   "assessment": {
+    "rid": "R20",
+    "policy_sids": [
+     "P4.2"
+    ],
+    "policy_quote": "Bei Anlageberatung unter Berücksichtigung des Kundenportfolios und bei der Vermögensverwaltung wird die Eignung geprüft. Dazu werden die finanziellen Verhältnisse, die Anlageziele sowie die Kenntnisse und Erfahrungen erhoben.",
+    "rating": "covered",
+    "reason": "The policy section P4.2 covers the requirement by stating that the bank inquires about the client's financial situation, investment goals, knowledge, and experience related to the financial service when providing investment advice under consideration of the customer portfolio or asset management.",
+    "proposed_text": "",
+    "review_status": "pending",
+    "final_rating": null,
+    "review_comment": "",
+    "reviewer_name": null,
+    "reviewed_at": null,
+    "impact_policy_id": "W-07",
+    "impact_confirmed": false,
+    "policySections": [
+     {
+      "sid": "P4.2",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 4.2",
+      "heading": "4. Angemessenheits- und Eignungsprüfung",
+      "text": "Bei Anlageberatung unter Berücksichtigung des Kundenportfolios und bei der Vermögensverwaltung wird die Eignung geprüft. Dazu werden die finanziellen Verhältnisse, die Anlageziele sowie die Kenntnisse und Erfahrungen erhoben.",
+      "ord": 11
+     }
+    ],
+    "policyVerified": true,
+    "effectiveRating": "covered"
+   }
+  },
+  {
+   "rid": "R21",
+   "section_sid": "A13.2",
+   "ref_label": "Art. 13 Abs. 2 FIDLEG",
+   "quote": "Sie informieren die Kundinnen und Kunden vor der Erbringung von Dienstleistungen nach Absatz 1, dass keine Angemessenheits- oder Eignungsprüfung durchgeführt wird.",
+   "summary": "The financial service provider must inform clients that no suitability or appropriateness assessment will be conducted when executing or transmitting client orders.",
+   "ord": 20,
+   "section": {
+    "sid": "A13.2",
+    "kind": "regulation",
+    "ref": "Art. 13 Abs. 2 FIDLEG",
+    "heading": "Art. 13 Ausnahme von der Prüfpflicht",
+    "text": "Sie informieren die Kundinnen und Kunden vor der Erbringung von Dienstleistungen nach Absatz 1, dass keine Angemessenheits- oder Eignungsprüfung durchgeführt wird.",
+    "ord": 31
+   },
+   "refVerified": true,
+   "quoteVerified": true,
+   "assessment": {
+    "rid": "R21",
+    "policy_sids": [
+     "P5.2"
+    ],
+    "policy_quote": "Die Kundin oder der Kunde wird vor Erbringung der Dienstleistung darauf hingewiesen, dass keine Prüfung stattfindet. Der Hinweis kann standardisiert erfolgen.",
+    "rating": "covered",
+    "reason": "The policy section P5.2 covers the requirement by stating that the client is informed that no suitability or appropriateness assessment will be conducted when executing or transmitting client orders.",
+    "proposed_text": "",
+    "review_status": "pending",
+    "final_rating": null,
+    "review_comment": "",
+    "reviewer_name": null,
+    "reviewed_at": null,
+    "impact_policy_id": "W-07",
+    "impact_confirmed": false,
+    "policySections": [
+     {
+      "sid": "P5.2",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 5.2",
+      "heading": "5. Reine Ausführungsgeschäfte (Execution only)",
+      "text": "Die Kundin oder der Kunde wird vor Erbringung der Dienstleistung darauf hingewiesen, dass keine Prüfung stattfindet. Der Hinweis kann standardisiert erfolgen.",
+      "ord": 15
+     }
+    ],
+    "policyVerified": true,
+    "effectiveRating": "covered"
+   }
+  },
+  {
+   "rid": "R22",
+   "section_sid": "A13.3",
+   "ref_label": "Art. 13 Abs. 3 FIDLEG",
+   "quote": "Bei professionellen Kunden können sie davon ausgehen, dass diese über die erforderlichen Kenntnisse und Erfahrungen verfügen und die mit der Finanzdienstleistung einhergehenden Anlagerisiken finanziell tragbar sind.",
+   "summary": "The financial service provider can assume that professional clients have the necessary knowledge and experience and can financially bear the investment risks associated with the financial service.",
+   "ord": 21,
+   "section": {
+    "sid": "A13.3",
+    "kind": "regulation",
+    "ref": "Art. 13 Abs. 3 FIDLEG",
+    "heading": "Art. 13 Ausnahme von der Prüfpflicht",
+    "text": "Bei professionellen Kunden können sie davon ausgehen, dass diese über die erforderlichen Kenntnisse und Erfahrungen verfügen und die mit der Finanzdienstleistung einhergehenden Anlagerisiken finanziell tragbar sind.",
+    "ord": 32
+   },
+   "refVerified": true,
+   "quoteVerified": true,
+   "assessment": {
+    "rid": "R22",
+    "policy_sids": [
+     "P4.4"
+    ],
+    "policy_quote": "Bei professionellen und institutionellen Kunden gelten die Erleichterungen gemäss FIDLEG.",
+    "rating": "covered",
+    "reason": "The policy section P4.4 covers the requirement by stating that the bank applies the simplifications according to FIDLEG for professional and institutional clients, implying that it can assume they have the necessary knowledge and experience.",
+    "proposed_text": "",
+    "review_status": "pending",
+    "final_rating": null,
+    "review_comment": "",
+    "reviewer_name": null,
+    "reviewed_at": null,
+    "impact_policy_id": "W-07",
+    "impact_confirmed": false,
+    "policySections": [
+     {
+      "sid": "P4.4",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 4.4",
+      "heading": "4. Angemessenheits- und Eignungsprüfung",
+      "text": "Bei professionellen und institutionellen Kunden gelten die Erleichterungen gemäss FIDLEG.",
+      "ord": 13
+     }
+    ],
+    "policyVerified": true,
+    "effectiveRating": "covered"
+   }
+  },
+  {
+   "rid": "R23",
+   "section_sid": "A14.1",
+   "ref_label": "Art. 14 Abs. 1 FIDLEG",
+   "quote": "Reichen die Informationen, die der Finanzdienstleister erhält, nicht aus, um die Angemessenheit oder die Eignung eines Finanzinstruments zu beurteilen, so weist er die Kundin oder den Kunden vor der Erbringung der Dienstleistung darauf hin, dass er diese Beurteilung nicht vornehmen kann.",
+   "summary": "The financial service provider must inform the client if the received information is insufficient to assess the suitability or appropriateness of a financial instrument.",
+   "ord": 22,
+   "section": {
+    "sid": "A14.1",
+    "kind": "regulation",
+    "ref": "Art. 14 Abs. 1 FIDLEG",
+    "heading": "Art. 14 Nicht beurteilbare oder fehlende Angemessenheit oder Eignung",
+    "text": "Reichen die Informationen, die der Finanzdienstleister erhält, nicht aus, um die Angemessenheit oder die Eignung eines Finanzinstruments zu beurteilen, so weist er die Kundin oder den Kunden vor der Erbringung der Dienstleistung darauf hin, dass er diese Beurteilung nicht vornehmen kann.",
+    "ord": 33
+   },
+   "refVerified": true,
+   "quoteVerified": true,
+   "assessment": {
+    "rid": "R23",
+    "policy_sids": [],
+    "policy_quote": "",
+    "rating": "missing",
+    "reason": "There is no policy section that addresses the requirement to inform the client if the received information is insufficient to assess the suitability or appropriateness of a financial instrument.",
+    "proposed_text": "Die Bank weist die Kundin oder den Kunden vor der Erbringung der Dienstleistung darauf hin, dass sie die Angemessenheit oder Eignung eines Finanzinstruments nicht beurteilen kann, wenn die erhaltenen Informationen nicht ausreichen.",
+    "review_status": "pending",
+    "final_rating": null,
+    "review_comment": "",
+    "reviewer_name": null,
+    "reviewed_at": null,
+    "impact_policy_id": "W-07",
+    "impact_confirmed": false,
+    "policySections": [],
+    "policyVerified": true,
+    "effectiveRating": "missing"
+   }
+  },
+  {
+   "rid": "R24",
+   "section_sid": "A14.2",
+   "ref_label": "Art. 14 Abs. 2 FIDLEG",
+   "quote": "Ist der Finanzdienstleister der Auffassung, dass ein Finanzinstrument für seine Kundinnen und Kunden nicht angemessen oder geeignet ist, so rät er ihnen vor der Erbringung der Dienstleistung davon ab.",
+   "summary": "The financial service provider must advise clients against a financial instrument if it is deemed not suitable or appropriate for them.",
+   "ord": 23,
+   "section": {
+    "sid": "A14.2",
+    "kind": "regulation",
+    "ref": "Art. 14 Abs. 2 FIDLEG",
+    "heading": "Art. 14 Nicht beurteilbare oder fehlende Angemessenheit oder Eignung",
+    "text": "Ist der Finanzdienstleister der Auffassung, dass ein Finanzinstrument für seine Kundinnen und Kunden nicht angemessen oder geeignet ist, so rät er ihnen vor der Erbringung der Dienstleistung davon ab.",
+    "ord": 34
+   },
+   "refVerified": true,
+   "quoteVerified": true,
+   "assessment": {
+    "rid": "R24",
+    "policy_sids": [],
+    "policy_quote": "",
+    "rating": "missing",
+    "reason": "There is no policy section that addresses the requirement to advise clients against a financial instrument if it is deemed not suitable or appropriate for them.",
+    "proposed_text": "Die Bank rät der Kundin oder dem Kunden vor der Erbringung der Dienstleistung davon ab, wenn sie der Auffassung ist, dass ein Finanzinstrument für die Kundin oder den Kunden nicht angemessen oder geeignet ist.",
+    "review_status": "pending",
+    "final_rating": null,
+    "review_comment": "",
+    "reviewer_name": null,
+    "reviewed_at": null,
+    "impact_policy_id": "W-07",
+    "impact_confirmed": false,
+    "policySections": [],
+    "policyVerified": true,
+    "effectiveRating": "missing"
+   }
+  },
+  {
+   "rid": "R25",
+   "section_sid": "A14.3",
+   "ref_label": "Art. 14 Abs. 3 FIDLEG",
+   "quote": "Mangelnde Kenntnisse und Erfahrungen können durch Aufklärung der Kundinnen und Kunden kompensiert werden.",
+   "summary": "The financial service provider can compensate for clients' lack of knowledge and experience through education.",
+   "ord": 24,
+   "section": {
+    "sid": "A14.3",
+    "kind": "regulation",
+    "ref": "Art. 14 Abs. 3 FIDLEG",
+    "heading": "Art. 14 Nicht beurteilbare oder fehlende Angemessenheit oder Eignung",
+    "text": "Mangelnde Kenntnisse und Erfahrungen können durch Aufklärung der Kundinnen und Kunden kompensiert werden.",
+    "ord": 35
+   },
+   "refVerified": true,
+   "quoteVerified": true,
+   "assessment": {
+    "rid": "R25",
+    "policy_sids": [
+     "P4.1",
+     "P4.2",
+     "P4.3"
+    ],
+    "policy_quote": "Bei Anlageberatung für einzelne Transaktionen ohne Berücksichtigung des Gesamtportfolios prüft die Kundenberaterin oder der Kundenberater die Angemessenheit. Dazu werden die Kenntnisse und Erfahrungen des Kunden erhoben.",
+    "rating": "partial",
+    "reason": "The policy addresses the topic of client knowledge and experience, but it does not explicitly mention compensating for clients' lack of knowledge and experience through education as required by Art. 14 Abs. 3 FIDLEG. [No proposal from the model; draft the policy clause in review.]",
+    "proposed_text": "",
+    "review_status": "pending",
+    "final_rating": null,
+    "review_comment": "",
+    "reviewer_name": null,
+    "reviewed_at": null,
+    "impact_policy_id": "W-07",
+    "impact_confirmed": false,
+    "policySections": [
+     {
+      "sid": "P4.1",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 4.1",
+      "heading": "4. Angemessenheits- und Eignungsprüfung",
+      "text": "Bei Anlageberatung für einzelne Transaktionen ohne Berücksichtigung des Gesamtportfolios prüft die Kundenberaterin oder der Kundenberater die Angemessenheit. Dazu werden die Kenntnisse und Erfahrungen des Kunden erhoben.",
+      "ord": 10
+     },
+     {
+      "sid": "P4.2",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 4.2",
+      "heading": "4. Angemessenheits- und Eignungsprüfung",
+      "text": "Bei Anlageberatung unter Berücksichtigung des Kundenportfolios und bei der Vermögensverwaltung wird die Eignung geprüft. Dazu werden die finanziellen Verhältnisse, die Anlageziele sowie die Kenntnisse und Erfahrungen erhoben.",
+      "ord": 11
+     },
+     {
+      "sid": "P4.3",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 4.3",
+      "heading": "4. Angemessenheits- und Eignungsprüfung",
+      "text": "Die Erhebung erfolgt mit dem Fragebogen F-07a (Anlegerprofil) und wird alle drei Jahre aktualisiert.",
+      "ord": 12
+     }
+    ],
+    "policyVerified": true,
+    "effectiveRating": "partial"
+   }
+  },
+  {
+   "rid": "R26",
+   "section_sid": "A15.1",
+   "ref_label": "Art. 15 Abs. 1 FIDLEG",
+   "quote": "Finanzdienstleister dokumentieren in geeigneter Weise: a. die mit den Kundinnen und Kunden vereinbarten Finanzdienstleistungen und die über sie erhobenen Informationen; b. die Information nach Artikel 13 Absatz 2 oder die Tatsache, dass sie den Kundinnen und Kunden nach Artikel 14 von der Inanspruchnahme der Dienstleistung abgeraten haben; c. die für die Kundinnen und Kunden erbrachten Finanzdienstleistungen.",
+   "summary": "The financial service provider must document the agreed-upon financial services, client information, and warnings or advice given to clients.",
+   "ord": 25,
+   "section": {
+    "sid": "A15.1",
+    "kind": "regulation",
+    "ref": "Art. 15 Abs. 1 FIDLEG",
+    "heading": "Art. 15 Dokumentation",
+    "text": "Finanzdienstleister dokumentieren in geeigneter Weise: a. die mit den Kundinnen und Kunden vereinbarten Finanzdienstleistungen und die über sie erhobenen Informationen; b. die Information nach Artikel 13 Absatz 2 oder die Tatsache, dass sie den Kundinnen und Kunden nach Artikel 14 von der Inanspruchnahme der Dienstleistung abgeraten haben; c. die für die Kundinnen und Kunden erbrachten Finanzdienstleistungen.",
+    "ord": 36
+   },
+   "refVerified": true,
+   "quoteVerified": true,
+   "assessment": {
+    "rid": "R26",
+    "policy_sids": [
+     "P6.1"
+    ],
+    "policy_quote": "Die Bank dokumentiert die mit der Kundin oder dem Kunden vereinbarten Finanzdienstleistungen sowie die über die Kundin oder den Kunden erhobenen Informationen.",
+    "rating": "partial",
+    "reason": "The policy partially addresses the documentation requirements, but it does not fully cover the scope of Art. 15 Abs. 1 FIDLEG, which includes warnings or advice given to clients.",
+    "proposed_text": "Die Bank dokumentiert die mit den Kundinnen und Kunden vereinbarten Finanzdienstleistungen, die über sie erhobenen Informationen, die erteilten Warnungen oder Beratungen sowie die für die Kundinnen und Kunden erbrachten Finanzdienstleistungen.",
+    "review_status": "pending",
+    "final_rating": null,
+    "review_comment": "",
+    "reviewer_name": null,
+    "reviewed_at": null,
+    "impact_policy_id": "W-07",
+    "impact_confirmed": false,
+    "policySections": [
+     {
+      "sid": "P6.1",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 6.1",
+      "heading": "6. Dokumentation",
+      "text": "Die Bank dokumentiert die mit der Kundin oder dem Kunden vereinbarten Finanzdienstleistungen sowie die über die Kundin oder den Kunden erhobenen Informationen.",
+      "ord": 16
+     }
+    ],
+    "policyVerified": true,
+    "effectiveRating": "partial"
+   }
+  },
+  {
+   "rid": "R27",
+   "section_sid": "A15.2",
+   "ref_label": "Art. 15 Abs. 2 FIDLEG",
+   "quote": "Bei der Anlageberatung dokumentieren sie zusätzlich die Bedürfnisse der Kundinnen und Kunden sowie die Gründe für jede Empfehlung, die zum Erwerb oder zur Veräusserung eines Finanzinstruments führt.",
+   "summary": "The financial service provider must additionally document client needs and the reasons for each investment recommendation during investment advice.",
+   "ord": 26,
+   "section": {
+    "sid": "A15.2",
+    "kind": "regulation",
+    "ref": "Art. 15 Abs. 2 FIDLEG",
+    "heading": "Art. 15 Dokumentation",
+    "text": "Bei der Anlageberatung dokumentieren sie zusätzlich die Bedürfnisse der Kundinnen und Kunden sowie die Gründe für jede Empfehlung, die zum Erwerb oder zur Veräusserung eines Finanzinstruments führt.",
+    "ord": 37
+   },
+   "refVerified": true,
+   "quoteVerified": true,
+   "assessment": {
+    "rid": "R27",
+    "policy_sids": [
+     "P4.1",
+     "P4.2"
+    ],
+    "policy_quote": "Bei Anlageberatung für einzelne Transaktionen ohne Berücksichtigung des Gesamtportfolios prüft die Kundenberaterin oder der Kundenberater die Angemessenheit. Dazu werden die Kenntnisse und Erfahrungen des Kunden erhoben.",
+    "rating": "partial",
+    "reason": "The policy partially addresses the documentation requirements for investment advice, but it does not explicitly mention documenting client needs and the reasons for each investment recommendation as required by Art. 15 Abs. 2 FIDLEG.",
+    "proposed_text": "Bei der Anlageberatung dokumentiert die Bank zusätzlich die Bedürfnisse der Kundinnen und Kunden sowie die Gründe für jede Empfehlung, die zum Erwerb oder zur Veräusserung eines Finanzinstruments führt.",
+    "review_status": "pending",
+    "final_rating": null,
+    "review_comment": "",
+    "reviewer_name": null,
+    "reviewed_at": null,
+    "impact_policy_id": "W-07",
+    "impact_confirmed": false,
+    "policySections": [
+     {
+      "sid": "P4.1",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 4.1",
+      "heading": "4. Angemessenheits- und Eignungsprüfung",
+      "text": "Bei Anlageberatung für einzelne Transaktionen ohne Berücksichtigung des Gesamtportfolios prüft die Kundenberaterin oder der Kundenberater die Angemessenheit. Dazu werden die Kenntnisse und Erfahrungen des Kunden erhoben.",
+      "ord": 10
+     },
+     {
+      "sid": "P4.2",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 4.2",
+      "heading": "4. Angemessenheits- und Eignungsprüfung",
+      "text": "Bei Anlageberatung unter Berücksichtigung des Kundenportfolios und bei der Vermögensverwaltung wird die Eignung geprüft. Dazu werden die finanziellen Verhältnisse, die Anlageziele sowie die Kenntnisse und Erfahrungen erhoben.",
+      "ord": 11
+     }
+    ],
+    "policyVerified": true,
+    "effectiveRating": "partial"
+   }
+  },
+  {
+   "rid": "R28",
+   "section_sid": "A16.1",
+   "ref_label": "Art. 16 Abs. 1 FIDLEG",
+   "quote": "Finanzdienstleister stellen ihren Kundinnen und Kunden auf Anfrage eine Kopie der Dokumentation nach Artikel 15 zu oder machen sie ihnen in anderer geeigneter Weise zugänglich.",
+   "summary": "The financial service provider must provide clients with a copy of the documentation or make it accessible to them upon request.",
+   "ord": 27,
+   "section": {
+    "sid": "A16.1",
+    "kind": "regulation",
+    "ref": "Art. 16 Abs. 1 FIDLEG",
+    "heading": "Art. 16 Rechenschaft",
+    "text": "Finanzdienstleister stellen ihren Kundinnen und Kunden auf Anfrage eine Kopie der Dokumentation nach Artikel 15 zu oder machen sie ihnen in anderer geeigneter Weise zugänglich.",
+    "ord": 38
+   },
+   "refVerified": true,
+   "quoteVerified": true,
+   "assessment": {
+    "rid": "R28",
+    "policy_sids": [
+     "P7.2"
+    ],
+    "policy_quote": "Auf Anfrage wird eine Kopie des Kundendossiers herausgegeben.",
+    "rating": "covered",
+    "reason": "The policy meets the requirement of providing clients with a copy of the documentation or making it accessible to them upon request as stated in Art. 16 Abs. 1 FIDLEG.",
+    "proposed_text": "",
+    "review_status": "pending",
+    "final_rating": null,
+    "review_comment": "",
+    "reviewer_name": null,
+    "reviewed_at": null,
+    "impact_policy_id": "W-07",
+    "impact_confirmed": false,
+    "policySections": [
+     {
+      "sid": "P7.2",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 7.2",
+      "heading": "7. Rechenschaft",
+      "text": "Auf Anfrage wird eine Kopie des Kundendossiers herausgegeben.",
+      "ord": 19
+     }
+    ],
+    "policyVerified": true,
+    "effectiveRating": "covered"
+   }
+  },
+  {
+   "rid": "R29",
+   "section_sid": "A16.2",
+   "ref_label": "Art. 16 Abs. 2 FIDLEG",
+   "quote": "Zudem legen sie auf Anfrage der Kundinnen und Kunden Rechenschaft ab über: a. die vereinbarten und erbrachten Finanzdienstleistungen; b. die Zusammensetzung, Bewertung und Entwicklung des Portfolios; c. die mit den Finanzdienstleistungen verbundenen Kosten.",
+   "summary": "The financial service provider must provide clients with information on the agreed-upon and executed financial services, portfolio composition and performance, and associated costs upon request.",
+   "ord": 28,
+   "section": {
+    "sid": "A16.2",
+    "kind": "regulation",
+    "ref": "Art. 16 Abs. 2 FIDLEG",
+    "heading": "Art. 16 Rechenschaft",
+    "text": "Zudem legen sie auf Anfrage der Kundinnen und Kunden Rechenschaft ab über: a. die vereinbarten und erbrachten Finanzdienstleistungen; b. die Zusammensetzung, Bewertung und Entwicklung des Portfolios; c. die mit den Finanzdienstleistungen verbundenen Kosten.",
+    "ord": 39
+   },
+   "refVerified": true,
+   "quoteVerified": true,
+   "assessment": {
+    "rid": "R29",
+    "policy_sids": [
+     "P7.1"
+    ],
+    "policy_quote": "Die Bank legt den Kundinnen und Kunden mindestens jährlich Rechenschaft ab über die erbrachten Finanzdienstleistungen, die Zusammensetzung, Bewertung und Entwicklung des Portfolios sowie die damit verbundenen Kosten.",
+    "rating": "covered",
+    "reason": "The policy meets the requirement of providing clients with information on the agreed-upon and executed financial services, portfolio composition and performance, and associated costs upon request as stated in Art. 16 Abs. 2 FIDLEG, although the policy specifies that this information is provided at least annually, which exceeds the requirement.",
+    "proposed_text": "",
+    "review_status": "pending",
+    "final_rating": null,
+    "review_comment": "",
+    "reviewer_name": null,
+    "reviewed_at": null,
+    "impact_policy_id": "W-07",
+    "impact_confirmed": false,
+    "policySections": [
+     {
+      "sid": "P7.1",
+      "kind": "policy",
+      "ref": "W-07 Ziff. 7.1",
+      "heading": "7. Rechenschaft",
+      "text": "Die Bank legt den Kundinnen und Kunden mindestens jährlich Rechenschaft ab über die erbrachten Finanzdienstleistungen, die Zusammensetzung, Bewertung und Entwicklung des Portfolios sowie die damit verbundenen Kosten.",
+      "ord": 18
+     }
+    ],
+    "policyVerified": true,
+    "effectiveRating": "covered"
+   }
+  }
+ ],
+ "tasks": [
+  {
+   "rid": "R02",
+   "policy_id": "W-07",
+   "title": "Add W-07 for Art. 4 Abs. 7 FIDLEG: The financial service provider may opt out of client segmentation if it treats all clients as private clients.",
+   "owner": "Compliance",
+   "due_date": "2026-11-06",
+   "status": "open"
+  },
+  {
+   "rid": "R03",
+   "policy_id": "W-09",
+   "title": "Add W-09 for Art. 5 Abs. 1 FIDLEG: The financial service provider must allow wealthy private clients to opt-out as professional clients if they declare to have the necessary knowledge and a minimum wealth of 500,000 or 2,000,000 Franken.",
+   "owner": "Produktmanagement",
+   "due_date": "2026-11-06",
+   "status": "open"
+  }
+ ],
+ "aiSteps": [
+  {
+   "step": "assess:0",
+   "label": "Assess R01–R06",
+   "duration_ms": 17846,
+   "prompt_tokens": 2085,
+   "completion_tokens": 510,
+   "attempts": 1,
+   "items": 6
+  },
+  {
+   "step": "assess:1",
+   "label": "Assess R07–R12",
+   "duration_ms": 16589,
+   "prompt_tokens": 2220,
+   "completion_tokens": 484,
+   "attempts": 1,
+   "items": 6
+  },
+  {
+   "step": "assess:2",
+   "label": "Assess R13–R18",
+   "duration_ms": 18401,
+   "prompt_tokens": 2184,
+   "completion_tokens": 535,
+   "attempts": 1,
+   "items": 6
+  },
+  {
+   "step": "assess:3",
+   "label": "Assess R19–R24",
+   "duration_ms": 18535,
+   "prompt_tokens": 2296,
+   "completion_tokens": 536,
+   "attempts": 1,
+   "items": 6
+  },
+  {
+   "step": "assess:4",
+   "label": "Assess R25–R29",
+   "duration_ms": 19829,
+   "prompt_tokens": 2136,
+   "completion_tokens": 536,
+   "attempts": 1,
+   "items": 5
+  },
+  {
+   "step": "extract:0",
+   "label": "Extract Art. 4",
+   "duration_ms": 3198,
+   "prompt_tokens": 853,
+   "completion_tokens": 78,
+   "attempts": 1,
+   "items": 2
+  },
+  {
+   "step": "extract:1",
+   "label": "Extract Art. 5–7",
+   "duration_ms": 14417,
+   "prompt_tokens": 942,
+   "completion_tokens": 295,
+   "attempts": 1,
+   "items": 8
+  },
+  {
+   "step": "extract:2",
+   "label": "Extract Art. 8–11",
+   "duration_ms": 17342,
+   "prompt_tokens": 1117,
+   "completion_tokens": 335,
+   "attempts": 1,
+   "items": 9
+  },
+  {
+   "step": "extract:3",
+   "label": "Extract Art. 12–16",
+   "duration_ms": 12603,
+   "prompt_tokens": 1147,
+   "completion_tokens": 394,
+   "attempts": 1,
+   "items": 10
+  }
+ ]
+}

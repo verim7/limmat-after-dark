@@ -16,7 +16,10 @@ export default defineConfig({
   },
   projects: [
     { name: 'setup', testMatch: /global\.setup\.ts/ },
-    { name: 'chromium', use: { ...devices['Desktop Chrome'] }, dependencies: ['setup'] },
-    { name: 'webkit', use: { ...devices['Desktop Safari'] }, dependencies: ['setup'] },
+    { name: 'chromium', use: { ...devices['Desktop Chrome'] }, dependencies: ['setup'], testIgnore: /mobile\.spec/ },
+    { name: 'webkit', use: { ...devices['Desktop Safari'] }, dependencies: ['setup'], testIgnore: /mobile\.spec/ },
+    // Phone layouts: the report must never be wider than the screen.
+    { name: 'mobile-webkit', use: { ...devices['iPhone 13'] }, dependencies: ['setup'], testMatch: /mobile\.spec/ },
+    { name: 'mobile-chromium', use: { ...devices['Pixel 7'] }, dependencies: ['setup'], testMatch: /mobile\.spec/ },
   ],
 })

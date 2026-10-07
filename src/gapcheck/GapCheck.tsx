@@ -385,13 +385,13 @@ function AiTiming({ data }: { data: RunData }) {
         <tbody>
           {steps.map((s) => (
             <tr key={s.step}>
-              <td>{s.label}</td>
-              <td>{secs(s.duration_ms)}</td>
-              <td>{s.items}</td>
-              <td>{s.prompt_tokens ?? '–'}</td>
-              <td>{s.completion_tokens ?? '–'}</td>
-              <td>{s.completion_tokens ? (s.completion_tokens / (s.duration_ms / 1000)).toFixed(0) : '–'}</td>
-              <td>{s.attempts}</td>
+              <td data-label="Step">{s.label}</td>
+              <td data-label="Duration">{secs(s.duration_ms)}</td>
+              <td data-label="Items">{s.items}</td>
+              <td data-label="Input tok.">{s.prompt_tokens ?? '–'}</td>
+              <td data-label="Output tok.">{s.completion_tokens ?? '–'}</td>
+              <td data-label="Tokens/s">{s.completion_tokens ? (s.completion_tokens / (s.duration_ms / 1000)).toFixed(0) : '–'}</td>
+              <td data-label="Attempts">{s.attempts}</td>
             </tr>
           ))}
         </tbody>
@@ -601,7 +601,7 @@ function ImpactBar({ runId, r, register, onChange }: { runId: string; r: Require
       <span className="small">Affected policy:</span>
       <select value={policyId} onChange={(e) => setPolicyId(e.target.value)}>
         {register.map((p) => (
-          <option key={p.id} value={p.id}>{p.id} · {p.title} ({p.owner})</option>
+          <option key={p.id} value={p.id}>{p.id} · {p.title.replace(/^(Weisung|Prozess) /, '')}</option>
         ))}
       </select>
       {a.impact_confirmed && policyId === a.impact_policy_id ? (
@@ -683,24 +683,24 @@ function TaskList({ runId, requirements, tasks, onChange }: { runId: string; req
             <tbody>
               {ordered.map((t) => (
                 <tr key={t.rid} className={t.status}>
-                  <td>
+                  <td data-label="Done">
                     <input
                       type="checkbox"
                       checked={t.status === 'done'}
                       onChange={(e) => call(`/runs/${runId}/tasks/${t.rid}`, { method: 'PATCH', body: JSON.stringify({ status: e.target.checked ? 'done' : 'open' }) })}
                     />
                   </td>
-                  <td><code>{t.rid}</code></td>
-                  <td><code>{t.policy_id}</code></td>
-                  <td>{t.title}</td>
-                  <td>
+                  <td data-label="Req."><code>{t.rid}</code></td>
+                  <td data-label="Policy"><code>{t.policy_id}</code></td>
+                  <td data-label="Task">{t.title}</td>
+                  <td data-label="Owner">
                     <input
                       className="cell"
                       defaultValue={t.owner}
                       onBlur={(e) => e.target.value !== t.owner && call(`/runs/${runId}/tasks/${t.rid}`, { method: 'PATCH', body: JSON.stringify({ owner: e.target.value }) })}
                     />
                   </td>
-                  <td>
+                  <td data-label="Due">
                     <input
                       className="cell"
                       type="date"
