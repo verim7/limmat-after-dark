@@ -66,6 +66,9 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
 .toggle { display: flex; gap: 6px; }
 .findings { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; margin-top: 16px; }
 .finding { border: 1px solid var(--line); border-left: 4px solid var(--line); border-radius: 10px; padding: 16px; }
+/* WebKit lets a <select>'s internal text widen the page (invisible, the select clips it); clip at the card edge. */
+.finding { overflow: hidden; overflow: clip; }
+.sides > div, .assessment { min-width: 0; }
 .finding.covered { border-left-color: var(--covered); }
 .finding.partial { border-left-color: var(--partial); }
 .finding.missing { border-left-color: var(--missing); }

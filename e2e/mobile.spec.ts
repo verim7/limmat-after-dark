@@ -42,6 +42,14 @@ test('report fits the phone screen: no element wider than the viewport', async (
     }
     return { vw, scrollWidth: document.documentElement.scrollWidth, off: off.slice(0, 12), count: off.length }
   })
+  // Log elements whose content is wider than their box (helps when an engine hides the cause in shadow DOM).
+  const wideInside = await page.evaluate(() =>
+    [...document.querySelectorAll('main *')]
+      .filter((el) => el.scrollWidth > el.clientWidth + 1 && el.clientWidth > 0)
+      .slice(0, 8)
+      .map((el) => `${el.tagName.toLowerCase()}.${String(el.className).slice(0, 30)} ${el.clientWidth}/${el.scrollWidth}`),
+  )
+  if (wideInside.length) console.log(`[${browserName}] content wider than its box: ${wideInside.join(', ')}`)
   // If the page is too wide, find the smallest element whose removal restores the width (works for shadow DOM and
   // pseudo-elements too, which box and text checks cannot see).
   const culprit = overflow.scrollWidth > overflow.vw ? await page.evaluate(() => {

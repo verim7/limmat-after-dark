@@ -137,6 +137,7 @@ Workers AI lessons:
 | `@hono/clerk-auth` deprecation warning | package renamed | switch to `@clerk/hono` (same API) |
 | `undefined is not a function (near '…e of t…')` on Safari | pdf.js `for await` over a `ReadableStream` | read `streamTextContent()` with `getReader()` and use the pdf.js **legacy** build |
 | Page wider than the phone; sideways scrolling | `<select>` sized to its longest option inside a CSS grid (`1fr` = `minmax(auto, 1fr)`), wide tables and stat rows | `grid-template-columns: minmax(0, 1fr)`, `select { min-width: 0; width: 100% }` on mobile, tables as cards under 640 px, and a Playwright phone test that fails if any element passes the viewport edge |
+| iPhone/Safari page still too wide, but no element or text passes the edge | WebKit counts a `<select>`'s internal text (shadow DOM) as overflow | `overflow: hidden; overflow: clip` on the card that holds the select; the test bisects by hiding children to name the culprit |
 | Footnotes inside law paragraphs | PDF text extraction mixes in footnotes | strip by font size (§8) |
 | GitHub Actions deploy fails: no `CLOUDFLARE_API_TOKEN` | secrets not set | add the secrets (§5) |
 | Couldn't open the live site or fetch sources from the cloud session | sandbox network allowlist | allow the hosts (§10) or let the Worker fetch |
