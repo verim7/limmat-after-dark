@@ -14,7 +14,8 @@
   font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--text); }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--text); overflow-wrap: anywhere; }
 .shell { min-height: 100dvh; display: flex; flex-direction: column; max-width: 1120px; margin: 0 auto; padding: 0 16px; }
 .nav { display: flex; align-items: center; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid var(--line); }
 .brand { color: var(--text); text-decoration: none; font-weight: 600; letter-spacing: -0.01em; display: flex; align-items: center; gap: 10px; }
@@ -150,6 +151,8 @@ select { min-width: 0; text-overflow: ellipsis; }
   .tasks tr, .ai-timing tr { border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; margin-bottom: 8px; }
   .tasks td, .ai-timing td { border: 0; padding: 4px 0; display: flex; gap: 10px; align-items: baseline; }
   .tasks td::before, .ai-timing td::before { content: attr(data-label); flex: 0 0 76px; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
-  .tasks td input.cell { flex: 1; min-width: 0; }
+  .tasks td input.cell { flex: 1; min-width: 0; width: 100%; max-width: 100%; }
+  input, select, textarea { max-width: 100%; }
+  input[type='date'] { min-width: 0; -webkit-appearance: none; appearance: none; }
   .table-wrap { overflow-x: visible; }
 }

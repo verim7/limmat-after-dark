@@ -21,12 +21,52 @@ test('report fits the phone screen: no element wider than the viewport', async (
   const overflow = await page.evaluate(() => {
     const vw = document.documentElement.clientWidth
     const off: string[] = []
+    const name = (el: Element | null) => (el ? `${el.tagName.toLowerCase()}.${String(el.className).slice(0, 30)}` : '?')
+    // 1. Elements whose box passes the right edge.
     for (const el of document.querySelectorAll('body *')) {
       const r = el.getBoundingClientRect()
-      if (r.width > 0 && r.right > vw + 1) off.push(`${el.tagName.toLowerCase()}.${String(el.className).slice(0, 40)} right=${Math.round(r.right)}`)
+      if (r.width > 0 && r.right > vw + 1) off.push(`box ${name(el)} right=${Math.round(r.right)}`)
     }
-    return { vw, scrollWidth: document.documentElement.scrollWidth, off: off.slice(0, 10), count: off.length }
+    // 2. Text that overflows its box (fonts differ between engines, so boxes alone are not enough).
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
+    const range = document.createRange()
+    for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+      if (!n.textContent?.trim()) continue
+      range.selectNodeContents(n)
+      for (const r of range.getClientRects()) {
+        if (r.width > 0 && r.right > vw + 1) {
+          off.push(`text in ${name(n.parentElement)} right=${Math.round(r.right)} "${n.textContent.trim().slice(0, 30)}"`)
+          break
+        }
+      }
+    }
+    return { vw, scrollWidth: document.documentElement.scrollWidth, off: off.slice(0, 12), count: off.length }
   })
+  // If the page is too wide, find the smallest element whose removal restores the width (works for shadow DOM and
+  // pseudo-elements too, which box and text checks cannot see).
+  const culprit = overflow.scrollWidth > overflow.vw ? await page.evaluate(() => {
+    const vw = document.documentElement.clientWidth
+    const tooWide = () => document.documentElement.scrollWidth > vw
+    const name = (el: Element) => `${el.tagName.toLowerCase()}.${String(el.className).slice(0, 40)}`
+    const path: string[] = []
+    let node: Element = document.body
+    for (let depth = 0; depth < 25; depth++) {
+      const next = [...node.children].find((child) => {
+        const el = child as HTMLElement
+        const prev = el.style.display
+        el.style.display = 'none'
+        const fixed = !tooWide()
+        el.style.display = prev
+        return fixed
+      })
+      if (!next) break
+      path.push(name(next))
+      node = next
+    }
+    const r = node.getBoundingClientRect()
+    return `${path.join(' > ')} (box ${Math.round(r.left)}–${Math.round(r.right)}px, scrollWidth ${(node as HTMLElement).scrollWidth})`
+  }) : ''
+
   expect(overflow.count, `elements past the ${overflow.vw}px screen edge: ${overflow.off.join(', ')}`).toBe(0)
-  expect(overflow.scrollWidth).toBeLessThanOrEqual(overflow.vw)
+  expect(overflow.scrollWidth, `page is ${overflow.scrollWidth}px wide on a ${overflow.vw}px screen; culprit: ${culprit}`).toBeLessThanOrEqual(overflow.vw)
 })
